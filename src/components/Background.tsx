@@ -1,16 +1,29 @@
 'use client'
 
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState } from 'react'
 import { Points, PointMaterial, Html } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Component for animated mathematical formulas
-function AnimatedFormula({ text, angle, radius, index }: { text: string; angle: number; radius: number; index: number }) {
+function AnimatedFormula({ text, position: initialPosition, index }: { text: string; position: [number, number, number]; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [position, setPosition] = useState(initialPosition)
 
   useFrame((state) => {
+    const time = state.clock.elapsedTime
+    const t = time + index * 0.8
+    // Lemniscate (infinity) path for unique motion
+    const xOffset = Math.sin(t * 0.6) * Math.cos(t * 0.3) * 2
+    const yOffset = Math.sin(t * 0.7) * Math.sin(t * 0.4) * 1.5
+    const zOffset = Math.cos(t * 0.5) * 1.2
+    const newZ = initialPosition[2] + zOffset
+    setPosition([initialPosition[0] + xOffset, initialPosition[1] + yOffset, newZ])
+
+    // Fade based on depth
+    const newOpacity = Math.max(0.3, 0.8 - Math.abs(newZ) * 0.15)
+
     if (ref.current) {
+      ref.current.style.opacity = `${newOpacity}`
       ref.current.style.transform = `translate(-50%, -50%)`
     }
   })
@@ -19,17 +32,18 @@ function AnimatedFormula({ text, angle, radius, index }: { text: string; angle: 
 
   return (
     <Html
-      position={[Math.cos(angle) * radius, Math.sin(angle) * radius, 0]}
+      position={position}
       ref={ref}
       style={{
         color: colors[index % colors.length],
-        fontSize: '0.7rem',
+        fontSize: '0.8rem',
         fontFamily: 'monospace',
         fontWeight: '600',
         textAlign: 'center',
-        minWidth: '100px',
+        width: 'auto',
+        minWidth: '140px',
         userSelect: 'none',
-        opacity: 0.7
+        opacity: 0.8
       }}
     >
       {text}
@@ -43,19 +57,15 @@ function NetworkMesh() {
   const octahedronRef = useRef<THREE.Mesh>(null)
   const tetrahedronRef = useRef<THREE.Mesh>(null)
 
-  // Generate network points
+  // Generate network points spread across full space
   const positions = useMemo(() => {
-    const numPoints = 125
+    const numPoints = 1500
     const positions = new Float32Array(numPoints * 3)
 
     for (let i = 0; i < numPoints; i++) {
-      const phi = Math.acos(2 * Math.random() - 1)
-      const theta = 2 * Math.PI * Math.random()
-      const r = 6
-
-      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta)
-      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta)
-      positions[i * 3 + 2] = r * Math.cos(phi)
+      positions[i * 3] = (Math.random() - 0.5) * 40     // x: -20 to 20
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 40    // y: -20 to 20
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 20    // z: -10 to 10
     }
 
     return positions
@@ -65,9 +75,19 @@ function NetworkMesh() {
   const formulas = useMemo(() => [
     'DP', 'O(nlog(n))', 'Graph Theory', 'φ=1.618',
     'Binary Search', 'O(log n)', 'Segment Trees', 'a≡b(mod m)','KMP',
-     'Game Theory', 'Binary Lifting', 'Frenwick Trees',
+     'Game Theory', 'Binary Lifting', 
+     'Frenwick Trees', 
     'Convex Hull','π = 3.141', 'DSU', 'Sieve ', 'Probability', 'Combinatorics', 'Minkowski Sum', 'Line Sweep',
-    'Greedy'
+    'Greedy',
+  ], [])
+
+  // Spread positions across full screen with larger spacing to avoid collision
+  const formulaPositions = useMemo(() => [
+    [-20, 10, 0], [-10, 10, 0], [0, 10, 0], [10, 10, 0], [20, 10, 0], // top row
+    [-18, 5, 0], [-6, 5, 0], [6, 5, 0], [18, 5, 0],                   // middle top (4 positions)
+    [-20, 0, 0], [-10, 0, 0], [0, 0, 0], [10, 0, 0], [20, 0, 0],     // middle
+    [-18, -5, 0], [-6, -5, 0], [6, -5, 0], [18, -5, 0],               // middle bottom (4 positions)
+    [-15, -10, 0], [-5, -10, 0], [5, -10, 0]                           // bottom row (3 positions)
   ], [])
 
   useFrame((state) => {
@@ -94,25 +114,24 @@ function NetworkMesh() {
 
   return (
     <group ref={meshRef}>
-      {/* Network points - brighter and larger */}
+      {/* Network points spread across full screen */}
       <Points positions={positions} stride={3}>
         <PointMaterial
           transparent
           color="#a855f7"
-          size={0.1}
+          size={0.08}
           sizeAttenuation={true}
           depthWrite={false}
           vertexColors={false}
         />
       </Points>
 
-      {/* Mathematical formulas with larger text */}
+      {/* Mathematical formulas spread across full screen */}
       {formulas.map((text, index) => (
         <AnimatedFormula
           key={index}
           text={text}
-          angle={(index / formulas.length) * Math.PI * 2}
-          radius={7}
+          position={formulaPositions[index] as [number, number, number]}
           index={index}
         />
       ))}

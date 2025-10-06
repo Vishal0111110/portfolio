@@ -78,7 +78,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                 </button>
               </div>
           ) : (
-            <div className="flex flex-col lg:flex-row w-full overflow-hidden">
+            <div className="flex flex-col-reverse lg:flex-row w-full overflow-hidden">
               {/* Form */}
               <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto overflow-x-hidden max-h-[calc(95vh-4rem)] lg:max-h-[calc(90vh-4rem)] scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-transparent scrollbar-thumb-rounded-full">
                 <div className="mb-6">
@@ -240,7 +240,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                   </div>
 
                   {/* Consent */}
-                  <div className="flex items-start space-x-3 py-2">
+                  <label className="flex items-start space-x-3 py-2 cursor-pointer">
                     <input
                       type="checkbox"
                       required
@@ -249,7 +249,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                     <span className="text-gray-300 text-xs md:text-sm">
                       I consent to processing my personal data for contact purposes. *
                     </span>
-                  </div>
+                  </label>
 
                   {/* Submit */}
                   <button
@@ -354,7 +354,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-1 text-gray-400 hover:text-white transition-colors z-10"
+            className="absolute top-4 right-0 text-gray-400 hover:text-white transition-colors z-10"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"></path>

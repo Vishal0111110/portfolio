@@ -26,7 +26,7 @@ export default function Home() {
       <Background />
 
       {/* Header/Hero */}
-      <header id="home" className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center overflow-hidden">
+      <header id="home" className="relative z-10 flex flex-col items-center justify-center min-h-screen pt-16 px-4 text-center overflow-hidden">
         {/* Animated background elements */}
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: -1 }}>
           {/* Floating geometric shapes */}
