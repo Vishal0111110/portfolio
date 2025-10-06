@@ -47,7 +47,7 @@ export default function Home() {
           <div className="animate-in slide-in-from-left-8 duration-1000 delay-700">
             <p className="text-lg md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto font-light tracking-wide animate-in fade-in duration-1000 delay-500">
               <span className="animate-typing">
-                Software Engineer • Problem Solver • Competitive Programmer
+    Algorithmic Thinker • Competitive Programmer • Systems Architect
               </span>
             </p>
           </div>

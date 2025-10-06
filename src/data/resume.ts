@@ -7,7 +7,7 @@ export const resumeData = {
     linkedin: "buyyarapuvishal",
     codeforces: "ArminArlert69"
   },
-  summary: "Problem-solving software engineer with expertise in competitive programming and full-stack development. Passionate about building efficient, scalable solutions.",
+  summary: "I love breaking down problems into patterns, optimizing them for performance, and designing systems that scale with clarity and purpose. My foundation in competitive programming sharpens my logic, while my passion for system design drives me to craft solutions that are both elegant and efficient.",
   experience: [
     {
       company: "Providence India",
