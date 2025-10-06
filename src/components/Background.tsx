@@ -10,7 +10,7 @@ function AnimatedFormula({ text, position: initialPosition, index }: { text: str
   const [position, setPosition] = useState(initialPosition)
 
   useFrame((state) => {
-    const time = state.clock.elapsedTime
+    const time = state.clock.elapsedTime * 0.75
     const t = time + index * 0.8
     // Lemniscate (infinity) path for unique motion
     const xOffset = Math.sin(t * 0.6) * Math.cos(t * 0.3) * 2
@@ -57,6 +57,8 @@ function NetworkMesh() {
   const octahedronRef = useRef<THREE.Mesh>(null)
   const tetrahedronRef = useRef<THREE.Mesh>(null)
 
+  const speed = 0.75
+
   // Generate network points spread across full space
   const positions = useMemo(() => {
     const numPoints = 1500
@@ -81,17 +83,25 @@ function NetworkMesh() {
     'Greedy',
   ], [])
 
-  // Spread positions across full screen with larger spacing to avoid collision
+  // Place formulas symmetrically around the edges, avoiding center collisions
   const formulaPositions = useMemo(() => [
-    [-20, 10, 0], [-10, 10, 0], [0, 10, 0], [10, 10, 0], [20, 10, 0], // top row
-    [-18, 5, 0], [-6, 5, 0], [6, 5, 0], [18, 5, 0],                   // middle top (4 positions)
-    [-20, 0, 0], [-10, 0, 0], [0, 0, 0], [10, 0, 0], [20, 0, 0],     // middle
-    [-18, -5, 0], [-6, -5, 0], [6, -5, 0], [18, -5, 0],               // middle bottom (4 positions)
-    [-15, -10, 0], [-5, -10, 0], [5, -10, 0]                           // bottom row (3 positions)
+    // Top and bottom pairs
+    [-17, 14, 0], [17, 14, 0], [-17, -14, 0], [17, -14, 0],
+    [-10, 14, 0], [10, 14, 0], [-10, -14, 0], [10, -14, 0],
+    [0, 14, 0], [0, -14, 0],
+    // Left and right pairs
+    [-20, 10, 0], [20, 10, 0], [-20, -10, 0], [20, -10, 0],
+    [-20, 0, 0], [20, 0, 0],
+    // Upper corners
+    [-15, 12, 0], [15, 12, 0],
+    // Lower corners
+    [-15, -8, 0], [15, -8, 0],
+    // Additional symmetric spots
+    [-12, 8, 0], [12, 8, 0], [-12, -8, 0], [12, -8, 0]
   ], [])
 
   useFrame((state) => {
-    const time = state.clock.elapsedTime
+    const time = state.clock.elapsedTime * speed
 
     // Very visible rotations
     if (meshRef.current) {
