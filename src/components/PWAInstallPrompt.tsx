@@ -81,7 +81,7 @@ export default function PWAInstallPrompt() {
     <div id="install-prompt" className="show">
       <div className="flex">
           <div className="text">
-            Install Vishal's Portfolio as an app for the best experience!
+            Install Vishal&#39;s Portfolio as an app for the best experience!
           </div>
         <div className="buttons">
           <button onClick={handleInstallClick} className="install-btn">

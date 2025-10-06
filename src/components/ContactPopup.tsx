@@ -69,7 +69,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                   </svg>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Thank You!</h3>
-<p className="text-gray-300 text-sm md:text-base px-2 md:px-0">Your message has been sent successfully. I'll get back to you within 24-48 hours.</p>
+<p className="text-gray-300 text-sm md:text-base px-2 md:px-0">Your message has been sent successfully. I&#39;ll get back to you within 24-48 hours.</p>
                 <button
                   onClick={onClose}
                   className="mt-6 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
@@ -83,7 +83,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
               <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto overflow-x-hidden max-h-[calc(95vh-4rem)] lg:max-h-[calc(90vh-4rem)] scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-transparent scrollbar-thumb-rounded-full">
                 <div className="mb-6">
                   <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Get In Touch</h2>
-<p className="text-gray-400 text-sm md:text-base">I'd love to hear from you! Fill out the form below.</p>
+<p className="text-gray-400 text-sm md:text-base">I&#39;d love to hear from you! Fill out the form below.</p>
                 </div>
                 <form ref={formRef} onSubmit={handleSubmit} className="space-y-5 md:space-y-6 pb-6">
                   {/* Personal Details */}
@@ -344,7 +344,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                   <p className="text-xs md:text-sm text-gray-300 text-center font-medium">
                     <strong>24-48 hrs response time</strong>
                     <br />
-<span className="text-purple-300">Let's build something amazing!</span>
+<span className="text-purple-300">Let&#39;s build something amazing!</span>
                   </p>
                 </div>
               </div>
