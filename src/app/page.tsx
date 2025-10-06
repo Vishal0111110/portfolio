@@ -45,9 +45,9 @@ export default function Home() {
           </div>
 
           <div className="animate-in slide-in-from-left-8 duration-1000 delay-700">
-            <p className="text-lg md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto font-light tracking-wide animate-in fade-in duration-1000 delay-500">
-              <span className="animate-typing">
-    Algorithmic Thinker • Competitive Programmer • Systems Architect
+            <p className="text-sm sm:text-lg md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto font-light tracking-wide animate-in fade-in duration-1000 delay-500 leading-relaxed">
+              <span className="animate-typing overflow-wrap-anywhere">
+    Algorithmic Thinker<br className="sm:hidden" /> • Competitive Programmer<br className="sm:hidden" /> • Systems Architect
               </span>
             </p>
           </div>

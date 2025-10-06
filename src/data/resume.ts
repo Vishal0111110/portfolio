@@ -7,7 +7,7 @@ export const resumeData = {
     linkedin: "buyyarapuvishal",
     codeforces: "ArminArlert69"
   },
-  summary: "I love breaking down problems into patterns, optimizing them for performance, and designing systems that scale with clarity and purpose. My foundation in competitive programming sharpens my logic, while my passion for system design drives me to craft solutions that are both elegant and efficient.",
+  summary: "I’m passionate about dissecting complex problems, minimizing inefficiencies, and designing systems that grow seamlessly. Whether in algorithmic problem-solving or system architecture, my goal is to engineer solutions that are efficient, reliable, and thoughtfully built.",
   experience: [
     {
       company: "Providence India",

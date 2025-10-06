@@ -54,12 +54,12 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
   return (
     <>
       {/* Overlay */}
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4" onClick={onClose}>
-        {/* Modal */}
-        <div
-          className="relative bg-gray-800/95 backdrop-blur-xl border border-purple-400/40 rounded-3xl shadow-2xl shadow-purple-500/50 max-w-5xl w-full max-h-[95vh] md:max-h-[90vh] flex flex-col animate-in slide-in-from-bottom-8 duration-500"
-          onClick={(e) => e.stopPropagation()}
-        >
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4" onClick={onClose}>
+      {/* Modal */}
+      <div
+        className="relative bg-gray-800/95 backdrop-blur-xl border border-purple-400/40 rounded-2xl sm:rounded-3xl shadow-2xl shadow-purple-500/50 max-w-[95vw] sm:max-w-5xl w-full max-h-[98vh] sm:max-h-[95vh] md:max-h-[90vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom-8 duration-500"
+        onClick={(e) => e.stopPropagation()}
+      >
           {isSubmitted ? (
             // Confirmation Message
               <div className="p-4 md:p-6 text-center py-8 md:py-12">
@@ -80,7 +80,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
           ) : (
             <div className="flex flex-col-reverse lg:flex-row w-full overflow-hidden">
               {/* Form */}
-              <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto overflow-x-hidden max-h-[calc(95vh-4rem)] lg:max-h-[calc(90vh-4rem)] scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-transparent scrollbar-thumb-rounded-full">
+              <div className="flex-1 p-3 sm:p-4 md:p-6 lg:p-8 overflow-y-auto overflow-x-hidden max-h-[calc(95vh-4rem)] lg:max-h-[calc(90vh-4rem)] scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-transparent scrollbar-thumb-rounded-full">
                 <div className="mb-6">
                   <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Get In Touch</h2>
 <p className="text-gray-400 text-sm md:text-base">I&#39;d love to hear from you! Fill out the form below.</p>
@@ -262,7 +262,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
               </div>
 
               {/* Direct Contact Info */}
-              <div className="lg:w-80 p-4 md:p-6 bg-gray-900/50 rounded-none lg:rounded-2xl mx-4 lg:mx-6 mb-4 lg:mb-6">
+              <div className="lg:w-80 p-3 sm:p-4 md:p-6 bg-gray-900/50 rounded-none lg:rounded-2xl mx-0 sm:mx-4 lg:mx-6 mb-4 lg:mb-6">
                 <h3 className="text-lg font-semibold text-white mb-6 text-center">Direct Contact</h3>
                 <div className="space-y-4">
                   <a
@@ -354,9 +354,10 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-0 text-gray-400 hover:text-white transition-colors z-10"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-white transition-colors z-10 p-2 hover:bg-gray-700/50 rounded-full touch-manipulation"
+            aria-label="Close contact popup"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"></path>
             </svg>
           </button>
