@@ -38,15 +38,36 @@
   }
 }
 
-/* Manual theme overrides */
+/* Manual theme overrides - Light Mode */
 :root.light {
   --background: var(--color-off-white);
   --foreground: var(--color-off-black);
+  
+  /* Invert colors for light mode */
+  --color-black: #ffffff;
+  --color-off-black: #f5f5f5;
+  --color-dark-gray: #e5e5e5;
+  --color-medium-gray: #d4d4d4;
+  --color-light-gray: #a3a3a3;
+  --color-off-white: #171717;
+  --color-white: #0a0a0a;
+  --color-accent-gray: #525252;
 }
 
+/* Dark Mode (default) */
 :root.dark {
   --background: var(--color-off-black);
   --foreground: var(--color-off-white);
+  
+  /* Reset to dark colors */
+  --color-black: #000000;
+  --color-off-black: #0a0a0a;
+  --color-dark-gray: #1a1a1a;
+  --color-medium-gray: #2a2a2a;
+  --color-light-gray: #4a4a4a;
+  --color-off-white: #f5f5f5;
+  --color-white: #ffffff;
+  --color-accent-gray: #888888;
 }
 
 /* Smooth theme transition */

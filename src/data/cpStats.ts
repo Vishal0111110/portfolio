@@ -20,7 +20,7 @@ export const cpStats = {
     {
       platform: "CodeChef",
       rank: "5★",
-      rating: 20235,
+      rating: 2035,
       url: "https://www.codechef.com/users/vishal062"
     },
     {
@@ -38,7 +38,7 @@ export const cpStats = {
     },
     {
       language: "Python",
-      percentage: 5,
+      percentage: 90,
       description: "Used for quick prototyping and scripting"
     }
   ],

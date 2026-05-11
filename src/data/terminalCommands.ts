@@ -3,6 +3,7 @@ import { experience } from './experience'
 import { projects } from './projects'
 import { skills } from './skills'
 import { achievements } from './achievements'
+import { certifications } from './certifications'
 import { education } from './education'
 import { cpStats } from './cpStats'
 import { cpFacts, getRandomCPFact } from './cpFacts'
@@ -24,13 +25,13 @@ export const terminalCommands: Command[] = [
     handler: () => {
       const visibleCommands = terminalCommands.filter(cmd => !cmd.hidden)
       return [
-        '📚 Available Commands:',
+        'Available Commands:',
         '',
         ...visibleCommands.map(cmd => 
           `  ${cmd.name.padEnd(12)} - ${cmd.description}${cmd.aliases ? ` (aliases: ${cmd.aliases.join(', ')})` : ''}`
         ),
         '',
-        '💡 Tip: Use ↑↓ arrows for command history, Tab for autocomplete'
+        'Tip: Use ↑↓ arrows for command history, Tab for autocomplete'
       ]
     }
   },
@@ -39,13 +40,13 @@ export const terminalCommands: Command[] = [
     aliases: ['info', 'whoami'],
     description: 'Display personal information and summary',
     handler: () => [
-      `👤 ${personalInfo.name}`,
-      `📍 ${personalInfo.location}`,
+      `${personalInfo.name}`,
+      `${personalInfo.location}`,
       '',
-      '📝 Summary:',
+      'Summary:',
       ...personalInfo.summary.split('. ').map(s => s.trim()).filter(Boolean).map(s => `  • ${s}${s.endsWith('.') ? '' : '.'}`),
       '',
-      '📧 Contact:',
+      'Contact:',
       `  Email: ${personalInfo.contact.email}`,
       `  Phone: ${personalInfo.contact.phone}`,
       `  LinkedIn: ${personalInfo.contact.linkedin}`,
@@ -57,9 +58,9 @@ export const terminalCommands: Command[] = [
     aliases: ['exp', 'work'],
     description: 'Show work experience',
     handler: () => {
-      const lines = ['💼 Work Experience:', '']
+      const lines = ['Work Experience:', '']
       experience.forEach(exp => {
-        lines.push(`🏢 ${exp.company}`)
+        lines.push(`Company: ${exp.company}`)
         lines.push(`   Position: ${exp.position}`)
         lines.push(`   Location: ${exp.location}`)
         lines.push(`   Period: ${exp.period}`)
@@ -76,9 +77,9 @@ export const terminalCommands: Command[] = [
     description: 'List all projects',
     handler: (args) => {
       if (args[0] === 'count') {
-        return `📊 Total Projects: ${projects.length}`
+        return `Total Projects: ${projects.length}`
       }
-      const lines = ['🚀 Projects:', '']
+      const lines = ['Projects:', '']
       projects.forEach((proj, i) => {
         lines.push(`${i + 1}. ${proj.name} (${proj.date})`)
         lines.push(`   Tech: ${proj.tech}`)
@@ -93,7 +94,7 @@ export const terminalCommands: Command[] = [
     aliases: ['tech', 'stack'],
     description: 'Display technical skills',
     handler: () => [
-      '🛠️ Technical Skills:',
+      'Technical Skills:',
       '',
       'Languages & Core:',
       ...skills.languagesCore.map(s => `  • ${s}`),
@@ -110,13 +111,13 @@ export const terminalCommands: Command[] = [
     aliases: ['achieve', 'awards'],
     description: 'Show achievements and awards',
     handler: () => {
-      const lines = ['🏆 Achievements:', '']
+      const lines = ['Achievements:', '']
       achievements.slice(0, 5).forEach((ach, i) => {
         lines.push(`${i + 1}. ${ach.text}`)
         if (ach.date) lines.push(`   Date: ${ach.date}`)
         lines.push('')
       })
-      lines.push(`📊 Total: ${achievements.length} achievements`)
+      lines.push(`Total: ${achievements.length} achievements`)
       return lines
     }
   },
@@ -125,7 +126,7 @@ export const terminalCommands: Command[] = [
     aliases: ['edu', 'study'],
     description: 'Show education details',
     handler: () => [
-      '🎓 Education:',
+      'Education:',
       '',
       `Institution: ${education.institution}`,
       `Degree: ${education.degree}`,
@@ -139,17 +140,17 @@ export const terminalCommands: Command[] = [
     aliases: ['coding', 'stats', 'cpstats'],
     description: 'Show competitive programming stats',
     handler: () => [
-      '💻 Competitive Programming Stats:',
+      'Competitive Programming Stats:',
       '',
-      `🎯 Total Problems Solved: ${cpStats.totalSolved}`,
+      `Total Problems Solved: ${cpStats.totalSolved}`,
       '',
-      '🏆 Best Rankings:',
+      'Best Rankings:',
       ...cpStats.bestRankings.map(r => `  • ${r.platform}: ${r.rank} (${r.rating})`),
       '',
-      '📊 Favorite Topics:',
+      'Favorite Topics:',
       ...cpStats.favoriteTopics.map(t => `  • ${t}`),
       '',
-      '💻 Primary Language: C++ (95%)'
+      'Primary Language: C++ (95%)'
     ]
   },
   {
@@ -159,11 +160,11 @@ export const terminalCommands: Command[] = [
     handler: () => {
       const fact = getRandomCPFact()
       return [
-        `🎓 ${fact.topic}:`,
+        `${fact.topic}:`,
         '',
         fact.fact,
         '',
-        `💡 ${fact.detail}`
+        `${fact.detail}`
       ]
     }
   },
@@ -180,7 +181,7 @@ export const terminalCommands: Command[] = [
     handler: () => {
       const now = new Date()
       return [
-        '📅 Current Date & Time:',
+        'Current Date & Time:',
         now.toLocaleString('en-US', {
           weekday: 'long',
           year: 'numeric',
@@ -198,7 +199,7 @@ export const terminalCommands: Command[] = [
     aliases: ['email', 'reach'],
     description: 'Show contact information',
     handler: () => [
-      '📧 Contact Information:',
+      'Contact Information:',
       '',
       `Name: ${personalInfo.name}`,
       `Email: ${personalInfo.contact.email}`,
@@ -206,7 +207,7 @@ export const terminalCommands: Command[] = [
       `LinkedIn: linkedin.com/in/${personalInfo.contact.linkedin}`,
       `Codeforces: ${personalInfo.contact.codeforces}`,
       '',
-      '💼 Open to opportunities in:',
+      'Open to opportunities in:',
       '  • Software Engineering',
       '  • Competitive Programming',
       '  • Full-Stack Development'
@@ -218,10 +219,10 @@ export const terminalCommands: Command[] = [
     description: '???',
     hidden: true,
     handler: () => [
-      '🎮 Easter Egg Activated!',
+      'Easter Egg Activated!',
       '',
       '╔══════════════════════════════════════╗',
-      '║  🎮 CONGRATULATIONS! 🎮             ║',
+      '║  CONGRATULATIONS!                   ║',
       '║                                      ║',
       '║  You found the secret command!       ║',
       '║                                      ║',
@@ -238,7 +239,7 @@ export const terminalCommands: Command[] = [
     description: 'Show Konami code information',
     hidden: true,
     handler: () => [
-      '🎮 Konami Code Easter Egg:',
+      'Konami Code Easter Egg:',
       '',
       'Enter this sequence anywhere on the page:',
       '',
@@ -248,7 +249,123 @@ export const terminalCommands: Command[] = [
       '',
       'History: The Konami Code was created by Kazuhisa Hashimoto in 1986',
       'for the NES version of Gradius. It became the most famous cheat code',
-      'in gaming history! 🕹️'
+      'in gaming history!'
+    ]
+  },
+  {
+    name: 'certifications',
+    aliases: ['certs', 'badges'],
+    description: 'Show certifications and credentials',
+    handler: () => {
+      const lines = ['Certifications:', '']
+      certifications.forEach((cert, i) => {
+        lines.push(`${i + 1}. ${cert.text}`)
+        lines.push(`   Issuer: ${cert.issuer}`)
+        lines.push(`   Date: ${cert.date}`)
+        if (cert.url) lines.push(`   URL: ${cert.url}`)
+        lines.push('')
+      })
+      lines.push(`Total: ${certifications.length} certifications`)
+      return lines
+    }
+  },
+  {
+    name: 'social',
+    aliases: ['links', 'profiles'],
+    description: 'Show social media and coding profiles',
+    handler: () => [
+      'Social & Coding Profiles:',
+      '',
+      'Professional:',
+      `  • LinkedIn: linkedin.com/in/${personalInfo.contact.linkedin}`,
+      `  • Email: ${personalInfo.contact.email}`,
+      '',
+      'Competitive Programming:',
+      `  • Codeforces: codeforces.com/profile/${personalInfo.contact.codeforces}`,
+      '  • CodeChef: codechef.com/users/vishal_616',
+      '  • LeetCode: leetcode.com/u/VishalBuyyarapu/',
+      '',
+      'Contact:',
+      `  • Phone: ${personalInfo.contact.phone}`,
+      `  • Location: ${personalInfo.location}`
+    ]
+  },
+  {
+    name: 'resume',
+    aliases: ['cv', 'download'],
+    description: 'Get resume download link',
+    handler: () => [
+      'Resume:',
+      '',
+      'Download my resume:',
+      'https://drive.google.com/file/d/1ZiK0D0uLYT3gWX7uJs23-PLXt8FWjhTa/view?usp=sharing',
+      '',
+      'Summary:',
+      'Software Engineer with strong competitive programming background',
+      'and experience in distributed systems and microservices architecture.'
+    ]
+  },
+  {
+    name: 'whoami',
+    aliases: ['me', 'user'],
+    description: 'Display current user info',
+    handler: () => [
+      'User Information:',
+      '',
+      `Name: ${personalInfo.name}`,
+      `Role: Software Engineer`,
+      `Location: ${personalInfo.location}`,
+      `Status: Available for opportunities`,
+      '',
+      'Specialties:',
+      '  • Competitive Programming',
+      '  • Distributed Systems',
+      '  • Full-Stack Development',
+      '  • System Architecture'
+    ]
+  },
+  {
+    name: 'matrix',
+    aliases: ['rain', 'codefall'],
+    description: '???',
+    hidden: true,
+    handler: () => [
+      'Matrix Mode:',
+      '',
+      'Wake up, Neo...',
+      'The Matrix has you...',
+      '',
+      'Follow the white rabbit.'
+    ]
+  },
+  {
+    name: 'hack',
+    aliases: ['1337', 'elite'],
+    description: '???',
+    hidden: true,
+    handler: () => [
+      'Hacker Mode:',
+      '',
+      'Accessing mainframe...',
+      '[████████████] 100%',
+      '',
+      'Just kidding!',
+      'Try: cpfact for actual CS facts'
+    ]
+  },
+  {
+    name: 'joke',
+    aliases: ['funny', 'laugh'],
+    description: '???',
+    hidden: true,
+    handler: () => [
+      'Programming Joke:',
+      '',
+      'Why do programmers prefer dark mode?',
+      '',
+      'Because light attracts bugs!',
+      '',
+      '(Toggle dark mode in the navbar)'
     ]
   }
 ]
