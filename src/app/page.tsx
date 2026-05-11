@@ -200,12 +200,12 @@ export default function Home() {
 
       <header id="home" role="banner" className="relative z-10 flex flex-col items-center justify-center min-h-screen pt-16 px-4 text-center overflow-hidden">
 
-        {/* Nothing OS Signature Red Accent Elements - These are the characteristic Nothing OS design elements */}
-        {/* Red dot - signature Nothing OS branding element (top-left) */}
-        <div className="fixed top-8 left-8 w-2 h-2 bg-[var(--color-nothing-red)] rounded-full" style={{ zIndex: 1000 }}></div>
+        {/* Nothing OS Signature Red Accent Elements - Desktop Only */}
+        {/* Red dot - signature Nothing OS branding element (top-left) - Hidden on mobile */}
+        <div className="fixed top-8 left-8 w-2 h-2 bg-[var(--color-nothing-red)] rounded-full hidden md:block" style={{ zIndex: 1000 }}></div>
 
-        {/* Red line - signature Nothing OS branding element (top-right) */}
-        <div className="fixed top-8 right-8 w-12 h-0.5 bg-[var(--color-nothing-red)]" style={{ zIndex: 1000 }}></div>
+        {/* Red line - signature Nothing OS branding element (top-right) - Hidden on mobile */}
+        <div className="fixed top-8 right-8 w-12 h-0.5 bg-[var(--color-nothing-red)] hidden md:block" style={{ zIndex: 1000 }}></div>
 
         {/* Animated background elements - Monochromatic Dot Matrix */}
 
@@ -287,16 +287,6 @@ export default function Home() {
 
           <div className="flex flex-col items-center gap-4 mt-16 animate-in slide-in-from-bottom-8 duration-1000 delay-1100">
 
-            <a href={`mailto:${resumeData.contact.email}`} 
-
-              className="text-sm text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-colors duration-300 tracking-widest uppercase">
-
-              {resumeData.contact.email}
-
-            </a>
-
-            <div className="w-8 h-0.5 bg-[var(--color-nothing-red)] opacity-50"></div>
-
             <p className="text-sm text-[var(--color-accent-gray)] tracking-widest uppercase">
 
               {resumeData.location}
@@ -310,6 +300,8 @@ export default function Home() {
           {/* Refined Navigation - Nothing OS Style */}
 
           <div className="flex items-center justify-center gap-12 mt-24 animate-in slide-in-from-bottom-8 duration-1000 delay-1300">
+
+            <div className="w-1 h-1 bg-[var(--color-nothing-red)] opacity-60"></div>
 
             <a 
 
@@ -358,6 +350,24 @@ export default function Home() {
               <div className="absolute bottom-0 left-0 w-0 h-px bg-[var(--color-nothing-red)] transition-all duration-300 group-hover:w-full"></div>
 
             </button>
+
+            <div className="w-1 h-1 bg-[var(--color-nothing-red)] opacity-60"></div>
+
+            <a 
+
+              href="https://drive.google.com/file/d/1ZiK0D0uLYT3gWX7uJs23-PLXt8FWjhTa/view?usp=sharing"
+
+              target="_blank"
+
+              rel="noopener noreferrer"
+
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+
+              <span className="relative z-10">Resume</span>
+
+              <div className="absolute bottom-0 left-0 w-0 h-px bg-[var(--color-nothing-red)] transition-all duration-300 group-hover:w-full"></div>
+
+            </a>
 
             <div className="w-1 h-1 bg-[var(--color-nothing-red)] opacity-60"></div>
 
@@ -410,7 +420,7 @@ export default function Home() {
 
               key={index}
 
-              href="https://drive.google.com/file/d/1MnaMruhrJcEF9ueund5JM52LlOn_ztAo/view?usp=drive_link"
+              href={exp.link || '#'}
 
               target="_blank"
 
@@ -560,11 +570,11 @@ export default function Home() {
 
                 </h3>
 
-                <div className="space-y-3">
+                <div className="space-y-3 max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--color-medium-gray)] scrollbar-track-transparent pr-2">
 
-                  {resumeData.skills.languages.map((lang, index) => {
+                  {resumeData.skillsExtended?.languagesCore?.map((lang, index) => {
 
-                    const progress = [95, 90, 85, 80, 75, 70][index % 6] || 70;
+                    const progress = [95, 92, 90, 88, 85, 82, 80, 78, 75, 72, 70, 68, 65, 62, 60, 58, 55][index] || 50;
 
                     return (
 
@@ -602,7 +612,7 @@ export default function Home() {
 
 
 
-              {/* Frameworks with Progress Bars */}
+              {/* Frameworks & Tools with Progress Bars */}
 
               <div className="glass-mono rounded-xl p-4 sm:p-6">
 
@@ -610,15 +620,15 @@ export default function Home() {
 
                   <span className="w-2 h-2 bg-[var(--color-accent-gray)] rounded-full"></span>
 
-                  Frameworks & Libraries
+                  Frameworks & Tools
 
                 </h3>
 
-                <div className="space-y-3">
+                <div className="space-y-3 max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--color-medium-gray)] scrollbar-track-transparent pr-2">
 
-                  {resumeData.skills.frameworks.map((fw, index) => {
+                  {resumeData.skillsExtended?.frameworksTools?.map((fw, index) => {
 
-                    const progress = [92, 88, 82, 78, 74, 70][index % 6] || 70;
+                    const progress = [95, 92, 90, 88, 85, 82, 80, 78, 75, 72, 70, 68, 65, 62, 60, 58, 55, 52, 50, 48, 45, 42, 40][index] || 35;
 
                     return (
 
@@ -668,9 +678,9 @@ export default function Home() {
 
                 </h3>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--color-medium-gray)] scrollbar-track-transparent pr-2">
 
-                  {resumeData.skills.tools.map((tool, index) => (
+                  {resumeData.skillsExtended?.tools?.map((tool, index) => (
 
                     <div key={index} className="group relative bg-[var(--color-dark-gray)]/50 rounded-lg p-2 text-center hover:bg-[var(--color-medium-gray)]/50 transition-all duration-300 cursor-default overflow-hidden">
 
@@ -726,60 +736,52 @@ export default function Home() {
 
 
 
+            {/* CP Stats Section */}
             <div>
+              <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4">Competitive Programming</h3>
 
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Coding Profiles</h3>
-
-              <div className="space-y-3">
-
-                {resumeData.codingProfiles.map((profile, index) => (
-
-                  profile.url ? (
-
-                    <a
-
-                      key={index}
-
-                      href={profile.url}
-
-                      target="_blank"
-
-                      rel="noopener noreferrer"
-
-                      className="group block glass-mono p-4 sm:p-5 rounded-xl border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
-
-                    >
-
-                      <div className="flex justify-between items-center">
-
-                        <span className="font-medium text-white text-sm sm:text-base">{profile.platform}</span>
-
-                        <span className="text-[var(--color-accent-gray)] text-xs sm:text-sm">{profile.rating} • {profile.rank}</span>
-
-                      </div>
-
-                    </a>
-
-                  ) : (
-
-                    <div key={index} className="group glass-mono p-4 sm:p-5 rounded-xl border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 mobile-card relative overflow-hidden">
-
-                      <div className="flex justify-between items-center">
-
-                        <span className="font-medium text-white text-sm sm:text-base">{profile.platform}</span>
-
-                        <span className="text-[var(--color-accent-gray)] text-xs sm:text-sm">{profile.rating} • {profile.rank}</span>
-
-                      </div>
-
-                    </div>
-
-                  )
-
-                ))}
-
+              {/* Total Solved Card */}
+              <div className="glass-mono p-4 sm:p-5 rounded-xl border border-[var(--color-medium-gray)] mb-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[var(--color-accent-gray)] text-sm">Problems Solved</p>
+                    <p className="text-2xl sm:text-3xl font-semibold text-white">{resumeData.cpStats?.totalSolved || 2500}+</p>
+                  </div>
+                </div>
               </div>
 
+              {/* Platform Rankings */}
+              <div className="space-y-3 mb-4">
+                {resumeData.cpStats?.bestRankings?.map((profile, index) => (
+                  <a
+                    key={index}
+                    href={profile.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block glass-mono p-3 sm:p-4 rounded-xl border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <span className="font-medium text-white text-sm sm:text-base">{profile.platform}</span>
+                        <span className="text-xs px-2 py-0.5 bg-[var(--color-dark-gray)] rounded-full text-[var(--color-accent-gray)]">{profile.rank}</span>
+                      </div>
+                      <span className="text-[var(--color-nothing-red)] font-mono text-sm">{profile.rating}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              {/* Favorite Topics */}
+              <div className="glass-mono p-4 rounded-xl border border-[var(--color-medium-gray)]">
+                <p className="text-[var(--color-accent-gray)] text-sm mb-2">Favorite Topics</p>
+                <div className="flex flex-wrap gap-2">
+                  {resumeData.cpStats?.favoriteTopics?.slice(0, 6).map((topic, index) => (
+                    <span key={index} className="text-xs px-2 py-1 bg-[var(--color-dark-gray)] rounded-lg text-[var(--color-off-white)]">
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
           </div>
