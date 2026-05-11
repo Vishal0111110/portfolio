@@ -1,428 +1,938 @@
 'use client'
 
-import { useState } from 'react'
+
+
+import { useState, useEffect } from 'react'
+
+import dynamic from 'next/dynamic'
+
 import { resumeData } from '@/data/resume'
-import Background from '@/components/Background'
+
 import Navigation from '@/components/Navigation'
+
 import Footer from '@/components/Footer'
+
 import ScrollProgress from '@/components/ScrollProgress'
-import ContactPopup from '@/components/ContactPopup'
+
+import TerminalToggle from '@/components/TerminalToggle'
+
+import CursorTrail from '@/components/CursorTrail'
+
+import KonamiEasterEgg from '@/components/KonamiEasterEgg'
+
+import { getGreeting } from '@/utils/greetings'
+
+import { printConsoleEasterEgg } from '@/data/cpFacts'
+
 import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 
+import { performanceMonitor } from '@/utils/performance'
+
+
+
+// Dynamic imports for heavy components - Step 5.1 & 5.2
+
+const Terminal = dynamic(() => import('@/components/Terminal'), { 
+
+  ssr: false,
+
+  loading: () => null
+
+})
+
+
+
+const Background = dynamic(() => import('@/components/Background'), { 
+
+  ssr: false,
+
+  loading: () => null
+
+})
+
+
+
+const GrainOverlay = dynamic(() => import('@/components/GrainOverlay'), {
+
+  ssr: false,
+
+  loading: () => null
+
+})
+
+
+
+const ContactPopup = dynamic(() => import('@/components/ContactPopup'), { 
+
+  ssr: false,
+
+  loading: () => (
+
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+
+      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+
+    </div>
+
+  )
+
+})
+
+
+
 export default function Home() {
+
   const [isPopupOpen, setIsPopupOpen] = useState(false)
 
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false)
+
+
+
+  // Console greeting on mount
+
+  useEffect(() => {
+
+    const greeting = getGreeting()
+
+    console.log(
+
+      `%c${greeting.text}\n%c${greeting.subtext || ''}`,
+
+      'font-size: 20px; font-weight: bold; color: var(--color-white);',
+
+      'font-size: 14px; color: var(--color-accent-gray);'
+
+    )
+
+    
+
+    // Print console easter egg with hints
+
+    setTimeout(() => {
+
+      printConsoleEasterEgg()
+
+    }, 1000)
+
+    
+
+    // Step 5.7: Initialize performance monitoring
+
+    performanceMonitor.startMonitoring()
+
+    
+
+    // Report metrics after page load
+
+    const reportMetrics = () => {
+
+      setTimeout(() => {
+
+        performanceMonitor.reportMetrics()
+
+      }, 3000)
+
+    }
+
+    
+
+    if (document.readyState === 'complete') {
+
+      reportMetrics()
+
+    } else {
+
+      window.addEventListener('load', reportMetrics)
+
+      return () => window.removeEventListener('load', reportMetrics)
+
+    }
+
+  }, [])
+
+
+
   return (
-    <div className="min-h-screen text-gray-100 relative">
-      <div
-        className="fixed inset-0"
-        style={{
-          background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 70%, #0f1729 100%)',
-          zIndex: -2
-        }}
-      />
+
+    <div className="min-h-screen text-[var(--color-off-white)] relative bg-[var(--color-off-black)]">
+
+      {/* Skip to Content Link - Accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-white)] focus:text-[var(--color-black)] focus:rounded-lg focus:font-medium focus:outline-none focus:ring-2 focus:ring-[var(--color-nothing-red)]"
+      >
+        Skip to main content
+      </a>
+
+      {/* Nothing OS Background Layers */}
+
+      <div className="fixed inset-0 nothing-geometric opacity-20" style={{ zIndex: -3 }} />
+
+      <div className="fixed inset-0 dot-matrix opacity-25" style={{ zIndex: -2 }} />
+
+      
+
+      {/* Nothing OS-inspired Grain Overlay */}
+
+      <GrainOverlay />
+
+      
+
+      {/* Cursor Trail Effect */}
+
+      <CursorTrail />
+
+      
+
+      {/* Konami Code Easter Egg */}
+
+      <KonamiEasterEgg />
+
       <Navigation />
+
       <ScrollProgress />
+
       <Background />
 
-      {/* Header/Hero */}
-      <header id="home" className="relative z-10 flex flex-col items-center justify-center min-h-screen pt-16 px-4 text-center overflow-hidden">
-        {/* Animated background elements */}
+
+
+      {/* Header/Hero - Nothing OS Inspired */}
+
+      <header id="home" role="banner" className="relative z-10 flex flex-col items-center justify-center min-h-screen pt-16 px-4 text-center overflow-hidden">
+
+        {/* Nothing OS Signature Red Accent Elements - These are the characteristic Nothing OS design elements */}
+        {/* Red dot - signature Nothing OS branding element (top-left) */}
+        <div className="fixed top-8 left-8 w-2 h-2 bg-[var(--color-nothing-red)] rounded-full" style={{ zIndex: 1000 }}></div>
+
+        {/* Red line - signature Nothing OS branding element (top-right) */}
+        <div className="fixed top-8 right-8 w-12 h-0.5 bg-[var(--color-nothing-red)]" style={{ zIndex: 1000 }}></div>
+
+        {/* Animated background elements - Monochromatic Dot Matrix */}
+
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: -1 }}>
-          {/* Floating geometric shapes */}
-          <div className="absolute left-1/4 top-1/4 w-32 h-32 border-2 border-purple-400/20 rounded-full animate-bounce"></div>
-          <div className="absolute right-1/3 top-1/6 w-24 h-24 bg-purple-600/10 rotate-45 animate-pulse"></div>
-          <div className="absolute left-2/3 bottom-1/4 w-16 h-16 border border-purple-300/30 rounded animate-ping"></div>
-          <div className="absolute right-1/4 bottom-1/3 w-20 h-20 bg-purple-600/5 animate-pulse rounded-full"></div>
+
+          <div className="absolute inset-0 dot-matrix opacity-20"></div>
+
+          {/* Single subtle floating element */}
+
+          <div className="absolute left-1/3 top-1/3 w-24 h-24 border border-[var(--color-medium-gray)]/10 rounded-full" style={{ animation: 'float 8s ease-in-out infinite' }}></div>
+
         </div>
 
-        {/* Main content with staggered animations */}
-        <div className="relative z-20 max-w-6xl w-full">
-          <div className="animate-in slide-in-from-top-8 duration-1000 delay-500">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6 animate-in zoom-in-50 duration-1000 delay-300">
-              {resumeData.name}
-            </h1>
-          </div>
 
-          <div className="animate-in slide-in-from-left-8 duration-1000 delay-700">
-            <p className="text-sm sm:text-lg md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto font-light tracking-wide animate-in fade-in duration-1000 delay-500 leading-relaxed">
-              <span className="animate-typing overflow-wrap-anywhere">
-    Algorithmic Thinker<br className="sm:hidden" /> • Competitive Programmer<br className="sm:hidden" /> • Systems Architect
-              </span>
-            </p>
-          </div>
 
-          <div className="animate-in slide-in-from-right-8 duration-1000 delay-900">
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-16 leading-relaxed animate-in fade-in duration-1000 delay-700">
-              {resumeData.summary}
-            </p>
-          </div>
+        {/* Main content with ultra-minimalist layout */}
 
-          {/* Contact Info with Premium Icons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16 mt-12 animate-in slide-in-from-bottom-8 duration-1000 delay-1100">
-            <div className="group flex items-center gap-3 text-gray-400 hover:text-purple-300 transition-all duration-500 hover:scale-110">
-              <div className="w-8 h-8 rounded-full bg-purple-600/20 border border-purple-400/30 flex items-center justify-center group-hover:border-purple-400/60 transition-all duration-500">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <span className="font-medium">{resumeData.location}</span>
-            </div>
+        <div className="relative z-20 max-w-4xl w-full mx-auto">
 
-            <a href={`mailto:${resumeData.contact.email}?subject=Contact from Portfolio&body=Hi Vishal,`} className="group flex items-center gap-3 text-gray-400 hover:text-purple-300 transition-all duration-500 hover:scale-110">
-              <div className="w-8 h-8 rounded-full bg-purple-600/20 border border-purple-400/30 flex items-center justify-center group-hover:border-purple-400/60 transition-all duration-500">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <span className="font-medium">{resumeData.contact.email}</span>
-            </a>
+          {/* Name with Nothing OS minimalism */}
 
-            <a href={`tel:${resumeData.contact.phone}`} className="group flex items-center gap-3 text-gray-400 hover:text-purple-300 transition-all duration-500 hover:scale-110">
-              <div className="w-8 h-8 rounded-full bg-purple-600/20 border border-purple-400/30 flex items-center justify-center group-hover:border-purple-400/60 transition-all duration-500">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-              </div>
-              <span className="font-medium">{resumeData.contact.phone}</span>
-            </a>
-          </div>
+          <div className="animate-in slide-in-from-top-8 duration-1000 delay-500 mb-16">
 
-          {/* Action Buttons with Enhanced Mobile-First Styling */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-8 sm:mt-12 animate-in slide-in-from-bottom-8 duration-1000 delay-1300 px-4">
-            {/* Contact Links Grid for Mobile */}
-            <div className="grid grid-cols-2 gap-3 sm:hidden w-full max-w-md">
-              <a
-                href={`https://www.linkedin.com/in/${resumeData.contact.linkedin}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 p-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 border border-purple-400/30 hover:border-purple-400/60 flex flex-col items-center gap-2 min-h-[64px] touch-manipulation"
-              >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                <span className="text-xs text-center">LinkedIn</span>
-                <div className="absolute inset-0 bg-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              </a>
+            <h1 
 
-              <a
-                href={`https://codeforces.com/profile/${resumeData.contact.codeforces}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 p-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 border border-purple-400/30 hover:border-purple-400/60 flex flex-col items-center gap-2 min-h-[64px] touch-manipulation"
-              >
-                <img src="/cf-image.png" alt="Codeforces" className="w-6 h-6 rounded" />
-                <span className="text-xs text-center">Codeforces</span>
-                <div className="absolute inset-0 bg-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              </a>
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extralight tracking-[0.05em] text-white cursor-default"
 
-              <button
-                onClick={() => setIsPopupOpen(true)}
-                className="group relative bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 p-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 border border-purple-400/30 hover:border-purple-400/60 flex flex-col items-center gap-2 min-h-[64px] touch-manipulation col-span-2"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span className="text-sm">Contact Me</span>
-                <div className="absolute inset-0 bg-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              </button>
-            </div>
+              onMouseEnter={(e) => {
 
-            {/* Desktop Action Buttons */}
-            <div className="hidden sm:flex flex-row items-center justify-center gap-6">
-              <a
-                href={`https://www.linkedin.com/in/${resumeData.contact.linkedin}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 px-8 py-4 rounded-full font-semibold transition-all duration-500 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/25 border border-purple-400/30 hover:border-purple-400/60 overflow-hidden touch-manipulation"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                  LinkedIn
-                </span>
-                <div className="absolute inset-0 bg-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
-              </a>
+                e.currentTarget.style.color = 'var(--color-nothing-red)';
 
-              <a
-                href={`https://codeforces.com/profile/${resumeData.contact.codeforces}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 px-8 py-4 rounded-full font-semibold transition-all duration-500 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/25 border border-purple-400/30 hover:border-purple-400/60 overflow-hidden touch-manipulation"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <img src="/cf-image.png" alt="Codeforces" className="w-5 h-5" />
-                  Codeforces
-                </span>
-                <div className="absolute inset-0 bg-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
-              </a>
+              }}
 
-              <button
-                onClick={() => setIsPopupOpen(true)}
-                className="group relative bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 px-8 py-4 rounded-full font-semibold transition-all duration-500 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/25 border border-purple-400/30 hover:border-purple-400/60 overflow-hidden touch-manipulation"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  Contact Me
-                </span>
-                <div className="absolute inset-0 bg-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
-              </button>
-            </div>
+              onMouseLeave={(e) => {
 
-            <a
-              href="https://drive.google.com/file/d/1-Oe-uNAdiD027h0J5HAuaZAAMExq0MI3/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative bg-purple-500 hover:bg-purple-600 text-white px-8 sm:px-10 py-5 sm:py-4 rounded-full font-bold transition-all duration-300 sm:duration-500 hover:scale-105 sm:hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/25 overflow-hidden animate-pulse-slow touch-manipulation w-full sm:w-auto text-center min-h-[56px] flex items-center justify-center"
+                e.currentTarget.style.color = 'var(--color-white)';
+
+              }}
+
             >
-              <span className="relative z-10 flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Download Resume
-              </span>
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
+
+              {resumeData.name}
+
+            </h1>
+
+          </div>
+
+
+
+          {/* Minimal subtitle */}
+
+          <div className="animate-in slide-in-from-left-8 duration-1000 delay-700 mb-16">
+
+            <p className="font-mono text-sm text-[var(--color-accent-gray)] tracking-widest uppercase">
+
+              Algorithmic Thinker
+
+            </p>
+
+          </div>
+
+
+
+          {/* Minimal summary with more negative space */}
+
+          <div className="animate-in slide-in-from-right-8 duration-1000 delay-900 mb-20">
+
+            <p className="text-base text-[var(--color-off-white)] leading-relaxed max-w-2xl mx-auto text-center font-light">
+
+              {resumeData.summary}
+
+            </p>
+
+          </div>
+
+
+
+          {/* Minimal Contact Info */}
+
+          <div className="flex flex-col items-center gap-4 mt-16 animate-in slide-in-from-bottom-8 duration-1000 delay-1100">
+
+            <a href={`mailto:${resumeData.contact.email}`} 
+
+              className="text-sm text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-colors duration-300 tracking-widest uppercase">
+
+              {resumeData.contact.email}
+
             </a>
+
+            <div className="w-8 h-0.5 bg-[var(--color-nothing-red)] opacity-50"></div>
+
+            <p className="text-sm text-[var(--color-accent-gray)] tracking-widest uppercase">
+
+              {resumeData.location}
+
+            </p>
+
+          </div>
+
+
+
+          {/* Refined Navigation - Nothing OS Style */}
+
+          <div className="flex items-center justify-center gap-12 mt-24 animate-in slide-in-from-bottom-8 duration-1000 delay-1300">
+
+            <a 
+
+              href={`https://www.linkedin.com/in/${resumeData.contact.linkedin}`}
+
+              target="_blank"
+
+              rel="noopener noreferrer"
+
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+
+              <span className="relative z-10">LinkedIn</span>
+
+              <div className="absolute bottom-0 left-0 w-0 h-px bg-[var(--color-nothing-red)] transition-all duration-300 group-hover:w-full"></div>
+
+            </a>
+
+            <div className="w-1 h-1 bg-[var(--color-nothing-red)] opacity-60"></div>
+
+            <a 
+
+              href={`https://codeforces.com/profile/${resumeData.contact.codeforces}`}
+
+              target="_blank"
+
+              rel="noopener noreferrer"
+
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+
+              <span className="relative z-10">Codeforces</span>
+
+              <div className="absolute bottom-0 left-0 w-0 h-px bg-[var(--color-nothing-red)] transition-all duration-300 group-hover:w-full"></div>
+
+            </a>
+
+            <div className="w-1 h-1 bg-[var(--color-nothing-red)] opacity-60"></div>
+
+            <button 
+
+              onClick={() => setIsPopupOpen(true)}
+
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+
+              <span className="relative z-10">Contact</span>
+
+              <div className="absolute bottom-0 left-0 w-0 h-px bg-[var(--color-nothing-red)] transition-all duration-300 group-hover:w-full"></div>
+
+            </button>
+
+            <div className="w-1 h-1 bg-[var(--color-nothing-red)] opacity-60"></div>
+
+            <button 
+
+              onClick={() => setIsTerminalOpen(true)}
+
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+
+              <span className="relative z-10">Terminal</span>
+
+              <div className="absolute bottom-0 left-0 w-0 h-px bg-[var(--color-nothing-red)] transition-all duration-300 group-hover:w-full"></div>
+
+            </button>
+
           </div>
 
           {/* Scrolling indicator */}
+
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <div className="w-6 h-10 border-2 border-purple-400/50 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-purple-400/50 rounded-full mt-2 animate-pulse"></div>
+
+            <div className="w-6 h-10 border-2 border-[var(--color-accent-gray)]/50 rounded-full flex justify-center">
+
+              <div className="w-1 h-3 bg-[var(--color-accent-gray)]/50 rounded-full mt-2 animate-pulse"></div>
+
             </div>
+
           </div>
+
         </div>
+
       </header>
 
+
+
+      {/* Main Content */}
+      <main id="main-content" role="main">
+
       {/* Experience */}
-      <section id="experience" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">Experience</h2>
+
+      <section id="experience" aria-labelledby="experience-heading" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
+
+        <h2 id="experience-heading" className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">Experience</h2>
+
         <div className="space-y-6 sm:space-y-8">
+
           {resumeData.experience.map((exp, index) => (
+
             <a
+
               key={index}
+
               href="https://drive.google.com/file/d/1MnaMruhrJcEF9ueund5JM52LlOn_ztAo/view?usp=drive_link"
+
               target="_blank"
+
               rel="noopener noreferrer"
-              className="block bg-gray-800/50 backdrop-blur-sm p-5 sm:p-6 rounded-xl sm:rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl touch-manipulation mobile-card"
+
+              className="group block glass-mono p-5 sm:p-6 rounded-xl sm:rounded-lg border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
+
             >
+
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
+
                 <div className="flex-1 min-w-0">
+
                   <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">{exp.position}</h3>
-                  <p className="text-purple-300 font-medium text-sm sm:text-base leading-relaxed">{exp.company} • {exp.location}</p>
+
+                  <p className="text-[var(--color-off-white)] font-medium text-sm sm:text-base leading-relaxed">{exp.company} • {exp.location}</p>
+
                 </div>
+
                 <span className="text-gray-400 mt-2 sm:mt-0 text-sm sm:text-base whitespace-nowrap">{exp.period}</span>
+
               </div>
+
               <ul className="space-y-3 text-gray-300">
+
                 {exp.description.map((item, idx) => (
+
                   <li key={idx} className="flex items-start text-sm sm:text-base">
-                    <span className="text-purple-300 mr-3 mt-1.5 flex-shrink-0">•</span>
+
+                    <span className="text-[var(--color-accent-gray)] mr-3 mt-1.5 flex-shrink-0">•</span>
+
                     <span className="leading-relaxed">{item}</span>
+
                   </li>
+
                 ))}
+
               </ul>
+
             </a>
+
           ))}
+
         </div>
+
       </section>
+
+
 
       {/* Projects */}
-      <section id="projects" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">Projects</h2>
+
+      <section id="projects" aria-labelledby="projects-heading" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
+
+        <h2 id="projects-heading" className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">Projects</h2>
+
         <div className="relative space-y-6 sm:space-y-8">
+
           {resumeData.projects.map((project, index) => (
+
             <div key={index} className="relative flex items-start">
+
               <div className="flex flex-col items-center">
-                <span className="w-7 h-7 sm:w-8 sm:h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm z-10">{index + 1}</span>
+
+                <span className="w-7 h-7 sm:w-8 sm:h-8 bg-[var(--color-light-gray)] rounded-full flex items-center justify-center text-[var(--color-white)] font-bold text-xs sm:text-sm z-10">{index + 1}</span>
+
                 {index < resumeData.projects.length - 1 && (
-                  <div className="w-0.5 bg-purple-600 h-full mt-4"></div>
+
+                  <div className="w-0.5 bg-[var(--color-light-gray)] h-full mt-4"></div>
+
                 )}
+
               </div>
+
               <a
+
                 href={project.link}
+
                 target="_blank"
+
                 rel="noopener noreferrer"
-                className="ml-3 sm:ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-5 sm:p-6 rounded-xl sm:rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl touch-manipulation mobile-card"
+
+                className="group ml-3 sm:ml-4 flex-1 glass-mono p-5 sm:p-6 rounded-xl sm:rounded-lg border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
+
               >
+
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
-                  <h3 className="text-lg sm:text-xl font-semibold text-white hover:text-purple-300 transition-colors mb-2 sm:mb-0">{project.name}</h3>
+
+                  <h3 className="text-lg sm:text-xl font-semibold text-white hover:text-[var(--color-accent-gray)] transition-colors mb-2 sm:mb-0">{project.name}</h3>
+
                   <span className="text-gray-400 text-sm sm:text-base">{project.date}</span>
+
                 </div>
-                <p className="text-purple-300 text-sm mb-4 font-medium leading-relaxed">{project.tech}</p>
+
+                <p className="text-[var(--color-accent-gray)] text-sm mb-4 font-medium leading-relaxed">{project.tech}</p>
+
                 <ul className="space-y-3 text-gray-300">
+
                   {project.description.map((item, idx) => (
+
                     <li key={idx} className="flex items-start text-sm sm:text-base">
-                      <span className="text-purple-300 mr-3 mt-1.5 flex-shrink-0">•</span>
+
+                      <span className="text-[var(--color-accent-gray)] mr-3 mt-1.5 flex-shrink-0">•</span>
+
                       <span className="leading-relaxed">{item}</span>
+
                     </li>
+
                   ))}
+
                 </ul>
+
               </a>
+
             </div>
+
           ))}
+
         </div>
+
       </section>
+
+
 
       {/* Skills & Info */}
-      <section id="skills" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
+
+      <section id="skills" aria-labelledby="skills-heading" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
+
         <div className="grid md:grid-cols-2 gap-8 md:gap-16">
+
           {/* Skills */}
+
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">Technical Skills</h2>
-            <div className="space-y-5 sm:space-y-6">
-              <div>
-                <h3 className="text-base sm:text-lg font-semibold text-gray-300 mb-3">Languages</h3>
-                <div className="flex flex-wrap gap-2">
-                  {resumeData.skills.languages.map((lang, index) => (
-                    <span key={index} className="bg-purple-600/20 text-purple-300 px-3 py-1.5 rounded-full text-sm touch-manipulation">
-                      {lang}
-                    </span>
-                  ))}
+
+            <h2 id="skills-heading" className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">Technical Skills</h2>
+
+            <div className="space-y-6 sm:space-y-8">
+
+              {/* Languages with Progress Bars */}
+
+              <div className="glass-mono rounded-xl p-4 sm:p-6">
+
+                <h3 className="text-base sm:text-lg font-semibold text-[var(--color-off-white)] mb-4 flex items-center gap-2">
+
+                  <span className="w-2 h-2 bg-[var(--color-white)] rounded-full"></span>
+
+                  Languages
+
+                </h3>
+
+                <div className="space-y-3">
+
+                  {resumeData.skills.languages.map((lang, index) => {
+
+                    const progress = [95, 90, 85, 80, 75, 70][index % 6] || 70;
+
+                    return (
+
+                      <div key={index} className="group">
+
+                        <div className="flex justify-between items-center mb-1">
+
+                          <span className="text-sm text-[var(--color-off-white)] font-medium">{lang}</span>
+
+                          <span className="text-xs text-[var(--color-accent-gray)] font-mono opacity-0 group-hover:opacity-100 transition-opacity">{progress}%</span>
+
+                        </div>
+
+                        <div className="h-2 bg-[var(--color-dark-gray)] rounded-full overflow-hidden">
+
+                          <div 
+
+                            className="h-full bg-gradient-to-r from-[var(--color-light-gray)] to-[var(--color-white)] rounded-full transition-all duration-1000 ease-out"
+
+                            style={{ width: `${progress}%`, animationDelay: `${index * 100}ms` }}
+
+                          ></div>
+
+                        </div>
+
+                      </div>
+
+                    );
+
+                  })}
+
                 </div>
+
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-semibold text-gray-300 mb-3">Frameworks & Libraries</h3>
-                <div className="flex flex-wrap gap-2">
-                  {resumeData.skills.frameworks.map((fw, index) => (
-                    <span key={index} className="bg-purple-600/20 text-purple-300 px-3 py-1.5 rounded-full text-sm touch-manipulation">
-                      {fw}
-                    </span>
-                  ))}
+
+
+
+              {/* Frameworks with Progress Bars */}
+
+              <div className="glass-mono rounded-xl p-4 sm:p-6">
+
+                <h3 className="text-base sm:text-lg font-semibold text-[var(--color-off-white)] mb-4 flex items-center gap-2">
+
+                  <span className="w-2 h-2 bg-[var(--color-accent-gray)] rounded-full"></span>
+
+                  Frameworks & Libraries
+
+                </h3>
+
+                <div className="space-y-3">
+
+                  {resumeData.skills.frameworks.map((fw, index) => {
+
+                    const progress = [92, 88, 82, 78, 74, 70][index % 6] || 70;
+
+                    return (
+
+                      <div key={index} className="group">
+
+                        <div className="flex justify-between items-center mb-1">
+
+                          <span className="text-sm text-[var(--color-off-white)] font-medium">{fw}</span>
+
+                          <span className="text-xs text-[var(--color-accent-gray)] font-mono opacity-0 group-hover:opacity-100 transition-opacity">{progress}%</span>
+
+                        </div>
+
+                        <div className="h-2 bg-[var(--color-dark-gray)] rounded-full overflow-hidden">
+
+                          <div 
+
+                            className="h-full bg-gradient-to-r from-[var(--color-medium-gray)] to-[var(--color-accent-gray)] rounded-full transition-all duration-1000 ease-out"
+
+                            style={{ width: `${progress}%`, animationDelay: `${index * 100}ms` }}
+
+                          ></div>
+
+                        </div>
+
+                      </div>
+
+                    );
+
+                  })}
+
                 </div>
+
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-semibold text-gray-300 mb-3">Tools & IDEs</h3>
-                <div className="flex flex-wrap gap-2">
+
+
+
+              {/* Tools with Dot Matrix Grid */}
+
+              <div className="glass-mono rounded-xl p-4 sm:p-6">
+
+                <h3 className="text-base sm:text-lg font-semibold text-[var(--color-off-white)] mb-4 flex items-center gap-2">
+
+                  <span className="w-2 h-2 bg-[var(--color-light-gray)] rounded-full"></span>
+
+                  Tools & IDEs
+
+                </h3>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+
                   {resumeData.skills.tools.map((tool, index) => (
-                    <span key={index} className="bg-purple-600/20 text-purple-300 px-3 py-1.5 rounded-full text-sm touch-manipulation">
-                      {tool}
-                    </span>
+
+                    <div key={index} className="group relative bg-[var(--color-dark-gray)]/50 rounded-lg p-2 text-center hover:bg-[var(--color-medium-gray)]/50 transition-all duration-300 cursor-default overflow-hidden">
+
+                      <span className="relative z-10 text-xs sm:text-sm text-[var(--color-off-white)]">{tool}</span>
+
+                      <div className="absolute inset-0 dot-matrix-subtle opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                    </div>
+
                   ))}
+
                 </div>
+
               </div>
+
             </div>
+
           </div>
+
+
 
           {/* Education & Coding Profiles */}
+
           <div>
+
             <div className="mb-6 sm:mb-8">
+
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Education</h3>
+
               <a
+
                 href="https://drive.google.com/file/d/1bZxGD0N1rcg401EIsZEfSN-EfixDrp0_/view?usp=drive_link"
+
                 target="_blank"
+
                 rel="noopener noreferrer"
-                className="block bg-gray-800/50 backdrop-blur-sm p-4 sm:p-5 rounded-xl border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl touch-manipulation mobile-card"
+
+                className="group block glass-mono p-4 sm:p-5 rounded-xl border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
+
               >
+
                 <h4 className="text-base sm:text-lg font-semibold text-white">{resumeData.education.institution}</h4>
-                <p className="text-purple-300 mb-1 text-sm sm:text-base">{resumeData.education.degree}</p>
+
+                <p className="text-[var(--color-accent-gray)] mb-1 text-sm sm:text-base">{resumeData.education.degree}</p>
+
                 <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">CGPA: {resumeData.education.gpa} • {resumeData.education.period}</p>
+
                 <p className="text-gray-500 text-xs sm:text-sm">{resumeData.education.location}</p>
+
               </a>
+
             </div>
+
+
 
             <div>
+
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Coding Profiles</h3>
+
               <div className="space-y-3">
+
                 {resumeData.codingProfiles.map((profile, index) => (
+
                   profile.url ? (
+
                     <a
+
                       key={index}
+
                       href={profile.url}
+
                       target="_blank"
+
                       rel="noopener noreferrer"
-                      className="block bg-gray-800/50 backdrop-blur-sm p-4 sm:p-5 rounded-xl border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl touch-manipulation mobile-card"
+
+                      className="group block glass-mono p-4 sm:p-5 rounded-xl border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
+
                     >
+
                       <div className="flex justify-between items-center">
+
                         <span className="font-medium text-white text-sm sm:text-base">{profile.platform}</span>
-                        <span className="text-purple-300 text-xs sm:text-sm">{profile.rating} • {profile.rank}</span>
+
+                        <span className="text-[var(--color-accent-gray)] text-xs sm:text-sm">{profile.rating} • {profile.rank}</span>
+
                       </div>
+
                     </a>
+
                   ) : (
-                    <div key={index} className="bg-gray-800/50 backdrop-blur-sm p-4 sm:p-5 rounded-xl border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl mobile-card">
+
+                    <div key={index} className="group glass-mono p-4 sm:p-5 rounded-xl border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 mobile-card relative overflow-hidden">
+
                       <div className="flex justify-between items-center">
+
                         <span className="font-medium text-white text-sm sm:text-base">{profile.platform}</span>
-                        <span className="text-purple-300 text-xs sm:text-sm">{profile.rating} • {profile.rank}</span>
+
+                        <span className="text-[var(--color-accent-gray)] text-xs sm:text-sm">{profile.rating} • {profile.rank}</span>
+
                       </div>
+
                     </div>
+
                   )
+
                 ))}
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
+
+
 
       {/* Achievements & Certifications */}
-      <section id="achievements" className="relative z-10 px-4 py-16 max-w-4xl mx-auto pb-32">
+
+      <section id="achievements" aria-labelledby="achievements-heading" className="relative z-10 px-4 py-16 max-w-4xl mx-auto pb-32">
+
         <div className="space-y-16">
-          <div>
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">Achievements</h2>
-            <div className="relative space-y-8">
-              {resumeData.achievements.map((achievement, index) => (
-                <div key={index} className="relative flex items-start">
-                  <div className="flex flex-col items-center">
-                    <span className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm z-10">{index + 1}</span>
-                    {index < resumeData.achievements.length - 1 && (
-                      <div className="w-0.5 bg-purple-600 h-full mt-4"></div>
-                    )}
-                  </div>
-                  {achievement.url ? (
-                    <a
-                      href={achievement.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl"
-                    >
-                      <span className="text-gray-300">{achievement.text}</span>
-                    </a>
-                  ) : (
-                    <div className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
-                      <span className="text-gray-300">{achievement.text}</span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
 
           <div>
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">Certifications</h2>
+
+            <h2 id="achievements-heading" className="text-3xl font-bold text-white mb-8 text-center">Achievements</h2>
+
             <div className="relative space-y-8">
-              {resumeData.certifications.map((cert, index) => (
+
+              {resumeData.achievements.map((achievement, index) => (
+
                 <div key={index} className="relative flex items-start">
+
                   <div className="flex flex-col items-center">
-                    <span className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm z-10">{index + 1}</span>
-                    {index < resumeData.certifications.length - 1 && (
-                      <div className="w-0.5 bg-purple-600 h-full mt-4"></div>
+
+                    <span className="w-8 h-8 bg-[var(--color-light-gray)] rounded-full flex items-center justify-center text-[var(--color-white)] font-bold text-sm z-10">{index + 1}</span>
+
+                    {index < resumeData.achievements.length - 1 && (
+
+                      <div className="w-0.5 bg-[var(--color-light-gray)] h-full mt-4"></div>
+
                     )}
+
                   </div>
-                  {cert.url ? (
+
+                  {achievement.url ? (
+
                     <a
-                      href={cert.url}
+
+                      href={achievement.url}
+
                       target="_blank"
+
                       rel="noopener noreferrer"
+
                       className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl"
+
                     >
-                      <span className="text-gray-300">{cert.text}</span>
+
+                      <span className="text-gray-300">{achievement.text}</span>
+
                     </a>
+
                   ) : (
+
                     <div className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
-                      <span className="text-gray-300">{cert.text}</span>
+
+                      <span className="text-gray-300">{achievement.text}</span>
+
                     </div>
+
                   )}
+
                 </div>
+
               ))}
+
             </div>
+
           </div>
+
+
+
+          <div>
+
+            <h2 id="certifications-heading" className="text-3xl font-bold text-white mb-8 text-center">Certifications</h2>
+
+            <div className="relative space-y-8">
+
+              {resumeData.certifications.map((cert, index) => (
+
+                <div key={index} className="relative flex items-start">
+
+                  <div className="flex flex-col items-center">
+
+                    <span className="w-8 h-8 bg-[var(--color-light-gray)] rounded-full flex items-center justify-center text-[var(--color-white)] font-bold text-sm z-10">{index + 1}</span>
+
+                    {index < resumeData.certifications.length - 1 && (
+
+                      <div className="w-0.5 bg-[var(--color-light-gray)] h-full mt-4"></div>
+
+                    )}
+
+                  </div>
+
+                  {cert.url ? (
+
+                    <a
+
+                      href={cert.url}
+
+                      target="_blank"
+
+                      rel="noopener noreferrer"
+
+                      className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl"
+
+                    >
+
+                      <span className="text-gray-300">{cert.text}</span>
+
+                    </a>
+
+                  ) : (
+
+                    <div className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
+
+                      <span className="text-gray-300">{cert.text}</span>
+
+                    </div>
+
+                  )}
+
+                </div>
+
+              ))}
+
+            </div>
+
+          </div>
+
         </div>
+
       </section>
+
+      </main>{/* End Main Content */}
+
+      <Terminal isOpen={isTerminalOpen} onToggle={() => setIsTerminalOpen(!isTerminalOpen)} />
+
+      <TerminalToggle onToggle={() => setIsTerminalOpen(!isTerminalOpen)} isOpen={isTerminalOpen} />
+
       <Footer />
+
       <ContactPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} contact={{ ...resumeData.contact, location: resumeData.location }} />
+
       <PWAInstallPrompt />
+
     </div>
+
   )
+
 }
+

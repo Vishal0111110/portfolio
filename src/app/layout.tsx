@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -47,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
         <script
@@ -55,6 +59,27 @@ export default function RootLayout({
             __html: `
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
+                  const isLocalDev = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+
+                  if (isLocalDev) {
+                    navigator.serviceWorker.getRegistrations()
+                      .then(function(registrations) {
+                        registrations.forEach(function(registration) {
+                          registration.unregister();
+                        });
+                      });
+
+                    if ('caches' in window) {
+                      caches.keys().then(function(cacheNames) {
+                        cacheNames.forEach(function(cacheName) {
+                          caches.delete(cacheName);
+                        });
+                      });
+                    }
+
+                    return;
+                  }
+
                   navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
                       console.log('SW registered: ', registration);

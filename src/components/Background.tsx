@@ -1,49 +1,63 @@
 'use client'
 
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useRef, useMemo, useState } from 'react'
+import { useRef, useMemo, useState, useEffect } from 'react'
 import { Points, PointMaterial, Html } from '@react-three/drei'
 import * as THREE from 'three'
 
-function AnimatedFormula({ text, position: initialPosition, index }: { text: string; position: [number, number, number]; index: number }) {
+// Nothing OS-inspired color palette with signature red accent
+const MONOCHROME_COLORS = {
+  white: '#ffffff',
+  offWhite: '#f5f5f5',
+  lightGray: '#4a4a4a',
+  mediumGray: '#2a2a2a',
+  accentGray: '#888888',
+  nothingRed: '#ff0000',
+}
+
+// Minimal animation
+const ANIMATION_SPEED = 0.02
+
+function AnimatedFormula({ text, position: initialPosition, index, isVisible }: { 
+  text: string; 
+  position: [number, number, number]; 
+  index: number;
+  isVisible: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null)
+
+  // Very subtle floating with minimal movement
   const [position, setPosition] = useState(initialPosition)
 
   useFrame((state) => {
-    const time = state.clock.elapsedTime * 0.75
-    const t = time + index * 0.8
-    // Lemniscate (infinity) path for unique motion
-    const xOffset = Math.sin(t * 0.6) * Math.cos(t * 0.3) * 2
-    const yOffset = Math.sin(t * 0.7) * Math.sin(t * 0.4) * 1.5
-    const zOffset = Math.cos(t * 0.5) * 1.2
-    const newZ = initialPosition[2] + zOffset
-    setPosition([initialPosition[0] + xOffset, initialPosition[1] + yOffset, newZ])
-
-    // Fade based on depth
-    const newOpacity = Math.max(0.3, 0.8 - Math.abs(newZ) * 0.15)
+    if (!isVisible) return
+    
+    const time = state.clock.elapsedTime * ANIMATION_SPEED
+    // Very minimal floating motion
+    const xOffset = Math.sin(time * 0.1) * 0.15
+    const yOffset = Math.cos(time * 0.08) * 0.1
+    setPosition([initialPosition[0] + xOffset, initialPosition[1] + yOffset, initialPosition[2]])
 
     if (ref.current) {
-      ref.current.style.opacity = `${newOpacity}`
       ref.current.style.transform = `translate(-50%, -50%)`
     }
   })
-
-  const colors = ['#ffffff', '#d1d5db', '#a78bfa', '#10b981', '#93c5fd', '#67e8f9']
 
   return (
     <Html
       position={position}
       ref={ref}
       style={{
-        color: colors[index % colors.length],
-        fontSize: '0.8rem',
-        fontFamily: 'monospace',
-        fontWeight: '600',
+        color: index === 0 ? MONOCHROME_COLORS.nothingRed : MONOCHROME_COLORS.accentGray,
+        fontSize: '0.7rem',
+        fontFamily: 'var(--font-jetbrains-mono), monospace',
+        fontWeight: index === 0 ? '600' : '400',
         textAlign: 'center',
         width: 'auto',
-        minWidth: '140px',
+        minWidth: '100px',
         userSelect: 'none',
-        opacity: 0.8
+        opacity: index === 0 ? 0.6 : 0.4,
+        letterSpacing: '0.1em',
       }}
     >
       {text}
@@ -51,125 +65,119 @@ function AnimatedFormula({ text, position: initialPosition, index }: { text: str
   )
 }
 
-function NetworkMesh() {
+function NetworkMesh({ isVisible }: { isVisible: boolean }) {
   const meshRef = useRef<THREE.Group>(null)
   const torusRef = useRef<THREE.Mesh>(null)
-  const octahedronRef = useRef<THREE.Mesh>(null)
-  const tetrahedronRef = useRef<THREE.Mesh>(null)
+  const icosahedronRef = useRef<THREE.Mesh>(null)
 
-  const speed = 0.75
-
-  // Generate network points spread across full space
-  const positions = useMemo(() => {
-    const numPoints = 1500
+  // Generate sophisticated particle distribution with subtle details
+  const positionsData = useMemo(() => {
+    const numPoints = 600 // Optimized for subtle detail
     const positions = new Float32Array(numPoints * 3)
+    const colors = new Float32Array(numPoints * 3)
+    const sizes = new Float32Array(numPoints)
 
     for (let i = 0; i < numPoints; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 40     // x: -20 to 20
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 40    // y: -20 to 20
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 20    // z: -10 to 10
+      // Create more interesting distribution patterns
+      const angle = (i / numPoints) * Math.PI * 2
+      const radius = 3 + Math.random() * 12
+      const height = (Math.random() - 0.5) * 8
+      
+      positions[i * 3] = Math.cos(angle) * radius + (Math.random() - 0.5) * 2
+      positions[i * 3 + 1] = height
+      positions[i * 3 + 2] = Math.sin(angle) * radius + (Math.random() - 0.5) * 2
+      
+      // Sophisticated color distribution
+      const rand = Math.random()
+      if (rand < 0.03) {
+        // Rare red accent particles
+        colors[i * 3] = 1
+        colors[i * 3 + 1] = 0.2
+        colors[i * 3 + 2] = 0.2
+        sizes[i] = 0.12
+      } else if (rand < 0.08) {
+        // Bright white accents
+        colors[i * 3] = 0.9
+        colors[i * 3 + 1] = 0.9
+        colors[i * 3 + 2] = 0.9
+        sizes[i] = 0.10
+      } else {
+        // Subtle gray variations
+        const gray = 0.25 + Math.random() * 0.15
+        colors[i * 3] = gray
+        colors[i * 3 + 1] = gray
+        colors[i * 3 + 2] = gray
+        sizes[i] = 0.06 + Math.random() * 0.04
+      }
     }
 
-    return positions
+    return { positions, colors, sizes }
   }, [])
 
-  // Mathematical formulas
-  const formulas = useMemo(() => [
-    'DP', 'O(nlog(n))', 'Graph Theory', 'φ=1.618',
-    'Binary Search', 'O(log n)', 'Segment Trees', 'a≡b(mod m)','KMP',
-     'Game Theory', 'Binary Lifting', 
-     'Frenwick Trees', 
-    'Convex Hull','π = 3.141', 'DSU', 'Sieve ', 'Probability', 'Combinatorics', 'Minkowski Sum', 'Line Sweep',
-    'Greedy',
-  ], [])
-
-  // Place formulas symmetrically around the edges, avoiding center collisions
-  const formulaPositions = useMemo(() => [
-    // Top and bottom pairs
-    [-17, 14, 0], [17, 14, 0], [-17, -14, 0], [17, -14, 0],
-    [-10, 14, 0], [10, 14, 0], [-10, -14, 0], [10, -14, 0],
-    [0, 14, 0], [0, -14, 0],
-    // Left and right pairs
-    [-20, 10, 0], [20, 10, 0], [-20, -10, 0], [20, -10, 0],
-    [-20, 0, 0], [20, 0, 0],
-    // Upper corners
-    [-15, 12, 0], [15, 12, 0],
-    // Lower corners
-    [-15, -8, 0], [15, -8, 0],
-    // Additional symmetric spots
-    [-12, 8, 0], [12, 8, 0], [-12, -8, 0], [12, -8, 0]
-  ], [])
+  // No formulas - clean background
 
   useFrame((state) => {
-    const time = state.clock.elapsedTime * speed
+    if (!isVisible) return
+    
+    const time = state.clock.elapsedTime * ANIMATION_SPEED
 
-    // Very visible rotations
+    // Very slow rotation
     if (meshRef.current) {
-      meshRef.current.rotation.y = time * 0.25
+      meshRef.current.rotation.y = time * 0.02
     }
     if (torusRef.current) {
-      torusRef.current.rotation.x = time * 4
-      torusRef.current.rotation.y = time * 3
+      torusRef.current.rotation.x = time * 0.1
     }
-    if (octahedronRef.current) {
-      octahedronRef.current.rotation.x = time * 6
-      octahedronRef.current.rotation.y = time * 5
-    }
-    if (tetrahedronRef.current) {
-      tetrahedronRef.current.rotation.z = time * 7
-      tetrahedronRef.current.rotation.x = time * 8
-    }
-
   })
 
   return (
     <group ref={meshRef}>
-      {/* Network points spread across full screen */}
-      <Points positions={positions} stride={3}>
+      {/* Sophisticated particle system with size variations */}
+      <Points positions={positionsData.positions} colors={positionsData.colors} sizes={positionsData.sizes} stride={3}>
         <PointMaterial
           transparent
-          color="#a855f7"
           size={0.08}
           sizeAttenuation={true}
           depthWrite={false}
-          vertexColors={false}
+          vertexColors={true}
+          opacity={0.7}
+          blending={THREE.AdditiveBlending}
         />
       </Points>
 
-      {/* Mathematical formulas spread across full screen */}
-      {formulas.map((text, index) => (
-        <AnimatedFormula
-          key={index}
-          text={text}
-          position={formulaPositions[index] as [number, number, number]}
-          index={index}
-        />
-      ))}
-
-      {/* Large visible geometric shapes */}
+      
+      {/* Single simple wireframe - much cleaner */}
       <mesh ref={torusRef} position={[0, 0, -3]}>
-        <torusGeometry args={[2.5, 0.2, 8, 32]} />
-        <meshBasicMaterial color="#6366f1" transparent opacity={0.6} />
+        <torusGeometry args={[2.5, 0.1, 8, 16]} />
+        <meshBasicMaterial color={MONOCHROME_COLORS.mediumGray} wireframe transparent opacity={0.4} />
       </mesh>
-
-      <mesh ref={octahedronRef} position={[4, 3, -2]}>
-        <octahedronGeometry args={[1]} />
-        <meshBasicMaterial color="#a78bfa" wireframe />
-      </mesh>
-
-      <mesh ref={tetrahedronRef} position={[-4, -3, -1]}>
-        <tetrahedronGeometry args={[1]} />
-        <meshBasicMaterial color="#8b5cf6" wireframe />
-      </mesh>
-
-
     </group>
   )
 }
 
 function Background() {
+  const [isVisible, setIsVisible] = useState(true)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Intersection Observer to pause animations when off-screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0 }
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div
+      ref={containerRef}
       className="fixed inset-0"
       style={{
         position: 'fixed',
@@ -177,26 +185,41 @@ function Background() {
         left: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: -1,  // Proper background positioning
+        zIndex: 0,
         pointerEvents: 'none'
       }}
     >
+      {/* Simple dot matrix pattern - very subtle */}
+      <div 
+        className="absolute inset-0 opacity-40"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)`,
+          backgroundSize: '24px 24px',
+          zIndex: 0,
+        }}
+      />
+      
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 75 }}
-        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [0, 0, 12], fov: 70 }}
+        gl={{ 
+          antialias: false, // Disabled for performance
+          alpha: true,
+          powerPreference: 'low-power' // Battery-friendly
+        }}
         style={{
           width: '100%',
           height: '100%',
           position: 'absolute',
           top: 0,
           left: 0,
-          zIndex: -10
+          zIndex: 1
         }}
+        frameloop={isVisible ? 'always' : 'never'} // Pause when off-screen
       >
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
+        <ambientLight intensity={0.3} />
+        <pointLight position={[10, 10, 10]} intensity={0.5} />
 
-        <NetworkMesh />
+        <NetworkMesh isVisible={isVisible} />
       </Canvas>
     </div>
   )

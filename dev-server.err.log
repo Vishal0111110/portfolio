@@ -1,0 +1,350 @@
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+ ⚠ Found a change in next.config.js. Restarting the server to apply the changes...
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata themeColor is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz'
+ ⨯ ./src/app/page.tsx
+Error: 
+  [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\app\page.tsx[0m:154:1]
+ [2m154[0m | 
+ [2m155[0m |   return (
+ [2m156[0m | 
+ [2m157[0m |     <div className="min-h-screen text-[var(--color-off-white)] relative bg-[var(--color-off-black)]">
+     : [31;1m     ^^^[0m
+ [2m158[0m | 
+ [2m159[0m |       {/* Skip to Content Link - Accessibility */}
+ [2m159[0m |       <a 
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:77:1]
+ [2m77[0m |   }
+ [2m78[0m | 
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+    : [31;1m     ^[0m
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+ [2m82[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:79:1]
+ [2m79[0m |   return (
+ [2m80[0m |     <>
+ [2m81[0m |       {/* Overlay */}
+ [2m82[0m |     <div 
+    : [31;1m    ^[0m
+ [2m83[0m |       role="dialog"
+ [2m84[0m |       aria-modal="true"
+ [2m84[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx
+ ⨯ ./src/components/ContactPopup.tsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:78:1]
+ [2m78[0m |   }
+ [2m79[0m | 
+ [2m80[0m |   return (
+ [2m81[0m |     <>
+    : [31;1m     ^[0m
+ [2m82[0m |       {/* Overlay */}
+ [2m83[0m |     <div 
+ [2m83[0m |       role="dialog"
+    `----
+
+  [31mx[0m Expected ',', got '< (jsx tag start)'
+    ,-[[36;1;4mC:\Users\buyya\OneDrive\Desktop\portfolio\src\components\ContactPopup.tsx[0m:80:1]
+ [2m80[0m |   return (
+ [2m81[0m |     <>
+ [2m82[0m |       {/* Overlay */}
+ [2m83[0m |     <div 
+    : [31;1m    ^[0m
+ [2m84[0m |       role="dialog"
+ [2m85[0m |       aria-modal="true"
+ [2m85[0m |       aria-labelledby="contact-title"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ContactPopup.tsx
+./src/app/page.tsx

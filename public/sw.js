@@ -1,5 +1,5 @@
 // Service Worker for PWA functionality
-const CACHE_NAME = 'vishal-portfolio-v1';
+const CACHE_NAME = 'vishal-portfolio-v2';
 const STATIC_CACHE_URLS = [
   '/',
   '/manifest.json',
@@ -45,8 +45,9 @@ self.addEventListener('fetch', (event) => {
       !url.origin.includes('fonts.googleapis.com') &&
       !url.origin.includes('fonts.gstatic.com')) return;
 
-  // Network-first for API calls and external fonts
-  if (url.pathname.includes('formspree') ||
+  // Network-first for pages, API calls, and external fonts.
+  if (event.request.mode === 'navigate' ||
+      url.pathname.includes('formspree') ||
       url.origin.includes('fonts.googleapis.com')) {
     event.respondWith(
       fetch(event.request)
