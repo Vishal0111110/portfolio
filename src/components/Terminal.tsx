@@ -312,9 +312,15 @@ Available Commands:
   help          - Show this help message
   about         - Display information about Vishal
   skills        - Show technical skills
+  experience    - Show work experience
   projects      - List all projects
-  system        - Display system information
-  performance   - Show performance metrics
+  achievements  - Show achievements and awards
+  education     - Show education details
+  cp            - Show competitive programming stats
+  cpfact        - Show a random CP fact
+  certifications- Show certifications and credentials
+  social        - Show social media and coding profiles
+  resume        - Get resume download link
   contact       - Display contact information
   whoami        - Display current user
   date          - Show current date and time
@@ -322,6 +328,8 @@ Available Commands:
   history       - Show command history
   ls            - List available sections
   cd [section]  - Navigate to a section
+  system        - Display system information
+  performance   - Show performance metrics
   neofetch      - Display system information
   
   Fun & Games:
@@ -397,6 +405,183 @@ ${resumeData.skills.frameworks.map(fw => `  • ${fw}`).join('\n')}
 
 Development Tools & IDEs:
 ${resumeData.skills.tools.map(tool => `  • ${tool}`).join('\n')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `
+      }
+    },
+    experience: {
+      name: 'experience',
+      description: 'Show work experience',
+      handler: () => {
+        return `
+┌─────────────────────────────────────────────────────────────────┐
+│                      WORK EXPERIENCE                             │
+└─────────────────────────────────────────────────────────────────┘
+
+${resumeData.experience.map((exp, index) => `
+${index + 1}. ${exp.company}
+   Position: ${exp.position}
+   Location: ${exp.location}
+   Period: ${exp.period}
+   Highlights:
+${exp.description.map(desc => `     • ${desc}`).join('\n')}
+`).join('\n')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `
+      }
+    },
+    achievements: {
+      name: 'achievements',
+      description: 'Show achievements and awards',
+      handler: () => {
+        return `
+┌─────────────────────────────────────────────────────────────────┐
+│                       ACHIEVEMENTS                               │
+└─────────────────────────────────────────────────────────────────┘
+
+${resumeData.achievements.map((ach, index) => `
+${index + 1}. ${ach.text}${ach.date ? ` (${ach.date})` : ''}
+`).join('')}
+
+Total: ${resumeData.achievements.length} achievements
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `
+      }
+    },
+    education: {
+      name: 'education',
+      description: 'Show education details',
+      handler: () => {
+        return `
+┌─────────────────────────────────────────────────────────────────┐
+│                        EDUCATION                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+Institution: ${resumeData.education.institution}
+Degree: ${resumeData.education.degree}
+GPA: ${resumeData.education.gpa}
+Period: ${resumeData.education.period}
+Location: ${resumeData.education.location}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `
+      }
+    },
+    cp: {
+      name: 'cp',
+      description: 'Show competitive programming stats',
+      handler: () => {
+        return `
+┌─────────────────────────────────────────────────────────────────┐
+│              COMPETITIVE PROGRAMMING STATS                       │
+└─────────────────────────────────────────────────────────────────┘
+
+Total Problems Solved: ${resumeData.cpStats.totalSolved}
+
+Best Rankings:
+${resumeData.cpStats.bestRankings.map(r => `  • ${r.platform}: ${r.rank} (${r.rating})`).join('\n')}
+
+Favorite Topics:
+${resumeData.cpStats.favoriteTopics.map(t => `  • ${t}`).join('\n')}
+
+Primary Language: C++ (95%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `
+      }
+    },
+    cpfact: {
+      name: 'cpfact',
+      description: 'Show a random CP fact',
+      handler: () => {
+        const facts = [
+          { topic: 'Time Complexity', fact: 'O(1) < O(log n) < O(sqrt n) < O(n) < O(n log n) < O(n^2) < O(2^n) < O(n!)', detail: 'Always aim for the most efficient solution possible.' },
+          { topic: 'Binary Search', fact: 'Binary search can find an element in O(log n) time.', detail: 'Requires sorted array. Classic divide and conquer.' },
+          { topic: 'Dynamic Programming', fact: 'DP = Recursion + Memoization', detail: 'Store results of subproblems to avoid recomputation.' },
+          { topic: 'Graph Theory', fact: 'Dijkstra\'s algorithm finds shortest path in O((V+E) log V).', detail: 'Works only for non-negative edge weights.' },
+          { topic: 'Greedy Algorithm', fact: 'Make locally optimal choices at each step.', detail: 'Doesn\'t always yield globally optimal solution.' }
+        ]
+        const fact = facts[Math.floor(Math.random() * facts.length)]
+        return `
+┌─────────────────────────────────────────────────────────────────┐
+│                      CP FACT OF THE DAY                          │
+└─────────────────────────────────────────────────────────────────┘
+
+${fact.topic}:
+${fact.fact}
+
+${fact.detail}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `
+      }
+    },
+    certifications: {
+      name: 'certifications',
+      description: 'Show certifications and credentials',
+      handler: () => {
+        return `
+┌─────────────────────────────────────────────────────────────────┐
+│                     CERTIFICATIONS                               │
+└─────────────────────────────────────────────────────────────────┘
+
+${resumeData.certifications.map((cert, index) => `
+${index + 1}. ${cert.text}
+   Issuer: ${cert.issuer}
+   Date: ${cert.date}
+   ${cert.url ? `URL: ${cert.url}` : ''}
+`).join('\n')}
+
+Total: ${resumeData.certifications.length} certifications
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `
+      }
+    },
+    social: {
+      name: 'social',
+      description: 'Show social media and coding profiles',
+      handler: () => {
+        return `
+┌─────────────────────────────────────────────────────────────────┐
+│                    SOCIAL & CODING PROFILES                      │
+└─────────────────────────────────────────────────────────────────┘
+
+Professional:
+  • LinkedIn: linkedin.com/in/${resumeData.contact.linkedin}
+  • Email: ${resumeData.contact.email}
+
+Competitive Programming:
+  • Codeforces: codeforces.com/profile/${resumeData.contact.codeforces}
+  • CodeChef: codechef.com/users/vishal_616
+  • LeetCode: leetcode.com/u/VishalBuyyarapu/
+
+Contact:
+  • Phone: ${resumeData.contact.phone}
+  • Location: ${resumeData.location}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `
+      }
+    },
+    resume: {
+      name: 'resume',
+      description: 'Get resume download link',
+      handler: () => {
+        return `
+┌─────────────────────────────────────────────────────────────────┐
+│                        RESUME                                    │
+└─────────────────────────────────────────────────────────────────┘
+
+Download my resume:
+https://drive.google.com/file/d/1ZiK0D0uLYT3gWX7uJs23-PLXt8FWjhTa/view?usp=sharing
+
+Summary:
+Software Engineer with strong competitive programming background
+and experience in distributed systems and microservices architecture.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         `

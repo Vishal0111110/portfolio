@@ -57,11 +57,14 @@ export const resumeData = {
   // Achievements and Certifications
   achievements: achievements.map(a => ({
     text: a.text,
-    url: a.url
+    url: a.url,
+    date: a.date
   })),
   certifications: certifications.map(c => ({
     text: c.text,
-    url: c.url
+    url: c.url,
+    issuer: c.issuer,
+    date: c.date
   }))
 }
 
