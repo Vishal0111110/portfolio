@@ -78,16 +78,32 @@ export default function PWAInstallPrompt() {
   if (!showInstallPrompt) return null
 
   return (
-    <div id="install-prompt" className="show">
-      <div className="flex">
-          <div className="text">
-            Install Vishal&#39;s Portfolio as an app for the best experience!
+    <div id="install-prompt" className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-auto z-[100] animate-in slide-in-from-bottom-4 duration-500">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-[var(--color-dark-gray)]/95 backdrop-blur-xl border border-[var(--color-medium-gray)] rounded-xl p-4 shadow-2xl shadow-[var(--color-black)]/50 max-w-md">
+        <div className="flex-1">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-8 h-8 bg-gradient-to-br from-[var(--color-nothing-red)] to-red-600 rounded-lg flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </div>
+            <span className="text-white font-semibold text-sm">Install App</span>
           </div>
-        <div className="buttons">
-          <button onClick={handleInstallClick} className="install-btn">
+          <p className="text-gray-300 text-xs leading-relaxed">
+            Install Vishal&#39;s Portfolio as an app for the best experience!
+          </p>
+        </div>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <button
+            onClick={handleInstallClick}
+            className="flex-1 sm:flex-none bg-[var(--color-white)] hover:bg-[var(--color-off-white)] text-[var(--color-black)] px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)]"
+          >
             Install
           </button>
-          <button onClick={handleDismiss} className="dismiss-btn">
+          <button
+            onClick={handleDismiss}
+            className="flex-1 sm:flex-none bg-transparent hover:bg-[var(--color-medium-gray)]/30 text-gray-300 hover:text-white px-3 py-2 rounded-lg font-medium text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)]"
+          >
             Later
           </button>
         </div>
