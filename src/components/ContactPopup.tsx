@@ -85,13 +85,13 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
       role="dialog"
       aria-modal="true"
       aria-labelledby="contact-title"
-      className="fixed inset-0 bg-black/72 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4 safe-area-bottom safe-area-left safe-area-right" 
+      className="fixed inset-0 bg-black/72 backdrop-blur-md z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 pt-4 sm:pt-6 overflow-y-auto safe-area-bottom safe-area-left safe-area-right" 
       onClick={onClose}
     >
       {/* Modal */}
       <div
         ref={modalRef}
-        className="relative bg-[var(--color-off-black)]/90 backdrop-blur-xl border border-[var(--color-medium-gray)]/80 rounded-2xl shadow-2xl shadow-[var(--color-black)]/55 max-w-[95vw] sm:max-w-5xl w-full max-h-[98vh] sm:max-h-[95vh] md:max-h-[90vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom-8 duration-500"
+        className="relative bg-[var(--color-off-black)]/90 backdrop-blur-xl border border-[var(--color-medium-gray)]/80 rounded-2xl shadow-2xl shadow-[var(--color-black)]/55 max-w-[95vw] sm:max-w-5xl w-full my-auto max-h-[92dvh] sm:max-h-[95vh] md:max-h-[90vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom-8 duration-500"
         onClick={(e) => e.stopPropagation()}
       >
           {isSubmitted ? (
@@ -113,14 +113,14 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                 </button>
               </div>
           ) : (
-            <div className="flex flex-col-reverse lg:flex-row w-full overflow-hidden">
+            <div className="flex flex-col-reverse lg:flex-row w-full min-h-0 overflow-hidden">
               {/* Form */}
-              <div className="flex-1 p-3 sm:p-4 md:p-5 lg:p-6 overflow-y-auto overflow-x-hidden max-h-[calc(98vh-8rem)] sm:max-h-[calc(95vh-6rem)] lg:max-h-[calc(90vh-4rem)] scrollbar-thin scrollbar-thumb-[var(--color-light-gray)] scrollbar-track-transparent scrollbar-thumb-rounded-full">
+              <div className="flex-1 min-h-0 p-3 sm:p-4 md:p-5 lg:p-6 overflow-y-auto overflow-x-hidden overscroll-contain smooth-mobile-scroll max-h-[72dvh] sm:max-h-[calc(95vh-6rem)] lg:max-h-[calc(90vh-4rem)] scrollbar-thin scrollbar-thumb-[var(--color-light-gray)] scrollbar-track-transparent scrollbar-thumb-rounded-full">
                 <div className="mb-4 sm:mb-5 lg:mb-6">
                   <h2 id="contact-title" className="font-display text-xl sm:text-2xl font-normal tracking-tight text-white mb-1.5">Get in touch</h2>
 <p className="text-[var(--color-accent-gray)] text-xs sm:text-sm leading-[1.55]">Share a little context and I will get back with the best next step.</p>
                 </div>
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 lg:space-y-5 pb-4" aria-label="Contact form">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 lg:space-y-5 pb-8" aria-label="Contact form">
                   {/* Personal Details */}
                   <fieldset className="space-y-2 sm:space-y-3 lg:space-y-4">
                     <legend className="text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2">Personal details *</legend>
@@ -324,9 +324,9 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
               </div>
 
               {/* Direct Contact Info */}
-              <div className="lg:w-72 xl:w-80 p-2.5 sm:p-3 md:p-4 lg:p-5 bg-[var(--color-off-black)]/40 rounded-lg lg:rounded-2xl mx-2.5 sm:mx-3 md:mx-4 lg:mx-5 mb-2.5 sm:mb-3 lg:mb-5 border border-[var(--color-medium-gray)]/70 lg:border-l lg:border-r-0 lg:border-t-0 lg:border-b-0">
+              <div className="lg:w-72 xl:w-80 p-2.5 sm:p-3 md:p-4 lg:p-5 bg-[var(--color-off-black)]/40 rounded-lg lg:rounded-2xl mx-2.5 sm:mx-3 md:mx-4 lg:mx-5 mt-2.5 sm:mt-3 lg:mt-0 mb-2.5 sm:mb-3 lg:mb-5 border border-[var(--color-medium-gray)]/70 lg:border-l lg:border-r-0 lg:border-t-0 lg:border-b-0">
                 <h3 className="text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2 sm:mb-3 lg:mb-4 text-center">Direct contact</h3>
-                <div className="grid grid-cols-2 lg:grid-cols-1 gap-1.5 sm:gap-2 lg:gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-1.5 sm:gap-2 lg:gap-3">
                   <a
                     href={`mailto:${contact.email}?subject=Contact from Portfolio&body=Hi Vishal,`}
                     className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}

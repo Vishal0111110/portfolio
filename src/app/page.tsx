@@ -298,7 +298,7 @@ export default function Home() {
 
           {/* Minimal summary with more negative space */}
 
-          <div className="animate-in slide-in-from-right-8 duration-1000 delay-900 mb-20">
+          <div className="animate-in slide-in-from-right-8 duration-1000 delay-900 mb-10">
 
             <p className="text-base text-[var(--color-off-white)] leading-[1.65] max-w-2xl mx-auto text-center font-light">
 
@@ -310,9 +310,9 @@ export default function Home() {
 
           {/* Minimal Contact Info */}
 
-          <div className="flex flex-col items-center gap-4 mt-10 animate-in slide-in-from-bottom-8 duration-1000 delay-1100">
+          <div className="flex flex-col items-center gap-3 mt-4 animate-in slide-in-from-bottom-8 duration-1000 delay-1100">
 
-            <p className="text-sm text-[var(--color-accent-gray)] tracking-[0.12em] uppercase">
+            <p className="text-sm sm:text-base font-sans font-medium text-[var(--color-accent-gray)] tracking-[0.1em] uppercase">
 
               {resumeData.location}
 
@@ -324,7 +324,7 @@ export default function Home() {
 
           {/* Refined Navigation - Nothing OS Style */}
 
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-x-8 md:gap-x-12 mt-16 sm:mt-20 md:mt-24 px-4 animate-in slide-in-from-bottom-8 duration-1000 delay-1300">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-x-8 md:gap-x-12 mt-[2.68rem] sm:mt-[3.57rem] md:mt-[4.46rem] px-4 animate-in slide-in-from-bottom-8 duration-1000 delay-1300">
 
             <div className="w-1 h-1 bg-[var(--color-nothing-red)] opacity-60"></div>
 
@@ -407,8 +407,6 @@ export default function Home() {
               <div className="absolute bottom-0 left-0 w-0 h-px bg-[var(--color-nothing-red)] transition-all duration-300 group-hover:w-full"></div>
 
             </button>
-
-            <div className="hidden sm:block w-1 h-1 bg-[var(--color-nothing-red)] opacity-60"></div>
 
           </div>
 
