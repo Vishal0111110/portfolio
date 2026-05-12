@@ -367,3 +367,161 @@ Import trace for requested module:
   path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\1.pack.gz'
 }
 <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\1.pack.gz'
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.tsx:37:1
+Module not found: Can't resolve '@/lib/CARD_HOVER'
+[0m [90m 35 |[39m [36mimport[39m [33mProjectSection[39m [36mfrom[39m [32m'@/components/ProjectSection'[39m[0m
+[0m [90m 36 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 37 |[39m [36mimport[39m { [33mCARD_HOVER[39m } [36mfrom[39m [32m'@/lib/CARD_HOVER'[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 38 |[39m[0m
+[0m [90m 39 |[39m[0m
+[0m [90m 40 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+[Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\3.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\3.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\3.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\3.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz'
+[Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\0.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\0.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\0.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\2.pack.gz_' -> 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\2.pack.gz'
+[Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\1.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\1.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\1.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\1.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\1.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\buyya\\OneDrive\\Desktop\\portfolio\\.next\\cache\\webpack\\client-development\\1.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\buyya\OneDrive\Desktop\portfolio\.next\cache\webpack\client-development\1.pack.gz'

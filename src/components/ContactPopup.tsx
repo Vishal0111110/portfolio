@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { CARD_HOVER } from '@/lib/cardHover'
 
 interface ContactProps {
   email: string
@@ -84,29 +85,29 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
       role="dialog"
       aria-modal="true"
       aria-labelledby="contact-title"
-      className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4 safe-area-bottom safe-area-left safe-area-right" 
+      className="fixed inset-0 bg-black/72 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4 safe-area-bottom safe-area-left safe-area-right" 
       onClick={onClose}
     >
       {/* Modal */}
       <div
         ref={modalRef}
-        className="relative bg-[var(--color-dark-gray)]/95 backdrop-blur-xl border border-[var(--color-medium-gray)] rounded-2xl sm:rounded-3xl shadow-2xl shadow-[var(--color-black)]/50 max-w-[95vw] sm:max-w-5xl w-full max-h-[98vh] sm:max-h-[95vh] md:max-h-[90vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom-8 duration-500"
+        className="relative bg-[var(--color-off-black)]/90 backdrop-blur-xl border border-[var(--color-medium-gray)]/80 rounded-2xl shadow-2xl shadow-[var(--color-black)]/55 max-w-[95vw] sm:max-w-5xl w-full max-h-[98vh] sm:max-h-[95vh] md:max-h-[90vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom-8 duration-500"
         onClick={(e) => e.stopPropagation()}
       >
           {isSubmitted ? (
             // Confirmation Message
               <div className="p-4 md:p-6 text-center py-8 md:py-12" role="alert" aria-live="polite">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-green-500/20 border border-green-400/50 rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-[var(--color-dark-gray)]/60 border border-[var(--color-medium-gray)]/80 rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
                   <svg className="w-6 h-6 md:w-8 md:h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"></path>
                   </svg>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Thank You!</h3>
-<p className="text-gray-300 text-sm md:text-base px-2 md:px-0">Your message has been sent successfully. I&#39;ll get back to you within 24-48 hours.</p>
+                <h3 className="font-display text-xl md:text-2xl font-normal tracking-tight text-white mb-2">Message sent</h3>
+<p className="text-[var(--color-accent-gray)] text-sm px-2 md:px-0 leading-[1.55]">Your message has been sent successfully. I&#39;ll get back to you within 24-48 hours.</p>
                 <button
                   ref={firstFocusableRef}
                   onClick={onClose}
-                  className="w-full sm:w-auto px-6 py-3 bg-[var(--color-white)] text-[var(--color-black)] rounded-lg font-medium text-sm md:text-base hover:bg-[var(--color-off-white)] transition-all duration-200 touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)]"
+                  className={`w-full sm:w-auto px-6 py-3 mt-4 glass-mono text-[var(--color-off-white)] rounded-lg font-medium text-xs uppercase tracking-[0.08em] transition-all duration-200 touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)] ${CARD_HOVER}`}
                 >
                   Close
                 </button>
@@ -115,14 +116,14 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
             <div className="flex flex-col-reverse lg:flex-row w-full overflow-hidden">
               {/* Form */}
               <div className="flex-1 p-3 sm:p-4 md:p-5 lg:p-6 overflow-y-auto overflow-x-hidden max-h-[calc(98vh-8rem)] sm:max-h-[calc(95vh-6rem)] lg:max-h-[calc(90vh-4rem)] scrollbar-thin scrollbar-thumb-[var(--color-light-gray)] scrollbar-track-transparent scrollbar-thumb-rounded-full">
-                <div className="mb-3 sm:mb-4 lg:mb-6">
-                  <h2 id="contact-title" className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2">Get In Touch</h2>
-<p className="text-gray-400 text-[11px] sm:text-xs lg:text-sm">I&#39;d love to hear from you! Fill out the form below.</p>
+                <div className="mb-4 sm:mb-5 lg:mb-6">
+                  <h2 id="contact-title" className="font-display text-xl sm:text-2xl font-normal tracking-tight text-white mb-1.5">Get in touch</h2>
+<p className="text-[var(--color-accent-gray)] text-xs sm:text-sm leading-[1.55]">Share a little context and I will get back with the best next step.</p>
                 </div>
                 <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 lg:space-y-5 pb-4" aria-label="Contact form">
                   {/* Personal Details */}
                   <fieldset className="space-y-2 sm:space-y-3 lg:space-y-4">
-                    <legend className="text-xs sm:text-sm lg:text-base font-semibold text-[var(--color-off-white)] mb-1 sm:mb-2">Personal Details *</legend>
+                    <legend className="text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2">Personal details *</legend>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                       <div>
                         <label htmlFor="fullName" className="sr-only">Full Name</label>
@@ -134,7 +135,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                           placeholder="Full Name *"
                           required
                           autoComplete="name"
-                          className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-2.5 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg focus:ring-2 focus:ring-[var(--color-white)] focus:border-transparent transition-all text-xs sm:text-sm md:text-base focus:outline-none"
+                          className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-3 sm:px-3.5 py-2.5 rounded-lg focus:ring-2 focus:ring-[var(--color-white)]/70 focus:border-transparent transition-all text-sm focus:outline-none"
                         />
                       </div>
                       <div>
@@ -148,7 +149,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                           placeholder="Email Address *"
                           required
                           autoComplete="email"
-                          className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-2.5 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg focus:ring-2 focus:ring-[var(--color-white)] focus:border-transparent transition-all text-xs sm:text-sm md:text-base focus:outline-none"
+                          className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-3 sm:px-3.5 py-2.5 rounded-lg focus:ring-2 focus:ring-[var(--color-white)]/70 focus:border-transparent transition-all text-sm focus:outline-none"
                         />
                       </div>
                     </div>
@@ -162,7 +163,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                           onChange={handleChange}
                           placeholder="Company/Organization"
                           autoComplete="organization"
-                          className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-2.5 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg focus:ring-2 focus:ring-[var(--color-white)] focus:border-transparent transition-all text-xs sm:text-sm md:text-base focus:outline-none"
+                          className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-3 sm:px-3.5 py-2.5 rounded-lg focus:ring-2 focus:ring-[var(--color-white)]/70 focus:border-transparent transition-all text-sm focus:outline-none"
                         />
                       </div>
                       <div>
@@ -174,7 +175,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                           onChange={handleChange}
                           placeholder="LinkedIn/Website"
                           autoComplete="url"
-                          className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-2.5 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg focus:ring-2 focus:ring-[var(--color-white)] focus:border-transparent transition-all text-xs sm:text-sm md:text-base focus:outline-none"
+                          className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-3 sm:px-3.5 py-2.5 rounded-lg focus:ring-2 focus:ring-[var(--color-white)]/70 focus:border-transparent transition-all text-sm focus:outline-none"
                         />
                       </div>
                     </div>
@@ -182,7 +183,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
 
                   {/* Contact Intent */}
                   <fieldset className="space-y-1 sm:space-y-2 lg:space-y-3">
-                    <legend className="text-xs sm:text-sm lg:text-base font-semibold text-[var(--color-off-white)] mb-1 sm:mb-2">Contact Intent *</legend>
+                    <legend className="text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2">Contact intent *</legend>
                     <label htmlFor="subject" className="sr-only">Select Query Type</label>
                     <select
                       id="subject"
@@ -190,7 +191,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] px-2.5 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg focus:ring-2 focus:ring-[var(--color-white)] focus:border-transparent transition-all text-xs sm:text-sm md:text-base focus:outline-none"
+                      className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] px-3 sm:px-3.5 py-2.5 rounded-lg focus:ring-2 focus:ring-[var(--color-white)]/70 focus:border-transparent transition-all text-sm focus:outline-none"
                     >
                       <option value="">Select Query Type</option>
                       <option value="Job/Internship Opportunity">Job/Internship Opportunity</option>
@@ -203,7 +204,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
 
                   {/* Message */}
                   <fieldset className="space-y-1 sm:space-y-2 lg:space-y-3">
-                    <legend className="text-xs sm:text-sm lg:text-base font-semibold text-[var(--color-off-white)] mb-1 sm:mb-2">Message *</legend>
+                    <legend className="text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2">Message *</legend>
                     <label htmlFor="message" className="sr-only">Your Message</label>
                     <textarea
                       id="message"
@@ -213,16 +214,16 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                       placeholder="Tell me about your project, ideas, or how we can work together..."
                       required
                       rows={3}
-                      className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-2.5 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg focus:ring-2 focus:ring-[var(--color-white)] focus:border-transparent transition-all resize-vertical min-h-[80px] sm:min-h-[100px] text-xs sm:text-sm md:text-base focus:outline-none"
+                      className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-3 sm:px-3.5 py-2.5 rounded-lg focus:ring-2 focus:ring-[var(--color-white)]/70 focus:border-transparent transition-all resize-vertical min-h-[96px] text-sm focus:outline-none leading-[1.55]"
                     ></textarea>
                   </fieldset>
 
                   {/* Response Preferences */}
                   <fieldset className="space-y-2 sm:space-y-3 lg:space-y-4">
-                    <legend className="text-xs sm:text-sm lg:text-base font-semibold text-[var(--color-off-white)] mb-1 sm:mb-2">Response Preferences *</legend>
+                    <legend className="text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2">Response preferences *</legend>
                     <div className="space-y-2 lg:space-y-3">
                       <div>
-                        <span className="block text-gray-300 mb-1 lg:mb-2 text-[11px] sm:text-xs lg:text-sm">Preferred Contact Method</span>
+                        <span className="block text-[var(--color-off-white)]/85 mb-1 lg:mb-2 text-xs">Preferred contact method</span>
                         <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4" role="radiogroup" aria-label="Preferred Contact Method">
                           <label className="inline-flex items-center">
                             <input
@@ -233,7 +234,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                               onChange={handleChange}
                               className="text-[var(--color-white)] focus:ring-[var(--color-accent-gray)] w-3.5 h-3.5 sm:w-4 sm:h-4"
                             />
-                            <span className="ml-1 lg:ml-1.5 lg:ml-2 text-gray-300 text-[11px] sm:text-xs lg:text-sm">Email</span>
+                            <span className="ml-1.5 text-[var(--color-off-white)]/85 text-xs">Email</span>
                           </label>
                           <label className="inline-flex items-center">
                             <input
@@ -244,7 +245,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                               onChange={handleChange}
                               className="text-[var(--color-white)] focus:ring-[var(--color-accent-gray)] w-3.5 h-3.5 sm:w-4 sm:h-4"
                             />
-                            <span className="ml-1 lg:ml-1.5 lg:ml-2 text-gray-300 text-[11px] sm:text-xs lg:text-sm">Phone</span>
+                            <span className="ml-1.5 text-[var(--color-off-white)]/85 text-xs">Phone</span>
                           </label>
                           <label className="inline-flex items-center">
                             <input
@@ -255,7 +256,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                               onChange={handleChange}
                               className="text-[var(--color-white)] focus:ring-[var(--color-accent-gray)] w-3.5 h-3.5 sm:w-4 sm:h-4"
                             />
-                            <span className="ml-1 lg:ml-1.5 lg:ml-2 text-gray-300 text-[11px] sm:text-xs lg:text-sm">LinkedIn</span>
+                            <span className="ml-1.5 text-[var(--color-off-white)]/85 text-xs">LinkedIn</span>
                           </label>
                         </div>
                       </div>
@@ -265,16 +266,16 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="Your Phone Number *"
-                          className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-2.5 sm:px-3 py-2 sm:py-3 rounded-lg focus:ring-2 focus:ring-[var(--color-white)] focus:border-transparent transition-all text-xs sm:text-sm"
+                          className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] placeholder-[var(--color-accent-gray)] px-3 sm:px-3.5 py-2.5 rounded-lg focus:ring-2 focus:ring-[var(--color-white)]/70 focus:border-transparent transition-all text-sm"
                         />
                       )}
                       <div>
-                        <label className="block text-gray-300 mb-1 lg:mb-2 text-[11px] sm:text-xs lg:text-sm">Best Time to Contact</label>
+                        <label className="block text-[var(--color-off-white)]/85 mb-1 lg:mb-2 text-xs">Best time to contact</label>
                         <select
                           name="availability"
                           value={formData.availability}
                           onChange={handleChange}
-                          className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] px-2.5 sm:px-3 py-2 sm:py-3 rounded-lg focus:ring-2 focus:ring-[var(--color-white)] focus:border-transparent transition-all text-xs sm:text-sm"
+                          className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] px-3 sm:px-3.5 py-2.5 rounded-lg focus:ring-2 focus:ring-[var(--color-white)]/70 focus:border-transparent transition-all text-sm"
                         >
                           <option value="">Any time is fine</option>
                           <option value="Morning">Morning (9AM - 12PM)</option>
@@ -287,14 +288,14 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
 
                   {/* File Upload */}
                   <div className="space-y-1 sm:space-y-2 lg:space-y-3">
-                    <label htmlFor="attachments" className="block text-gray-300 text-[11px] sm:text-xs lg:text-sm">
+                    <label htmlFor="attachments" className="block text-[var(--color-off-white)]/85 text-xs">
                       Attachments (PDF, DOC, DOCX, JPG, PNG - Max 10MB)
                     </label>
                     <input
                       id="attachments"
                       type="file"
                       accept=".pdf,.doc,.docx,.jpg,.png"
-                      className="w-full bg-[var(--color-dark-gray)]/50 border border-[var(--color-medium-gray)] text-[var(--color-white)] text-[11px] sm:text-xs lg:text-sm file:mr-2 sm:file:mr-3 file:py-1.5 sm:file:py-2 file:px-2 sm:file:px-3 file:rounded-lg file:border-0 file:bg-[var(--color-light-gray)] file:text-[var(--color-white)] hover:file:bg-[var(--color-accent-gray)] file:font-medium file:text-[10px] sm:file:text-xs lg:file:text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-white)]"
+                      className="w-full bg-[var(--color-dark-gray)]/45 border border-[var(--color-medium-gray)]/80 text-[var(--color-white)] text-xs file:mr-2 sm:file:mr-3 file:py-1.5 sm:file:py-2 file:px-2 sm:file:px-3 file:rounded-lg file:border-0 file:bg-[var(--color-light-gray)]/70 file:text-[var(--color-white)] hover:file:bg-[var(--color-accent-gray)] file:font-medium file:text-xs transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-white)]/70"
                     />
                   </div>
 
@@ -306,7 +307,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                       required
                       className="mt-0.5 lg:mt-1 text-[var(--color-white)] bg-[var(--color-dark-gray)] border-[var(--color-medium-gray)] rounded focus:ring-[var(--color-accent-gray)] focus:outline-none w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0"
                     />
-                    <label htmlFor="consent" className="text-gray-300 text-[10px] sm:text-[11px] lg:text-xs cursor-pointer leading-tight">
+                    <label htmlFor="consent" className="text-[var(--color-off-white)]/85 text-[10px] sm:text-[11px] lg:text-xs cursor-pointer leading-tight">
                       I consent to processing my personal data for contact purposes. *
                     </label>
                   </div>
@@ -315,7 +316,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                   <button
                     type="submit"
                     ref={firstFocusableRef}
-                    className="w-full bg-[var(--color-white)] hover:bg-[var(--color-off-white)] text-[var(--color-black)] py-3 sm:py-4 px-4 sm:px-6 rounded-full font-semibold transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-[var(--color-white)]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)] min-h-[44px] sm:min-h-[48px] text-sm sm:text-base"
+                    className={`w-full glass-mono text-[var(--color-off-white)] py-3 px-4 rounded-lg font-medium tracking-[0.08em] uppercase text-xs transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)] min-h-[44px] ${CARD_HOVER}`}
                   >
                     Send Message
                   </button>
@@ -323,12 +324,12 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
               </div>
 
               {/* Direct Contact Info */}
-              <div className="lg:w-72 xl:w-80 p-2.5 sm:p-3 md:p-4 lg:p-5 bg-[var(--color-off-black)]/50 rounded-lg lg:rounded-2xl mx-2.5 sm:mx-3 md:mx-4 lg:mx-5 mb-2.5 sm:mb-3 lg:mb-5 border border-[var(--color-medium-gray)] lg:border-l lg:border-r-0 lg:border-t-0 lg:border-b-0">
-                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-white mb-2 sm:mb-3 lg:mb-4 text-center">Direct Contact</h3>
+              <div className="lg:w-72 xl:w-80 p-2.5 sm:p-3 md:p-4 lg:p-5 bg-[var(--color-off-black)]/40 rounded-lg lg:rounded-2xl mx-2.5 sm:mx-3 md:mx-4 lg:mx-5 mb-2.5 sm:mb-3 lg:mb-5 border border-[var(--color-medium-gray)]/70 lg:border-l lg:border-r-0 lg:border-t-0 lg:border-b-0">
+                <h3 className="text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2 sm:mb-3 lg:mb-4 text-center">Direct contact</h3>
                 <div className="grid grid-cols-2 lg:grid-cols-1 gap-1.5 sm:gap-2 lg:gap-3">
                   <a
                     href={`mailto:${contact.email}?subject=Contact from Portfolio&body=Hi Vishal,`}
-                    className="group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-all duration-300 hover:scale-[1.02] text-xs sm:text-sm"
+                    className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}
                   >
                     <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors flex-shrink-0">
                       <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -337,13 +338,13 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Email</div>
-                      <div className="text-gray-400 truncate text-[9px] sm:text-[10px] lg:text-xs hidden lg:block">{contact.email}</div>
+                      <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.email}</div>
                     </div>
                   </a>
 
                   <a
                     href={`tel:${contact.phone}`}
-                    className="group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-all duration-300 hover:scale-[1.02] text-xs sm:text-sm"
+                    className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}
                   >
                     <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-medium-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-medium-gray)]/30 transition-colors flex-shrink-0">
                       <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -352,11 +353,11 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Phone</div>
-                      <div className="text-gray-400 truncate text-[9px] sm:text-[10px] lg:text-xs hidden lg:block">{contact.phone}</div>
+                      <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.phone}</div>
                     </div>
                   </a>
 
-                  <div className="group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 bg-gray-800/50 rounded-lg text-xs sm:text-sm">
+                  <div className="group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm border border-[var(--color-medium-gray)]/75">
                     <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center flex-shrink-0">
                       <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -364,8 +365,8 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-gray-300 font-medium text-[11px] sm:text-xs lg:text-sm">Location</div>
-                      <div className="text-gray-400 truncate text-[9px] sm:text-[10px] lg:text-xs hidden lg:block">{contact.location}</div>
+                      <div className="text-[var(--color-off-white)]/90 font-medium text-[11px] sm:text-xs lg:text-sm">Location</div>
+                      <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.location}</div>
                     </div>
                   </div>
 
@@ -373,7 +374,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                     href={`https://www.linkedin.com/in/${contact.linkedin}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-all duration-300 hover:scale-[1.02] text-xs sm:text-sm"
+                    className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}
                   >
                     <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors flex-shrink-0">
                       <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -382,7 +383,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">LinkedIn</div>
-                      <div className="text-gray-400 truncate text-[9px] sm:text-[10px] lg:text-xs hidden lg:block">/{contact.linkedin}</div>
+                      <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">/{contact.linkedin}</div>
                     </div>
                   </a>
 
@@ -390,20 +391,20 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                     href={`https://codeforces.com/profile/${contact.codeforces}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-all duration-300 hover:scale-[1.02] text-xs sm:text-sm"
+                    className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}
                   >
                     <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors overflow-hidden flex-shrink-0">
                       <img src="/cf-image.png" alt="Codeforces" width="20" height="20" className="w-4 h-4 sm:w-5 lg:w-6 sm:h-5 lg:h-6" loading="lazy" decoding="async" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Codeforces</div>
-                      <div className="text-gray-400 truncate text-[9px] sm:text-[10px] lg:text-xs hidden lg:block">{contact.codeforces}</div>
+                      <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.codeforces}</div>
                     </div>
                   </a>
                 </div>
-                <div className="mt-3 sm:mt-4 lg:mt-6 p-2 sm:p-3 lg:p-4 bg-gradient-to-r from-[var(--color-medium-gray)]/20 to-[var(--color-light-gray)]/10 border border-[var(--color-accent-gray)]/30 rounded-lg col-span-2 lg:col-span-1">
-                  <p className="text-[11px] sm:text-xs lg:text-sm text-gray-300 text-center font-medium">
-                    <strong>24-48 hrs response time</strong>
+                <div className="mt-3 sm:mt-4 lg:mt-6 p-2 sm:p-3 lg:p-4 bg-gradient-to-r from-[var(--color-medium-gray)]/16 to-[var(--color-light-gray)]/8 border border-[var(--color-accent-gray)]/25 rounded-lg col-span-2 lg:col-span-1">
+                  <p className="text-[11px] sm:text-xs text-[var(--color-off-white)]/85 text-center font-medium leading-[1.5]">
+                    <strong>24-48 hour response time</strong>
                     <br />
 <span className="text-[var(--color-accent-gray)]">Let&#39;s build something amazing!</span>
                   </p>
@@ -415,7 +416,7 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-white transition-colors z-10 p-2 hover:bg-gray-700/50 rounded-full touch-manipulation"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 text-[var(--color-accent-gray)] hover:text-[var(--color-white)] transition-colors z-10 p-2 hover:bg-[var(--color-dark-gray)]/70 border border-transparent hover:border-[var(--color-medium-gray)]/70 rounded-full touch-manipulation"
             aria-label="Close contact popup"
           >
             <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

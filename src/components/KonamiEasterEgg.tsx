@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import useKonamiCode from '@/hooks/useKonamiCode'
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import { cpFacts, printConsoleEasterEgg } from '@/data/cpFacts'
 
 export default function KonamiEasterEgg() {
+  const prefersReducedMotion = usePrefersReducedMotion()
   const [showEffect, setShowEffect] = useState(false)
   const [randomFact, setRandomFact] = useState(cpFacts[0])
 
@@ -27,28 +29,34 @@ export default function KonamiEasterEgg() {
 
   return (
     <div className="fixed inset-0 z-[9999] pointer-events-none flex items-center justify-center">
-      {/* Flash effect */}
-      <div className="absolute inset-0 bg-[var(--color-white)] animate-pulse opacity-20"></div>
-      
-      {/* Matrix rain effect overlay */}
-      <div className="absolute inset-0 overflow-hidden opacity-10">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute text-[var(--color-accent-gray)] text-xs font-mono animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 2}s`,
-            }}
-          >
-            {['01', 'DP', 'O(n)', 'Tree', 'Graph', 'AC', 'WA', 'TLE'][Math.floor(Math.random() * 8)]}
-          </div>
-        ))}
-      </div>
+      <div
+        className={`absolute inset-0 bg-[var(--color-white)] opacity-20 ${prefersReducedMotion ? '' : 'motion-safe:animate-pulse'}`}
+        aria-hidden
+      />
 
-      {/* Main message */}
-      <div className="relative bg-[var(--color-off-black)] border border-[var(--color-light-gray)] rounded-lg p-8 max-w-md mx-4 shadow-2xl animate-in zoom-in duration-500">
+      {!prefersReducedMotion ? (
+        <div className="absolute inset-0 overflow-hidden opacity-10" aria-hidden>
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute text-[var(--color-accent-gray)] text-xs tracking-[0.04em] motion-safe:animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 2}s`,
+              }}
+            >
+              {['01', 'DP', 'O(n)', 'Tree', 'Graph', 'AC', 'WA', 'TLE'][Math.floor(Math.random() * 8)]}
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      <div
+        className={`relative bg-[var(--color-off-black)] border border-[var(--color-light-gray)] rounded-lg p-8 max-w-md mx-4 shadow-2xl ${
+          prefersReducedMotion ? '' : 'motion-safe:animate-in motion-safe:zoom-in motion-safe:duration-500'
+        }`}
+      >
         <div className="text-center">
           <div className="text-4xl mb-4">🎮</div>
           <h2 className="text-xl font-bold text-[var(--color-white)] mb-2">

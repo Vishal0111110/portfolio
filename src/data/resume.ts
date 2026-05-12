@@ -5,14 +5,14 @@
 import { personalInfo } from './personalInfo'
 import { experience } from './experience'
 import { projects } from './projects'
-import { skills } from './skills'
+import { skills, skillsByTier } from './skills'
 import { achievements } from './achievements'
 import { certifications } from './certifications'
 import { education } from './education'
 import { cpStats } from './cpStats'
 
 // Re-export all individual data modules for direct imports
-export { personalInfo, experience, projects, skills, achievements, certifications, education, cpStats }
+export { personalInfo, experience, projects, skills, skillsByTier, achievements, certifications, education, cpStats }
 
 // Export aggregated resumeData for backward compatibility
 export const resumeData = {
@@ -21,6 +21,9 @@ export const resumeData = {
   location: personalInfo.location,
   contact: personalInfo.contact,
   summary: personalInfo.summary,
+  tagline: personalInfo.tagline,
+  metaphorCue: personalInfo.metaphorCue,
+  method: personalInfo.method,
 
   // Professional
   experience: experience,
@@ -42,6 +45,8 @@ export const resumeData = {
     frameworksTools: skills.frameworksTools,
     tools: skills.tools
   },
+
+  skillsByTier,
 
   // Coding Profiles (from cpStats)
   codingProfiles: cpStats.bestRankings.map(r => ({

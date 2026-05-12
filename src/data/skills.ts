@@ -1,3 +1,81 @@
+/** Honest tiers — no percentages. Edit lists as your stack shifts. */
+export const skillsByTier = {
+  dailyDrivers: {
+    label: "Daily drivers",
+    description: "Where most shipped work and practice hours go",
+    items: [
+      "C++",
+      "Mathematics",
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "React.js",
+      "Next.js",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "Data Structures & Algorithms (DSA)",
+      "Competitive Programming",
+      "Problem-Solving",
+      "Object-Oriented Programming",
+      "Operating Systems",
+      "Web Services (REST)",
+      "System Design",
+      "Spring Boot",
+      "JPA",
+      "Docker",
+      "Git",
+      "GitHub",
+      "Postman",
+      "VS Code"
+    ]
+  },
+  comfortable: {
+    label: "Comfortable",
+    description: "Used in projects or courses — not every week",
+    items: [
+      "SQL",
+      "HTML/CSS",
+      "Computer Networks",
+      "Cloud Computing",
+      "Unit/Functional Test Strategy",
+      "Flutter",
+      "Dart",
+      "FastAPI",
+      "Swagger/OpenAPI",
+      "Three.js",
+      "Firebase",
+      "Zustand",
+      "Axios",
+      "Riverpod",
+      "Routemaster",
+      "Recharts",
+      "Android Studio",
+      "PyCharm",
+      "IntelliJ IDEA",
+      "Firebase Console",
+      "Google Cloud Platform"
+    ]
+  },
+  exploring: {
+    label: "Exploring",
+    description: "Learning on purpose — depth varies",
+    items: [
+      "Automation Frameworks",
+      "AI",
+      "Data",
+      "CRM",
+      "MCP",
+      "RAG",
+      "FAISS",
+      "PyTorch",
+      "scikit-learn",
+      "Pandas",
+      "NumPy"
+    ]
+  }
+} as const
+
 export const skills = {
   languagesCore: [
     "C++",

@@ -89,20 +89,20 @@ export default function PWAInstallPrompt() {
             </div>
             <span className="text-white font-semibold text-sm">Install App</span>
           </div>
-          <p className="text-gray-300 text-xs leading-relaxed">
+          <p className="text-[var(--color-accent-gray)] text-xs leading-relaxed">
             Install Vishal&#39;s Portfolio as an app for the best experience!
           </p>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
           <button
             onClick={handleInstallClick}
-            className="flex-1 sm:flex-none bg-[var(--color-white)] hover:bg-[var(--color-off-white)] text-[var(--color-black)] px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)]"
+            className="flex-1 sm:flex-none bg-[var(--color-white)] hover:bg-[var(--color-off-white)] text-[var(--color-black)] px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-nothing-red)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)]"
           >
             Install
           </button>
           <button
             onClick={handleDismiss}
-            className="flex-1 sm:flex-none bg-transparent hover:bg-[var(--color-medium-gray)]/30 text-gray-300 hover:text-white px-3 py-2 rounded-lg font-medium text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)]"
+            className="flex-1 sm:flex-none bg-transparent hover:bg-[var(--color-medium-gray)]/30 text-[var(--color-accent-gray)] hover:text-[var(--color-off-white)] px-3 py-2 rounded-lg font-medium text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-nothing-red)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-dark-gray)]"
           >
             Later
           </button>

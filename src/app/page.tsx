@@ -28,6 +28,14 @@ import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 
 import { performanceMonitor } from '@/utils/performance'
 
+import ExperienceSection from '@/components/ExperienceSection'
+
+import MethodSection from '@/components/MethodSection'
+
+import ProjectSection from '@/components/ProjectSection'
+
+import { CARD_HOVER } from '@/lib/cardHover'
+
 
 
 // Dynamic imports for heavy components - Step 5.1 & 5.2
@@ -79,6 +87,15 @@ const ContactPopup = dynamic(() => import('@/components/ContactPopup'), {
 })
 
 
+
+const SKILL_TIER_KEYS = ['dailyDrivers', 'comfortable', 'exploring'] as const
+
+const UNIFIED_CARD_CLASS = 'glass-mono rounded-xl border border-[var(--color-medium-gray)]/60 p-4 sm:p-5'
+const UNIFIED_CARD_INTERACTIVE_CLASS = `${UNIFIED_CARD_CLASS} ${CARD_HOVER} touch-manipulation mobile-card relative overflow-hidden`
+const SECTION_LABEL_CLASS = 'text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.12em] text-[var(--color-accent-gray)] mb-2'
+const SECTION_HEADING_CLASS = 'font-display text-2xl sm:text-3xl font-normal tracking-tight text-white mb-4'
+const CARD_TITLE_CLASS = 'text-sm sm:text-base font-medium tracking-[0.005em] sm:tracking-[0.01em] text-[var(--color-off-white)]'
+const CARD_SUBTEXT_CLASS = 'text-xs sm:text-sm text-[var(--color-accent-gray)] leading-[1.55]'
 
 export default function Home() {
 
@@ -231,7 +248,7 @@ export default function Home() {
 
             <h1 
 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extralight tracking-[0.05em] text-white cursor-default"
+              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal tracking-[0.02em] text-white cursor-default"
 
               onMouseEnter={(e) => {
 
@@ -255,15 +272,25 @@ export default function Home() {
 
 
 
-          {/* Minimal subtitle */}
+          {/* Tagline */}
 
-          <div className="animate-in slide-in-from-left-8 duration-1000 delay-700 mb-16">
+          <div className="animate-in slide-in-from-left-8 duration-1000 delay-700 mb-10">
 
-            <p className="font-mono text-sm text-[var(--color-accent-gray)] tracking-widest uppercase">
+            <p className="text-sm text-[var(--color-accent-gray)] tracking-[0.01em] max-w-xl mx-auto leading-[1.55]">
 
-              Algorithmic Thinker
+              {resumeData.tagline}
 
             </p>
+
+          </div>
+
+          {/* Metaphor cue — editorial spine (“broadcast / signal”) */}
+
+          <div className="animate-in slide-in-from-bottom-8 duration-1000 delay-800 max-w-lg mx-auto mb-12 px-2">
+
+            <p className="text-[10px] sm:text-xs uppercase tracking-[0.14em] text-[var(--color-nothing-red)] mb-2">{resumeData.metaphorCue.label}</p>
+
+            <p className="text-xs sm:text-sm text-[var(--color-accent-gray)] leading-[1.6] font-light">{resumeData.metaphorCue.line}</p>
 
           </div>
 
@@ -273,7 +300,7 @@ export default function Home() {
 
           <div className="animate-in slide-in-from-right-8 duration-1000 delay-900 mb-20">
 
-            <p className="text-base text-[var(--color-off-white)] leading-relaxed max-w-2xl mx-auto text-center font-light">
+            <p className="text-base text-[var(--color-off-white)] leading-[1.65] max-w-2xl mx-auto text-center font-light">
 
               {resumeData.summary}
 
@@ -281,13 +308,11 @@ export default function Home() {
 
           </div>
 
-
-
           {/* Minimal Contact Info */}
 
-          <div className="flex flex-col items-center gap-4 mt-16 animate-in slide-in-from-bottom-8 duration-1000 delay-1100">
+          <div className="flex flex-col items-center gap-4 mt-10 animate-in slide-in-from-bottom-8 duration-1000 delay-1100">
 
-            <p className="text-sm text-[var(--color-accent-gray)] tracking-widest uppercase">
+            <p className="text-sm text-[var(--color-accent-gray)] tracking-[0.12em] uppercase">
 
               {resumeData.location}
 
@@ -311,7 +336,7 @@ export default function Home() {
 
               rel="noopener noreferrer"
 
-              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-[0.12em] uppercase font-light">
 
               <span className="relative z-10">LinkedIn</span>
 
@@ -329,7 +354,7 @@ export default function Home() {
 
               rel="noopener noreferrer"
 
-              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-[0.12em] uppercase font-light">
 
               <span className="relative z-10">Codeforces</span>
 
@@ -343,7 +368,7 @@ export default function Home() {
 
               onClick={() => setIsPopupOpen(true)}
 
-              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-[0.12em] uppercase font-light">
 
               <span className="relative z-10">Contact</span>
 
@@ -361,7 +386,7 @@ export default function Home() {
 
               rel="noopener noreferrer"
 
-              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-[0.12em] uppercase font-light">
 
               <span className="relative z-10">Resume</span>
 
@@ -375,7 +400,7 @@ export default function Home() {
 
               onClick={() => setIsTerminalOpen(true)}
 
-              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-widest uppercase font-light">
+              className="group relative text-xs text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-all duration-300 tracking-[0.12em] uppercase font-light">
 
               <span className="relative z-10">Terminal</span>
 
@@ -408,295 +433,75 @@ export default function Home() {
       {/* Main Content */}
       <main id="main-content" role="main">
 
-      {/* Experience */}
+      <ExperienceSection experience={resumeData.experience} />
 
-      <section id="experience" aria-labelledby="experience-heading" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
+      <MethodSection method={resumeData.method} />
 
-        <h2 id="experience-heading" className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">Experience</h2>
-
-        <div className="space-y-6 sm:space-y-8">
-
-          {resumeData.experience.map((exp, index) => (
-
-            <a
-
-              key={index}
-
-              href={exp.link || '#'}
-
-              target="_blank"
-
-              rel="noopener noreferrer"
-
-              className="group block glass-mono p-5 sm:p-6 rounded-xl sm:rounded-lg border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
-
-            >
-
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
-
-                <div className="flex-1 min-w-0">
-
-                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">{exp.position}</h3>
-
-                  <p className="text-[var(--color-off-white)] font-medium text-sm sm:text-base leading-relaxed">{exp.company} • {exp.location}</p>
-
-                </div>
-
-                <span className="text-gray-400 mt-2 sm:mt-0 text-sm sm:text-base whitespace-nowrap">{exp.period}</span>
-
-              </div>
-
-              <ul className="space-y-3 text-gray-300">
-
-                {exp.description.map((item, idx) => (
-
-                  <li key={idx} className="flex items-start text-sm sm:text-base">
-
-                    <span className="text-[var(--color-accent-gray)] mr-3 mt-1.5 flex-shrink-0">•</span>
-
-                    <span className="leading-relaxed">{item}</span>
-
-                  </li>
-
-                ))}
-
-              </ul>
-
-            </a>
-
-          ))}
-
-        </div>
-
-      </section>
-
-
-
-      {/* Projects */}
-
-      <section id="projects" aria-labelledby="projects-heading" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
-
-        <h2 id="projects-heading" className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">Projects</h2>
-
-        <div className="relative space-y-6 sm:space-y-8">
-
-          {resumeData.projects.map((project, index) => (
-
-            <div key={index} className="relative flex items-start">
-
-              <div className="flex flex-col items-center">
-
-                <span className="w-7 h-7 sm:w-8 sm:h-8 bg-[var(--color-light-gray)] rounded-full flex items-center justify-center text-[var(--color-white)] font-bold text-xs sm:text-sm z-10">{index + 1}</span>
-
-                {index < resumeData.projects.length - 1 && (
-
-                  <div className="w-0.5 bg-[var(--color-light-gray)] h-full mt-4"></div>
-
-                )}
-
-              </div>
-
-              <a
-
-                href={project.link}
-
-                target="_blank"
-
-                rel="noopener noreferrer"
-
-                className="group ml-3 sm:ml-4 flex-1 glass-mono p-5 sm:p-6 rounded-xl sm:rounded-lg border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
-
-              >
-
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
-
-                  <h3 className="text-lg sm:text-xl font-semibold text-white hover:text-[var(--color-accent-gray)] transition-colors mb-2 sm:mb-0">{project.name}</h3>
-
-                  <span className="text-gray-400 text-sm sm:text-base">{project.date}</span>
-
-                </div>
-
-                <p className="text-[var(--color-accent-gray)] text-sm mb-4 font-medium leading-relaxed">{project.tech}</p>
-
-                <ul className="space-y-3 text-gray-300">
-
-                  {project.description.map((item, idx) => (
-
-                    <li key={idx} className="flex items-start text-sm sm:text-base">
-
-                      <span className="text-[var(--color-accent-gray)] mr-3 mt-1.5 flex-shrink-0">•</span>
-
-                      <span className="leading-relaxed">{item}</span>
-
-                    </li>
-
-                  ))}
-
-                </ul>
-
-              </a>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </section>
+      <ProjectSection projects={resumeData.projects} />
 
 
 
       {/* Skills & Info */}
 
-      <section id="skills" aria-labelledby="skills-heading" className="relative z-10 px-4 py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
+      <section id="skills" aria-labelledby="skills-heading" className="relative z-10 px-4 py-14 sm:py-16 max-w-4xl mx-auto safe-area-left safe-area-right">
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-16">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-16">
 
           {/* Skills */}
 
           <div>
 
-            <h2 id="skills-heading" className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">Technical Skills</h2>
+            <h2 id="skills-heading" className="font-display text-2xl sm:text-3xl font-normal tracking-tight text-white mb-4 sm:mb-8">Technical Skills</h2>
 
-            <div className="space-y-6 sm:space-y-8">
+            <div className="space-y-4 sm:space-y-8">
 
-              {/* Languages with Progress Bars */}
+              {SKILL_TIER_KEYS.map((key, tierIndex) => {
 
-              <div className="glass-mono rounded-xl p-4 sm:p-6">
+                const tier = resumeData.skillsByTier[key]
 
-                <h3 className="text-base sm:text-lg font-semibold text-[var(--color-off-white)] mb-4 flex items-center gap-2">
+                const dotColor =
 
-                  <span className="w-2 h-2 bg-[var(--color-white)] rounded-full"></span>
+                  tierIndex === 0 ? 'bg-[var(--color-white)]' : tierIndex === 1 ? 'bg-[var(--color-accent-gray)]' : 'bg-[var(--color-light-gray)]'
 
-                  Languages
+                return (
 
-                </h3>
+                  <div key={key} className={`${UNIFIED_CARD_CLASS} sm:p-6`}>
 
-                <div className="space-y-3 max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--color-medium-gray)] scrollbar-track-transparent pr-2">
+                    <h3 className={`${CARD_TITLE_CLASS} mb-1 flex items-center gap-2`}>
 
-                  {resumeData.skillsExtended?.languagesCore?.map((lang, index) => {
+                      <span className={`w-2 h-2 rounded-full ${dotColor}`} />
 
-                    const progress = [95, 92, 90, 88, 85, 82, 80, 78, 75, 72, 70, 68, 65, 62, 60, 58, 55][index] || 50;
+                      {tier.label}
 
-                    return (
+                    </h3>
 
-                      <div key={index} className="group">
+                    <p className={`${CARD_SUBTEXT_CLASS} mb-3`}>{tier.description}</p>
 
-                        <div className="flex justify-between items-center mb-1">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 max-h-[260px] sm:max-h-[280px] overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--color-medium-gray)] scrollbar-track-transparent pr-1">
 
-                          <span className="text-sm text-[var(--color-off-white)] font-medium">{lang}</span>
+                      {tier.items.map((item) => (
 
-                          <span className="text-xs text-[var(--color-accent-gray)] font-mono opacity-0 group-hover:opacity-100 transition-opacity">{progress}%</span>
+                        <span
 
-                        </div>
+                          key={item}
 
-                        <div className="h-2 bg-[var(--color-dark-gray)] rounded-full overflow-hidden">
+                          className="text-xs px-2 py-1.5 sm:px-2.5 rounded-lg bg-[var(--color-dark-gray)]/70 border border-[var(--color-medium-gray)]/60 text-[var(--color-off-white)] tracking-[0.01em]"
 
-                          <div 
+                        >
 
-                            className="h-full bg-gradient-to-r from-[var(--color-light-gray)] to-[var(--color-white)] rounded-full transition-all duration-1000 ease-out"
+                          {item}
 
-                            style={{ width: `${progress}%`, animationDelay: `${index * 100}ms` }}
+                        </span>
 
-                          ></div>
-
-                        </div>
-
-                      </div>
-
-                    );
-
-                  })}
-
-                </div>
-
-              </div>
-
-
-
-              {/* Frameworks & Tools with Progress Bars */}
-
-              <div className="glass-mono rounded-xl p-4 sm:p-6">
-
-                <h3 className="text-base sm:text-lg font-semibold text-[var(--color-off-white)] mb-4 flex items-center gap-2">
-
-                  <span className="w-2 h-2 bg-[var(--color-accent-gray)] rounded-full"></span>
-
-                  Frameworks & Tools
-
-                </h3>
-
-                <div className="space-y-3 max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--color-medium-gray)] scrollbar-track-transparent pr-2">
-
-                  {resumeData.skillsExtended?.frameworksTools?.map((fw, index) => {
-
-                    const progress = [95, 92, 90, 88, 85, 82, 80, 78, 75, 72, 70, 68, 65, 62, 60, 58, 55, 52, 50, 48, 45, 42, 40][index] || 35;
-
-                    return (
-
-                      <div key={index} className="group">
-
-                        <div className="flex justify-between items-center mb-1">
-
-                          <span className="text-sm text-[var(--color-off-white)] font-medium">{fw}</span>
-
-                          <span className="text-xs text-[var(--color-accent-gray)] font-mono opacity-0 group-hover:opacity-100 transition-opacity">{progress}%</span>
-
-                        </div>
-
-                        <div className="h-2 bg-[var(--color-dark-gray)] rounded-full overflow-hidden">
-
-                          <div 
-
-                            className="h-full bg-gradient-to-r from-[var(--color-medium-gray)] to-[var(--color-accent-gray)] rounded-full transition-all duration-1000 ease-out"
-
-                            style={{ width: `${progress}%`, animationDelay: `${index * 100}ms` }}
-
-                          ></div>
-
-                        </div>
-
-                      </div>
-
-                    );
-
-                  })}
-
-                </div>
-
-              </div>
-
-
-
-              {/* Tools with Dot Matrix Grid */}
-
-              <div className="glass-mono rounded-xl p-4 sm:p-6">
-
-                <h3 className="text-base sm:text-lg font-semibold text-[var(--color-off-white)] mb-4 flex items-center gap-2">
-
-                  <span className="w-2 h-2 bg-[var(--color-light-gray)] rounded-full"></span>
-
-                  Tools & IDEs
-
-                </h3>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--color-medium-gray)] scrollbar-track-transparent pr-2">
-
-                  {resumeData.skillsExtended?.tools?.map((tool, index) => (
-
-                    <div key={index} className="group relative bg-[var(--color-dark-gray)]/50 rounded-lg p-2 text-center hover:bg-[var(--color-medium-gray)]/50 transition-all duration-300 cursor-default overflow-hidden">
-
-                      <span className="relative z-10 text-xs sm:text-sm text-[var(--color-off-white)]">{tool}</span>
-
-                      <div className="absolute inset-0 dot-matrix-subtle opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      ))}
 
                     </div>
 
-                  ))}
+                  </div>
 
-                </div>
+                )
 
-              </div>
+              })}
 
             </div>
 
@@ -710,7 +515,7 @@ export default function Home() {
 
             <div className="mb-6 sm:mb-8">
 
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Education</h3>
+              <h3 className={SECTION_HEADING_CLASS}>Education</h3>
 
               <a
 
@@ -720,17 +525,18 @@ export default function Home() {
 
                 rel="noopener noreferrer"
 
-                className="group block glass-mono p-4 sm:p-5 rounded-xl border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
+                className={`group block ${UNIFIED_CARD_INTERACTIVE_CLASS}`}
 
               >
 
-                <h4 className="text-base sm:text-lg font-semibold text-white">{resumeData.education.institution}</h4>
+                <p className={SECTION_LABEL_CLASS}>Academics</p>
+                <h4 className={`${CARD_TITLE_CLASS} text-white`}>{resumeData.education.institution}</h4>
 
-                <p className="text-[var(--color-accent-gray)] mb-1 text-sm sm:text-base">{resumeData.education.degree}</p>
+                <p className={`${CARD_SUBTEXT_CLASS} mb-1`}>{resumeData.education.degree}</p>
 
-                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">CGPA: {resumeData.education.gpa} • {resumeData.education.period}</p>
+                <p className="text-xs sm:text-sm leading-relaxed text-[var(--color-accent-gray)]/90">CGPA: {resumeData.education.gpa} • {resumeData.education.period}</p>
 
-                <p className="text-gray-500 text-xs sm:text-sm">{resumeData.education.location}</p>
+                <p className="text-xs sm:text-sm text-[var(--color-accent-gray)]/80">{resumeData.education.location}</p>
 
               </a>
 
@@ -740,14 +546,14 @@ export default function Home() {
 
             {/* CP Stats Section */}
             <div>
-              <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4">Competitive Programming</h3>
+              <h3 className={SECTION_HEADING_CLASS}>Competitive Programming</h3>
 
               {/* Total Solved Card */}
-              <div className="glass-mono p-4 sm:p-5 rounded-xl border border-[var(--color-medium-gray)] mb-4">
+              <div className={`${UNIFIED_CARD_CLASS} mb-4`}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-[var(--color-accent-gray)] text-sm">Problems Solved</p>
-                    <p className="text-2xl sm:text-3xl font-semibold text-white">{resumeData.cpStats?.totalSolved || 2500}+</p>
+                    <p className={SECTION_LABEL_CLASS}>Problems Solved</p>
+                    <p className="font-display text-2xl sm:text-3xl tracking-tight text-white">{resumeData.cpStats?.totalSolved || 2500}+</p>
                   </div>
                 </div>
               </div>
@@ -760,25 +566,25 @@ export default function Home() {
                     href={profile.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group block glass-mono p-3 sm:p-4 rounded-xl border border-[var(--color-medium-gray)] hover:border-[var(--color-accent-gray)] transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-[var(--color-black)]/50 touch-manipulation mobile-card relative overflow-hidden"
+                    className={`group block ${UNIFIED_CARD_INTERACTIVE_CLASS} p-3 sm:p-4`}
                   >
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                       <div className="flex items-center gap-3">
-                        <span className="font-medium text-white text-sm sm:text-base">{profile.platform}</span>
-                        <span className="text-xs px-2 py-0.5 bg-[var(--color-dark-gray)] rounded-full text-[var(--color-accent-gray)]">{profile.rank}</span>
+                        <span className={CARD_TITLE_CLASS}>{profile.platform}</span>
+                        <span className="text-xs px-2 py-0.5 bg-[var(--color-dark-gray)] rounded-full text-[var(--color-accent-gray)] tracking-[0.03em]">{profile.rank}</span>
                       </div>
-                      <span className="text-[var(--color-nothing-red)] font-mono text-sm">{profile.rating}</span>
+                      <span className="text-[var(--color-nothing-red)] text-sm tracking-[0.02em]">{profile.rating}</span>
                     </div>
                   </a>
                 ))}
               </div>
 
               {/* Favorite Topics */}
-              <div className="glass-mono p-4 rounded-xl border border-[var(--color-medium-gray)]">
-                <p className="text-[var(--color-accent-gray)] text-sm mb-2">Favorite Topics</p>
+              <div className={UNIFIED_CARD_CLASS}>
+                <p className={SECTION_LABEL_CLASS}>Favorite Topics</p>
                 <div className="flex flex-wrap gap-2">
                   {resumeData.cpStats?.favoriteTopics?.slice(0, 6).map((topic, index) => (
-                    <span key={index} className="text-xs px-2 py-1 bg-[var(--color-dark-gray)] rounded-lg text-[var(--color-off-white)]">
+                    <span key={index} className="text-xs px-2 py-1 bg-[var(--color-dark-gray)] rounded-lg text-[var(--color-off-white)] tracking-[0.01em]">
                       {topic}
                     </span>
                   ))}
@@ -796,15 +602,15 @@ export default function Home() {
 
       {/* Achievements & Certifications */}
 
-      <section id="achievements" aria-labelledby="achievements-heading" className="relative z-10 px-4 py-16 max-w-4xl mx-auto pb-32">
+      <section id="achievements" aria-labelledby="achievements-heading" className="relative z-10 px-4 py-14 sm:py-16 max-w-4xl mx-auto pb-24 sm:pb-32">
 
-        <div className="space-y-16">
+        <div className="space-y-12 sm:space-y-16">
 
           <div>
 
-            <h2 id="achievements-heading" className="text-3xl font-bold text-white mb-8 text-center">Achievements</h2>
+            <h2 id="achievements-heading" className="font-display text-2xl sm:text-3xl font-normal tracking-tight text-white mb-6 sm:mb-8 text-center">Achievements</h2>
 
-            <div className="relative space-y-8">
+            <div className="relative space-y-6 sm:space-y-8">
 
               {resumeData.achievements.map((achievement, index) => (
 
@@ -812,11 +618,11 @@ export default function Home() {
 
                   <div className="flex flex-col items-center">
 
-                    <span className="w-8 h-8 bg-[var(--color-light-gray)] rounded-full flex items-center justify-center text-[var(--color-white)] font-bold text-sm z-10">{index + 1}</span>
+                    <span className="w-8 h-8 bg-[var(--color-dark-gray)] border border-[var(--color-medium-gray)] rounded-full flex items-center justify-center text-[var(--color-off-white)] text-xs font-medium z-10">{index + 1}</span>
 
                     {index < resumeData.achievements.length - 1 && (
 
-                      <div className="w-0.5 bg-[var(--color-light-gray)] h-full mt-4"></div>
+                      <div className="w-0.5 bg-[var(--color-medium-gray)]/80 h-full mt-4"></div>
 
                     )}
 
@@ -832,19 +638,31 @@ export default function Home() {
 
                       rel="noopener noreferrer"
 
-                      className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl"
+                      className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6`}
 
                     >
 
-                      <span className="text-gray-300">{achievement.text}</span>
+                      <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
+
+                      {achievement.date ? (
+
+                        <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>{achievement.date}</p>
+
+                      ) : null}
 
                     </a>
 
                   ) : (
 
-                    <div className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
+                    <div className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6`}>
 
-                      <span className="text-gray-300">{achievement.text}</span>
+                      <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
+
+                      {achievement.date ? (
+
+                        <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>{achievement.date}</p>
+
+                      ) : null}
 
                     </div>
 
@@ -862,9 +680,9 @@ export default function Home() {
 
           <div>
 
-            <h2 id="certifications-heading" className="text-3xl font-bold text-white mb-8 text-center">Certifications</h2>
+            <h2 id="certifications-heading" className="font-display text-2xl sm:text-3xl font-normal tracking-tight text-white mb-6 sm:mb-8 text-center">Certifications</h2>
 
-            <div className="relative space-y-8">
+            <div className="relative space-y-6 sm:space-y-8">
 
               {resumeData.certifications.map((cert, index) => (
 
@@ -872,11 +690,11 @@ export default function Home() {
 
                   <div className="flex flex-col items-center">
 
-                    <span className="w-8 h-8 bg-[var(--color-light-gray)] rounded-full flex items-center justify-center text-[var(--color-white)] font-bold text-sm z-10">{index + 1}</span>
+                    <span className="w-8 h-8 bg-[var(--color-dark-gray)] border border-[var(--color-medium-gray)] rounded-full flex items-center justify-center text-[var(--color-off-white)] text-xs font-medium z-10">{index + 1}</span>
 
                     {index < resumeData.certifications.length - 1 && (
 
-                      <div className="w-0.5 bg-[var(--color-light-gray)] h-full mt-4"></div>
+                      <div className="w-0.5 bg-[var(--color-medium-gray)]/80 h-full mt-4"></div>
 
                     )}
 
@@ -892,19 +710,35 @@ export default function Home() {
 
                       rel="noopener noreferrer"
 
-                      className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl"
+                      className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6`}
 
                     >
 
-                      <span className="text-gray-300">{cert.text}</span>
+                      <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
+
+                      <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>
+
+                        {cert.issuer}
+
+                        {cert.date ? ` · ${cert.date}` : ''}
+
+                      </p>
 
                     </a>
 
                   ) : (
 
-                    <div className="ml-4 flex-1 bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
+                    <div className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6`}>
 
-                      <span className="text-gray-300">{cert.text}</span>
+                      <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
+
+                      <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>
+
+                        {cert.issuer}
+
+                        {cert.date ? ` · ${cert.date}` : ''}
+
+                      </p>
 
                     </div>
 

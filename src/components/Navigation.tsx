@@ -11,6 +11,7 @@ export default function Navigation() {
   const sections = useMemo(() => [
     { id: 'home', label: 'Home' },
     { id: 'experience', label: 'Experience' },
+    { id: 'method', label: 'Method' },
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
     { id: 'achievements', label: 'Achievements' }
@@ -54,7 +55,7 @@ export default function Navigation() {
         aria-label="Main navigation"
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled 
-            ? 'bg-[var(--color-off-black)]/90 backdrop-blur-md border-b border-[var(--color-medium-gray)]' 
+            ? 'bg-[var(--color-off-black)]/82 backdrop-blur-xl border-b border-[var(--color-medium-gray)]/70' 
             : 'bg-transparent'
         }`}
       >
@@ -67,10 +68,10 @@ export default function Navigation() {
               className="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-off-black)] rounded-lg"
               aria-label="Go to home section"
             >
-              <div className="w-8 h-8 rounded-lg bg-[var(--color-dark-gray)] border border-[var(--color-medium-gray)] flex items-center justify-center dot-matrix-subtle">
-                <span className="text-[var(--color-white)] font-bold text-sm font-mono">VB</span>
+              <div className="w-8 h-8 rounded-lg bg-[var(--color-dark-gray)] border border-[var(--color-medium-gray)]/80 flex items-center justify-center dot-matrix-subtle">
+                <span className="text-[var(--color-white)] font-medium text-sm tracking-[0.01em]">VB</span>
               </div>
-              <span className="text-[var(--color-white)] font-semibold text-lg tracking-tight hidden sm:block">
+              <span className="font-display text-[var(--color-white)] font-normal text-lg tracking-tight hidden sm:block">
                 Vishal
               </span>
             </a>
@@ -86,16 +87,16 @@ export default function Navigation() {
                   onClick={() => scrollToSection(section.id)}
                   role="menuitem"
                   aria-current={activeSection === section.id ? 'page' : undefined}
-                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-off-black)] ${
+                  className={`relative px-3.5 py-2 text-xs uppercase tracking-[0.1em] transition-all duration-300 rounded-lg group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-off-black)] ${
                     activeSection === section.id
-                      ? 'text-[var(--color-white)] bg-[var(--color-dark-gray)]'
-                      : 'text-[var(--color-accent-gray)] hover:text-[var(--color-white)] hover:bg-[var(--color-dark-gray)]/50'
+                      ? 'text-[var(--color-white)] bg-[var(--color-dark-gray)]/80'
+                      : 'text-[var(--color-accent-gray)] hover:text-[var(--color-white)] hover:bg-[var(--color-dark-gray)]/45'
                   }`}
                 >
                   {section.label}
                   {/* Active indicator dot */}
                   {activeSection === section.id && (
-                    <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[var(--color-white)] rounded-full" aria-hidden="true"></span>
+                    <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[var(--color-nothing-red)] rounded-full" aria-hidden="true"></span>
                   )}
                 </button>
               ))}
@@ -108,7 +109,7 @@ export default function Navigation() {
                 aria-expanded={isMenuOpen}
                 aria-controls="mobile-menu"
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                className="p-2 rounded-lg text-[var(--color-accent-gray)] hover:text-[var(--color-white)] hover:bg-[var(--color-dark-gray)] transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-off-black)] min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="p-2 rounded-lg text-[var(--color-accent-gray)] hover:text-[var(--color-white)] hover:bg-[var(--color-dark-gray)]/70 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-off-black)] min-h-[44px] min-w-[44px] flex items-center justify-center"
               >
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   {isMenuOpen ? (
@@ -127,12 +128,12 @@ export default function Navigation() {
               id="mobile-menu"
               role="menu"
               aria-label="Mobile navigation"
-              className="md:hidden absolute top-full left-0 right-0 bg-[var(--color-off-black)]/95 backdrop-blur-md border-b border-[var(--color-medium-gray)] safe-area-left safe-area-right"
+              className="md:hidden absolute top-full left-0 right-0 bg-[var(--color-off-black)]/88 backdrop-blur-xl border-b border-[var(--color-medium-gray)]/70 safe-area-left safe-area-right"
             >
               <div className="px-4 py-3 space-y-1">
                 {/* Theme Toggle in Mobile Menu */}
-                <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--color-medium-gray)] mb-2">
-                  <span className="text-sm text-[var(--color-accent-gray)]">Theme</span>
+                <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--color-medium-gray)]/70 mb-2">
+                  <span className="text-[10px] sm:text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)]">Theme</span>
                   <ThemeToggle />
                 </div>
                 {sections.map((section, index) => (
@@ -141,16 +142,16 @@ export default function Navigation() {
                     onClick={() => scrollToSection(section.id)}
                     role="menuitem"
                     aria-current={activeSection === section.id ? 'page' : undefined}
-                    className={`flex items-center gap-3 w-full px-4 py-3 text-sm font-medium transition-all duration-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-off-black)] min-h-[44px] ${
+                    className={`flex items-center gap-3 w-full px-4 py-3 text-xs uppercase tracking-[0.1em] transition-all duration-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-white)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-off-black)] min-h-[44px] ${
                       activeSection === section.id
-                        ? 'text-[var(--color-white)] bg-[var(--color-dark-gray)]'
-                        : 'text-[var(--color-accent-gray)] hover:text-[var(--color-white)] hover:bg-[var(--color-dark-gray)]/50'
+                        ? 'text-[var(--color-white)] bg-[var(--color-dark-gray)]/80'
+                        : 'text-[var(--color-accent-gray)] hover:text-[var(--color-white)] hover:bg-[var(--color-dark-gray)]/45'
                     }`}
                   >
                     {/* Section number indicator */}
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-mono ${
+                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
                       activeSection === section.id
-                        ? 'bg-[var(--color-white)] text-[var(--color-black)]'
+                        ? 'bg-[var(--color-nothing-red)] text-[var(--color-white)]'
                         : 'bg-[var(--color-medium-gray)] text-[var(--color-accent-gray)]'
                     }`} aria-hidden="true">
                       {index + 1}

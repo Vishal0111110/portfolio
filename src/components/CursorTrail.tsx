@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+import { useCursorTrailAllowed } from '@/hooks/useCursorTrailAllowed'
+
 interface TrailDot {
   x: number
   y: number
@@ -9,31 +11,30 @@ interface TrailDot {
   opacity: number
 }
 
+const TRAIL_DOT_INTERVAL_MS = 48
+const TRAIL_MAX_DOTS = 10
+const TRAIL_DOT_OPACITY = 0.38
+
 export default function CursorTrail() {
+  const trailAllowed = useCursorTrailAllowed()
+
   const [dots, setDots] = useState<TrailDot[]>([])
   const dotIdRef = useRef(0)
-  const mousePos = useRef({ x: 0, y: 0 })
   const lastDotTime = useRef(0)
   const rafId = useRef<number | undefined>(undefined)
   const isActive = useRef(true)
-  const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {
-    // Check if touch device
-    const checkTouch = () => {
-      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    if (!trailAllowed) {
+      setDots([])
+      return
     }
-    checkTouch()
 
-    // Don't show trail on touch devices
-    if (isTouchDevice) return
+    isActive.current = true
 
     const handleMouseMove = (e: MouseEvent) => {
-      mousePos.current = { x: e.clientX, y: e.clientY }
-      
       const now = Date.now()
-      // Throttle to one dot every 30ms for performance
-      if (now - lastDotTime.current > 30) {
+      if (now - lastDotTime.current > TRAIL_DOT_INTERVAL_MS) {
         lastDotTime.current = now
         
         const newDot: TrailDot = {
@@ -43,11 +44,7 @@ export default function CursorTrail() {
           opacity: 1
         }
         
-        setDots(prev => {
-          // Keep only last 15 dots for performance
-          const newDots = [...prev, newDot].slice(-15)
-          return newDots
-        })
+        setDots(prev => [...prev, newDot].slice(-TRAIL_MAX_DOTS))
       }
     }
 
@@ -63,7 +60,7 @@ export default function CursorTrail() {
         if (prev.length === 0) return prev
         
         const updated = prev
-          .map(dot => ({ ...dot, opacity: dot.opacity - 0.05 }))
+          .map(dot => ({ ...dot, opacity: dot.opacity - 0.06 }))
           .filter(dot => dot.opacity > 0)
         
         // Only update if there are changes
@@ -89,10 +86,9 @@ export default function CursorTrail() {
         cancelAnimationFrame(rafId.current)
       }
     }
-  }, [isTouchDevice])
+  }, [trailAllowed])
 
-  // Don't render on touch devices or if no dots
-  if (isTouchDevice || dots.length === 0) return null
+  if (!trailAllowed || dots.length === 0) return null
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
@@ -109,7 +105,7 @@ export default function CursorTrail() {
               top: dot.y - size / 2,
               width: size,
               height: size,
-              opacity: dot.opacity * 0.6,
+              opacity: dot.opacity * TRAIL_DOT_OPACITY,
               transform: `scale(${dot.opacity})`,
               transition: 'none'
             }}
