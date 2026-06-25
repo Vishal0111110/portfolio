@@ -8,8 +8,8 @@ export const personalInfo = {
     codeforces: "ArminArlert69"
   },
   /** One-line stance under the name — specific beats generic labels */
-  tagline: "Algorithmic thinker · software engineer — ships calm systems under hard constraints",
-  summary: "I'm passionate about dissecting complex problems, minimizing inefficiencies, and designing systems that grow seamlessly. Whether in algorithmic problem-solving or system architecture, my goal is to engineer solutions that are efficient, reliable, and thoughtfully built.",
+  tagline: "Algorithmic thinker · Backend engineer — ships calm systems under hard constraints",
+  summary: "I enjoy solving hard problems, figuring out what makes things inefficient, and building systems that just work. Whether it’s algorithms or large-scale systems, I like keeping things simple, efficient, and thoughtfully designed.",
   /** Locked spine for copy + layout decisions (“broadcast / signal”) */
   metaphorCue: {
     label: "Broadcast · signal",

@@ -1,8 +1,8 @@
 export const education = {
   institution: "Vasavi College of Engineering",
   degree: "B.E - Computer Science and Engineering",
-  gpa: "8.44",
-  period: "Oct 2022 – Present",
+  gpa: "8.51/10",
+  period: "Oct 2022 – May 2026",
   location: "Hyderabad, Telangana"
 }
 
