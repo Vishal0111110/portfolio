@@ -13,14 +13,15 @@ const CAMERA_Z = 12
 const BASE_FOV = 70
 const MAX_FOV = 78
 
-const NUM_STARS = 350
-const TUNNEL_Z_FAR = -80
-const TUNNEL_Z_NEAR = 24
-const TUNNEL_RADIUS = 18
-const IDLE_DRIFT = 0.04
-const MAX_WARP_SPEED = 8
+const NUM_STARS = 2000
+const FIELD_Z_FAR = -60
+const FIELD_Z_NEAR = 20
+const FIELD_WIDTH = 200
+const FIELD_HEIGHT = 120
+const IDLE_DRIFT = 0.3
+const MAX_WARP_SPEED = 15
 const RADIAL_STREAK = 0
-const WARP_CHATTER = 0.003
+const WARP_CHATTER = 0.002
 
 const MONOCHROME_COLORS = {
   mediumGray: '#2a2a2a',
@@ -34,11 +35,9 @@ interface StarfieldData {
   sizes: Float32Array
 }
 
-function randomTunnelPosition(positions: Float32Array, i: number, zMin: number, zRange: number) {
-  const theta = Math.random() * Math.PI * 2
-  const r = Math.pow(Math.random(), 2.5) * TUNNEL_RADIUS
-  positions[i * 3] = Math.cos(theta) * r
-  positions[i * 3 + 1] = Math.sin(theta) * r * 0.55
+function randomFieldPosition(positions: Float32Array, i: number, zMin: number, zRange: number) {
+  positions[i * 3] = (Math.random() - 0.5) * FIELD_WIDTH
+  positions[i * 3 + 1] = (Math.random() - 0.5) * FIELD_HEIGHT
   positions[i * 3 + 2] = zMin + Math.random() * zRange
 }
 
@@ -46,28 +45,28 @@ function buildStarfield(): StarfieldData {
   const positions = new Float32Array(NUM_STARS * 3)
   const colors = new Float32Array(NUM_STARS * 3)
   const baseSizes = new Float32Array(NUM_STARS)
-  const zRange = TUNNEL_Z_NEAR - TUNNEL_Z_FAR
+  const zRange = FIELD_Z_NEAR - FIELD_Z_FAR
 
   for (let i = 0; i < NUM_STARS; i++) {
-    randomTunnelPosition(positions, i, TUNNEL_Z_FAR, zRange)
+    randomFieldPosition(positions, i, FIELD_Z_FAR, zRange)
 
     const rand = Math.random()
-    if (rand < 0.03) {
+    if (rand < 0.05) {
       colors[i * 3] = 1
-      colors[i * 3 + 1] = 0.2
-      colors[i * 3 + 2] = 0.2
-      baseSizes[i] = 3.0
-    } else if (rand < 0.08) {
-      colors[i * 3] = 0.95
-      colors[i * 3 + 1] = 0.95
-      colors[i * 3 + 2] = 0.95
-      baseSizes[i] = 2.4
+      colors[i * 3 + 1] = Math.min(0.3 * 1.5 * 1.4, 1)
+      colors[i * 3 + 2] = Math.min(0.3 * 1.5 * 1.4, 1)
+      baseSizes[i] = 5.5 * 1.4
+    } else if (rand < 0.12) {
+      colors[i * 3] = 1
+      colors[i * 3 + 1] = 1
+      colors[i * 3 + 2] = 1
+      baseSizes[i] = 4.5 * 1.4
     } else {
-      const gray = 0.22 + Math.random() * 0.18
+      const gray = Math.min((0.35 + Math.random() * 0.25) * 1.5 * 1.4, 1)
       colors[i * 3] = gray
       colors[i * 3 + 1] = gray
       colors[i * 3 + 2] = gray
-      baseSizes[i] = 1.5 + Math.random() * 0.9
+      baseSizes[i] = (3.0 + Math.random() * 1.5) * 1.4
     }
   }
 
@@ -75,17 +74,15 @@ function buildStarfield(): StarfieldData {
 }
 
 function respawnStar(positions: Float32Array, i: number, atFarEnd: boolean) {
-  const theta = Math.random() * Math.PI * 2
-  const r = Math.sqrt(Math.random()) * TUNNEL_RADIUS * (0.15 + Math.random() * 0.85)
-  positions[i * 3] = Math.cos(theta) * r
-  positions[i * 3 + 1] = Math.sin(theta) * r * 0.55
+  positions[i * 3] = (Math.random() - 0.5) * FIELD_WIDTH
+  positions[i * 3 + 1] = (Math.random() - 0.5) * FIELD_HEIGHT
   positions[i * 3 + 2] = atFarEnd
-    ? TUNNEL_Z_FAR + Math.random() * 18
-    : TUNNEL_Z_NEAR - Math.random() * 12
+    ? FIELD_Z_FAR + Math.random() * 12
+    : FIELD_Z_NEAR - Math.random() * 8
 }
 
 function depthFactor(z: number): number {
-  const t = (z - TUNNEL_Z_FAR) / (TUNNEL_Z_NEAR - TUNNEL_Z_FAR)
+  const t = (z - FIELD_Z_FAR) / (FIELD_Z_NEAR - FIELD_Z_FAR)
   return THREE.MathUtils.clamp(t, 0, 1)
 }
 
@@ -142,70 +139,6 @@ function WarpCamera({
   return null
 }
 
-function TimeTunnelRings({
-  isVisible,
-  motionAllowed,
-  scrollVelocity,
-}: {
-  isVisible: boolean
-  motionAllowed: boolean
-  scrollVelocity: MutableRefObject<ScrollVelocityState>
-}) {
-  const groupRef = useRef<THREE.Group>(null)
-  const ringRefs = useRef<(THREE.Mesh | null)[]>([])
-
-  useFrame((state, delta) => {
-    if (!isVisible || !motionAllowed || !groupRef.current) return
-
-    const { warpSpeed } = scrollVelocity.current
-    const time = state.clock.elapsedTime
-    const calm = 1 - Math.min(warpSpeed * 1.4, 0.92)
-
-    groupRef.current.rotation.z = time * 0.04 * calm
-    groupRef.current.rotation.x = Math.sin(time * 0.07) * 0.08 * calm
-
-    ringRefs.current.forEach((ring, idx) => {
-      if (!ring?.material || !(ring.material instanceof THREE.MeshBasicMaterial)) return
-      ring.rotation.z = time * (0.06 + idx * 0.02) * (idx % 2 === 0 ? 1 : -1)
-      ring.material.opacity = 0.08 + calm * 0.28
-      ring.scale.setScalar(1 + warpSpeed * 0.06 * (idx + 1))
-    })
-  })
-
-  const rings = useMemo(
-    () => [
-      { z: -22, radius: 3.2, tube: 0.07 },
-      { z: -38, radius: 5.4, tube: 0.05 },
-      { z: -58, radius: 8.2, tube: 0.04 },
-    ],
-    []
-  )
-
-  return (
-    <group ref={groupRef}>
-      {rings.map((ring, idx) => (
-        <mesh
-          key={ring.z}
-          ref={(el) => {
-            ringRefs.current[idx] = el
-          }}
-          position={[0, 0, ring.z]}
-          rotation={[Math.PI * 0.5, 0, 0]}
-        >
-          <torusGeometry args={[ring.radius, ring.tube, 10, 48]} />
-          <meshBasicMaterial
-            color={idx === 0 ? MONOCHROME_COLORS.mediumGray : MONOCHROME_COLORS.dimGray}
-            wireframe
-            transparent
-            opacity={0.32}
-            depthWrite={false}
-          />
-        </mesh>
-      ))}
-    </group>
-  )
-}
-
 function StarfieldTunnel({
   isVisible,
   motionAllowed,
@@ -250,7 +183,7 @@ function StarfieldTunnel({
       // This prevents stars from appearing as thin lines when moving fast
 
       // Warp drive: stars always respawn at far end to maintain forward flow
-      if (z > TUNNEL_Z_NEAR) {
+      if (z > FIELD_Z_NEAR) {
         respawnStar(positions, i, true)
         x = positions[i3]
         y = positions[i3 + 1]
@@ -262,10 +195,16 @@ function StarfieldTunnel({
       }
 
       // Depth-based sizing - particles grow larger as they approach viewer
-      const depthFactor = (z - TUNNEL_Z_FAR) / (TUNNEL_Z_NEAR - TUNNEL_Z_FAR)
-      const depthStretch = 0.5 + depthFactor * 1.5
+      const depthFactor = (z - FIELD_Z_FAR) / (FIELD_Z_NEAR - FIELD_Z_FAR)
+      const depthStretch = 0.3 + depthFactor * 2.5
       const warpStretch = 1 + warpSpeed * 3.0
       sizes[i] = baseSizes[i] * depthStretch * warpStretch
+      
+      // Depth-based intensity - particles get brighter as they approach viewer
+      const intensityBoost = 1 + depthFactor * 0.8
+      colors[i3] = Math.min(colors[i3] * intensityBoost, 1)
+      colors[i3 + 1] = Math.min(colors[i3 + 1] * intensityBoost, 1)
+      colors[i3 + 2] = Math.min(colors[i3 + 2] * intensityBoost, 1)
     }
 
     const posAttr = points.geometry.attributes.position
@@ -290,7 +229,7 @@ function StarfieldTunnel({
         sizeAttenuation={false}
         depthWrite={false}
         vertexColors
-        opacity={0.94}
+        opacity={1.0}
         blending={THREE.AdditiveBlending}
       />
     </Points>
@@ -327,10 +266,10 @@ export default function Background() {
       }}
     >
       <div
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-20"
         style={{
-          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)`,
-          backgroundSize: '24px 24px',
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)`,
+          backgroundSize: '36px 36px',
           zIndex: 0,
         }}
       />
@@ -359,11 +298,6 @@ export default function Background() {
 
         {isVisible && !motionAllowed ? <InvalidateOnceStatic /> : null}
         <WarpCamera motionAllowed={motionAllowed} scrollVelocity={scrollVelocity} />
-        <TimeTunnelRings
-          isVisible={isVisible}
-          motionAllowed={motionAllowed}
-          scrollVelocity={scrollVelocity}
-        />
         <StarfieldTunnel
           isVisible={isVisible}
           motionAllowed={motionAllowed}
