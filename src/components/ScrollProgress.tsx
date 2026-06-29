@@ -11,7 +11,7 @@ export default function ScrollProgress() {
   useEffect(() => {
     const calculateSectionOffsets = () => {
       const documentHeight = document.documentElement.scrollHeight - window.innerHeight
-      const offsets = sections.map(section => {
+      const rawOffsets = sections.map(section => {
         const element = document.getElementById(section.id)
         const offsetTop = element?.offsetTop || 0
         return {
@@ -19,7 +19,19 @@ export default function ScrollProgress() {
           offset: (offsetTop / documentHeight) * 100
         }
       })
-      setSectionOffsets(offsets)
+
+      // Ensure minimum spacing between markers to prevent overlap
+      const minSpacing = 2 // 2% minimum spacing
+      const adjustedOffsets = rawOffsets.map((item, index) => {
+        if (index === 0) return item
+        const prevOffset = rawOffsets[index - 1].offset
+        if (item.offset - prevOffset < minSpacing) {
+          return { ...item, offset: prevOffset + minSpacing }
+        }
+        return item
+      })
+
+      setSectionOffsets(adjustedOffsets)
     }
 
     const updateScrollProgress = () => {
