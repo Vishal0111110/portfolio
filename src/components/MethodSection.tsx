@@ -1,5 +1,6 @@
 import ChapterSection from '@/components/ChapterSection'
 import { CARD_HOVER } from '@/lib/cardHover'
+import TiltCard from '@/components/TiltCard'
 import type { ResumeData } from '@/data/resume'
 
 type Method = ResumeData['method']
@@ -13,13 +14,13 @@ export default function MethodSection({ method }: { method: Method }) {
       title={method.title}
       blurb={method.blurb}
     >
-      <div className={`glass-mono rounded-xl p-4 sm:p-5 space-y-4 ${CARD_HOVER}`}>
+      <TiltCard className={`glass-mono rounded-xl p-4 sm:p-5 space-y-4 ${CARD_HOVER}`}>
         {method.paragraphs.map((paragraph, i) => (
           <p key={i} className="text-sm sm:text-[15px] text-[var(--color-off-white)] leading-[1.58] font-light tracking-[0.003em]">
             {paragraph}
           </p>
         ))}
-      </div>
+      </TiltCard>
     </ChapterSection>
   )
 }

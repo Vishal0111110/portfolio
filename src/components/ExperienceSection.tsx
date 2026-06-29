@@ -1,5 +1,6 @@
 import ChapterSection from '@/components/ChapterSection'
 import { CARD_HOVER } from '@/lib/cardHover'
+import TiltCard from '@/components/TiltCard'
 import type { Experience } from '@/data/experience'
 
 export default function ExperienceSection({ experience }: { experience: Experience }) {
@@ -13,13 +14,16 @@ export default function ExperienceSection({ experience }: { experience: Experien
     >
       <div className="space-y-4 sm:space-y-6">
         {experience.map((exp, index) => (
-          <a
+          <TiltCard
             key={`${exp.company}-${index}`}
-            href={exp.link || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
             className={`group block glass-mono p-4 sm:p-5 rounded-xl ${CARD_HOVER} touch-manipulation mobile-card relative overflow-hidden`}
           >
+            <a
+              href={exp.link || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full h-full"
+            >
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3">
               <div className="flex-1 min-w-0">
                 <h3 className="text-lg sm:text-xl font-semibold tracking-tight leading-tight text-white mb-1">{exp.position}</h3>
@@ -37,7 +41,8 @@ export default function ExperienceSection({ experience }: { experience: Experien
                 </li>
               ))}
             </ul>
-          </a>
+            </a>
+          </TiltCard>
         ))}
       </div>
     </ChapterSection>

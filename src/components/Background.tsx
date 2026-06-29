@@ -13,7 +13,7 @@ const CAMERA_Z = 12
 const BASE_FOV = 70
 const MAX_FOV = 78
 
-const NUM_STARS = 2000
+const NUM_STARS = 4250
 const FIELD_Z_FAR = -60
 const FIELD_Z_NEAR = 20
 const FIELD_WIDTH = 200

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import ChapterSection from '@/components/ChapterSection'
 import { CARD_HOVER } from '@/lib/cardHover'
+import TiltCard from '@/components/TiltCard'
 import type { ProjectEntry } from '@/data/projects'
 
 export default function ProjectSection({ projects }: { projects: ProjectEntry[] }) {
@@ -17,10 +18,11 @@ export default function ProjectSection({ projects }: { projects: ProjectEntry[] 
           const metaParts = [project.role, project.tech, project.date].filter(Boolean)
           const meta = metaParts.join(' · ')
           return (
-            <article
+            <TiltCard
               key={`${project.name}-${index}`}
               className={`glass-mono p-4 sm:p-5 rounded-xl ${CARD_HOVER} touch-manipulation mobile-card relative overflow-hidden`}
             >
+              <article className="block w-full h-full">
               <span className="absolute top-4 right-4 text-[10px] tracking-[0.08em] text-[var(--color-accent-gray)] tabular-nums opacity-70">
                 {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
               </span>
@@ -68,7 +70,8 @@ export default function ProjectSection({ projects }: { projects: ProjectEntry[] 
                   </Link>
                 ) : null}
               </div>
-            </article>
+              </article>
+            </TiltCard>
           )
         })}
       </div>

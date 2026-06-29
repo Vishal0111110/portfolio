@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { CaseStudyContent } from '@/data/projects'
 import { getProjectCaseStudy, projectSlugs } from '@/data/projects'
+import TiltCard from '@/components/TiltCard'
 
 type Props = { params: { slug: string } }
 
@@ -65,15 +66,17 @@ export default function CaseStudyPage({ params }: Props) {
 
       <main className="max-w-3xl mx-auto px-4 py-10 sm:py-14 space-y-5 sm:space-y-6 safe-area-left safe-area-right">
         {fields.map(({ key, label }) => (
-          <section key={key} aria-labelledby={`cs-${key}`} className="glass-mono rounded-xl border border-[var(--color-medium-gray)]/60 p-4 sm:p-5">
-            <p className="text-[10px] sm:text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2">
-              {label}
-            </p>
-            <h2 id={`cs-${key}`} className="font-display text-lg sm:text-xl text-white mb-2 font-normal tracking-tight">
-              {label}
-            </h2>
-            <p className="text-[var(--color-off-white)] leading-[1.65] text-sm sm:text-base tracking-[0.005em]">{caseStudy[key]}</p>
-          </section>
+          <TiltCard key={key} className="glass-mono rounded-xl border border-[var(--color-medium-gray)]/60 p-4 sm:p-5">
+            <section aria-labelledby={`cs-${key}`}>
+              <p className="text-[10px] sm:text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] mb-2">
+                {label}
+              </p>
+              <h2 id={`cs-${key}`} className="font-display text-lg sm:text-xl text-white mb-2 font-normal tracking-tight">
+                {label}
+              </h2>
+              <p className="text-[var(--color-off-white)] leading-[1.65] text-sm sm:text-base tracking-[0.005em]">{caseStudy[key]}</p>
+            </section>
+          </TiltCard>
         ))}
       </main>
 

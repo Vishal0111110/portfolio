@@ -281,6 +281,37 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
+.glass-mono-luxe {
+  position: relative;
+  overflow: hidden;
+  --glow-angle: 220deg;
+  transition: box-shadow 200ms ease-out, --glow-angle 600ms ease-out;
+}
+
+.glass-mono-luxe::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: conic-gradient(from var(--glow-angle), transparent 60%, var(--color-nothing-red-subtle) 64%, rgba(255, 255, 255, 0.12) 72%, transparent 78%);
+  opacity: 0.84;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+}
+
+.glass-mono-luxe:hover,
+.glass-mono-luxe:focus-visible {
+  box-shadow:
+    0 10px 26px -18px rgba(0, 0, 0, 0.86),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --glow-angle: 280deg;
+}
+
+.glass-mono-luxe:focus-visible {
+  outline: none;
+}
+
 /* Nothing OS Ultra Glass */
 .glass-ultra {
   background: rgba(0, 0, 0, 0.2);

@@ -1,14 +1,8 @@
-'use client'
-
-
-
+"use client"
 import { useState, useEffect } from 'react'
-
 import dynamic from 'next/dynamic'
-
-import { resumeData } from '@/data/resume'
-
 import Navigation from '@/components/Navigation'
+import { resumeData } from '@/data/resume'
 
 import Footer from '@/components/Footer'
 
@@ -33,6 +27,7 @@ import ExperienceSection from '@/components/ExperienceSection'
 import MethodSection from '@/components/MethodSection'
 
 import ProjectSection from '@/components/ProjectSection'
+import TiltCard from '@/components/TiltCard'
 
 import { CARD_HOVER } from '@/lib/cardHover'
 
@@ -40,52 +35,32 @@ import { CARD_HOVER } from '@/lib/cardHover'
 
 // Dynamic imports for heavy components - Step 5.1 & 5.2
 
-const Terminal = dynamic(() => import('@/components/Terminal'), { 
-
+const Terminal = dynamic(() => import('@/components/Terminal'), {
   ssr: false,
-
-  loading: () => null
-
+  loading: () => null,
 })
 
 
-
-const Background = dynamic(() => import('@/components/Background'), { 
-
+const Background = dynamic(() => import('@/components/Background'), {
   ssr: false,
-
-  loading: () => null
-
+  loading: () => null,
 })
-
 
 
 const GrainOverlay = dynamic(() => import('@/components/GrainOverlay'), {
-
   ssr: false,
-
-  loading: () => null
-
+  loading: () => null,
 })
 
 
-
-const ContactPopup = dynamic(() => import('@/components/ContactPopup'), { 
-
+const ContactPopup = dynamic(() => import('@/components/ContactPopup'), {
   ssr: false,
-
   loading: () => (
-
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-
       <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
-
     </div>
-
-  )
-
+  ),
 })
-
 
 
 const SKILL_TIER_KEYS = ['dailyDrivers', 'comfortable', 'exploring'] as const
@@ -453,7 +428,7 @@ export default function Home() {
 
             <div className="space-y-4 sm:space-y-8">
 
-              {SKILL_TIER_KEYS.map((key, tierIndex) => {
+                {SKILL_TIER_KEYS.map((key, tierIndex) => {
 
                 const tier = resumeData.skillsByTier[key]
 
@@ -461,9 +436,10 @@ export default function Home() {
 
                   tierIndex === 0 ? 'bg-[var(--color-white)]' : tierIndex === 1 ? 'bg-[var(--color-accent-gray)]' : 'bg-[var(--color-light-gray)]'
 
+
                 return (
 
-                  <div key={key} className={`${UNIFIED_CARD_CLASS} sm:p-6`}>
+                  <TiltCard key={key} className={`${UNIFIED_CARD_CLASS} sm:p-6`}>
 
                     <h3 className={`${CARD_TITLE_CLASS} mb-1 flex items-center gap-2`}>
 
@@ -479,23 +455,17 @@ export default function Home() {
 
                       {tier.items.map((item) => (
 
-                        <span
-
-                          key={item}
-
-                          className="text-xs px-2 py-1.5 sm:px-2.5 rounded-lg bg-[var(--color-dark-gray)]/70 border border-[var(--color-medium-gray)]/60 text-[var(--color-off-white)] tracking-[0.01em]"
-
-                        >
+                        <TiltCard key={item} className="text-xs inline-block px-2 py-1.5 sm:px-2.5 rounded-lg bg-[var(--color-dark-gray)]/70 border border-[var(--color-medium-gray)]/60 text-[var(--color-off-white)] tracking-[0.01em] max-w-max mr-2 mb-2">
 
                           {item}
 
-                        </span>
+                        </TiltCard>
 
                       ))}
 
                     </div>
 
-                  </div>
+                  </TiltCard>
 
                 )
 
@@ -515,28 +485,23 @@ export default function Home() {
 
               <h3 className={SECTION_HEADING_CLASS}>Education</h3>
 
-              <a
+              <TiltCard className={`group block ${UNIFIED_CARD_INTERACTIVE_CLASS}`}>
+                <a
+                  href="https://drive.google.com/file/d/1bZxGD0N1rcg401EIsZEfSN-EfixDrp0_/view?usp=drive_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full h-full"
+                >
+                  <p className={SECTION_LABEL_CLASS}>Academics</p>
+                  <h4 className={`${CARD_TITLE_CLASS} text-white`}>{resumeData.education.institution}</h4>
 
-                href="https://drive.google.com/file/d/1bZxGD0N1rcg401EIsZEfSN-EfixDrp0_/view?usp=drive_link"
+                  <p className={`${CARD_SUBTEXT_CLASS} mb-1`}>{resumeData.education.degree}</p>
 
-                target="_blank"
+                  <p className="text-xs sm:text-sm leading-relaxed text-[var(--color-accent-gray)]/90">CGPA: {resumeData.education.gpa} • {resumeData.education.period}</p>
 
-                rel="noopener noreferrer"
-
-                className={`group block ${UNIFIED_CARD_INTERACTIVE_CLASS}`}
-
-              >
-
-                <p className={SECTION_LABEL_CLASS}>Academics</p>
-                <h4 className={`${CARD_TITLE_CLASS} text-white`}>{resumeData.education.institution}</h4>
-
-                <p className={`${CARD_SUBTEXT_CLASS} mb-1`}>{resumeData.education.degree}</p>
-
-                <p className="text-xs sm:text-sm leading-relaxed text-[var(--color-accent-gray)]/90">CGPA: {resumeData.education.gpa} • {resumeData.education.period}</p>
-
-                <p className="text-xs sm:text-sm text-[var(--color-accent-gray)]/80">{resumeData.education.location}</p>
-
-              </a>
+                  <p className="text-xs sm:text-sm text-[var(--color-accent-gray)]/80">{resumeData.education.location}</p>
+                </a>
+              </TiltCard>
 
             </div>
 
@@ -547,47 +512,48 @@ export default function Home() {
               <h3 className={SECTION_HEADING_CLASS}>Competitive Programming</h3>
 
               {/* Total Solved Card */}
-              <div className={`${UNIFIED_CARD_CLASS} mb-4`}>
+              <TiltCard className={`${UNIFIED_CARD_CLASS} mb-4`}>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className={SECTION_LABEL_CLASS}>Problems Solved</p>
                     <p className="font-display text-2xl sm:text-3xl tracking-tight text-white">{resumeData.cpStats?.totalSolved || 2500}+</p>
                   </div>
                 </div>
-              </div>
+              </TiltCard>
 
               {/* Platform Rankings */}
               <div className="space-y-3 mb-4">
                 {resumeData.cpStats?.bestRankings?.map((profile, index) => (
-                  <a
-                    key={index}
-                    href={profile.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group block ${UNIFIED_CARD_INTERACTIVE_CLASS} p-3 sm:p-4`}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                      <div className="flex items-center gap-3">
-                        <span className={CARD_TITLE_CLASS}>{profile.platform}</span>
-                        <span className="text-xs px-2 py-0.5 bg-[var(--color-dark-gray)] rounded-full text-[var(--color-accent-gray)] tracking-[0.03em]">{profile.rank}</span>
+                  <TiltCard key={index} className={`${UNIFIED_CARD_INTERACTIVE_CLASS} p-3 sm:p-4`}>
+                    <a
+                      href={profile.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full h-full"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                        <div className="flex items-center gap-3">
+                          <span className={CARD_TITLE_CLASS}>{profile.platform}</span>
+                          <span className="text-xs px-2 py-0.5 bg-[var(--color-dark-gray)] rounded-full text-[var(--color-accent-gray)] tracking-[0.03em]">{profile.rank}</span>
+                        </div>
+                        <span className="text-[var(--color-nothing-red)] text-sm tracking-[0.02em]">{profile.rating}</span>
                       </div>
-                      <span className="text-[var(--color-nothing-red)] text-sm tracking-[0.02em]">{profile.rating}</span>
-                    </div>
-                  </a>
+                    </a>
+                  </TiltCard>
                 ))}
               </div>
 
               {/* Favorite Topics */}
-              <div className={UNIFIED_CARD_CLASS}>
+              <TiltCard className={UNIFIED_CARD_CLASS}>
                 <p className={SECTION_LABEL_CLASS}>Favorite Topics</p>
                 <div className="flex flex-wrap gap-2">
                   {resumeData.cpStats?.favoriteTopics?.slice(0, 6).map((topic, index) => (
-                    <span key={index} className="text-xs px-2 py-1 bg-[var(--color-dark-gray)] rounded-lg text-[var(--color-off-white)] tracking-[0.01em]">
+                    <TiltCard key={index} className="text-xs inline-block px-2 py-1 bg-[var(--color-dark-gray)] rounded-lg text-[var(--color-off-white)] tracking-[0.01em] max-w-max">
                       {topic}
-                    </span>
+                    </TiltCard>
                   ))}
                 </div>
-              </div>
+              </TiltCard>
             </div>
 
           </div>
@@ -626,33 +592,27 @@ export default function Home() {
 
                   </div>
 
-                  {achievement.url ? (
+                    {achievement.url ? (
 
-                    <a
+                    <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6`}>
 
-                      href={achievement.url}
+                      <a href={achievement.url} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
 
-                      target="_blank"
+                        <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
 
-                      rel="noopener noreferrer"
+                        {achievement.date ? (
 
-                      className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6`}
+                          <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>{achievement.date}</p>
 
-                    >
+                        ) : null}
 
-                      <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
+                      </a>
 
-                      {achievement.date ? (
-
-                        <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>{achievement.date}</p>
-
-                      ) : null}
-
-                    </a>
+                    </TiltCard>
 
                   ) : (
 
-                    <div className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6`}>
+                    <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6`}>
 
                       <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
 
@@ -662,7 +622,7 @@ export default function Home() {
 
                       ) : null}
 
-                    </div>
+                    </TiltCard>
 
                   )}
 
@@ -700,33 +660,27 @@ export default function Home() {
 
                   {cert.url ? (
 
-                    <a
+                    <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6`}>
 
-                      href={cert.url}
+                      <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
 
-                      target="_blank"
+                        <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
 
-                      rel="noopener noreferrer"
+                        <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>
 
-                      className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6`}
+                          {cert.issuer}
 
-                    >
+                          {cert.date ? ` · ${cert.date}` : ''}
 
-                      <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
+                        </p>
 
-                      <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>
+                      </a>
 
-                        {cert.issuer}
-
-                        {cert.date ? ` · ${cert.date}` : ''}
-
-                      </p>
-
-                    </a>
+                    </TiltCard>
 
                   ) : (
 
-                    <div className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6`}>
+                    <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6`}>
 
                       <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
 
@@ -738,7 +692,7 @@ export default function Home() {
 
                       </p>
 
-                    </div>
+                    </TiltCard>
 
                   )}
 

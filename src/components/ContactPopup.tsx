@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { CARD_HOVER } from '@/lib/cardHover'
+import TiltCard from '@/components/TiltCard'
 
 interface ContactProps {
   email: string
@@ -40,16 +41,16 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
     if (isOpen) {
       // Focus first focusable element when modal opens
       firstFocusableRef.current?.focus()
-      
+
       // Prevent body scroll
       document.body.style.overflow = 'hidden'
-      
+
       // Handle escape key
       const handleEscape = (e: KeyboardEvent) => {
         if (e.key === 'Escape') onClose()
       }
       document.addEventListener('keydown', handleEscape)
-      
+
       return () => {
         document.body.style.overflow = ''
         document.removeEventListener('keydown', handleEscape)
@@ -57,37 +58,38 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
     }
   }, [isOpen, onClose])
 
-
-  if (!isOpen) return null
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Using Formspree - assumes endpoint is set up
     // Note: Replace with actual Formspree endpoint
-    const response = await fetch('https://formspree.io/f/movkllbk', {
+    fetch('https://formspree.io/f/movkllbk', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData),
     })
-    if (response.ok) {
-      setIsSubmitted(true)
-    }
+      .then((response) => {
+        if (response.ok) {
+          setIsSubmitted(true)
+        }
+      })
   }
+
+  if (!isOpen) return null
 
   return (
     <>
       {/* Overlay */}
-    <div 
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="contact-title"
-      className="fixed inset-0 bg-black/72 backdrop-blur-md z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 pt-4 sm:pt-6 overflow-y-auto safe-area-bottom safe-area-left safe-area-right" 
-      onClick={onClose}
-    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-title"
+        className="fixed inset-0 bg-black/72 backdrop-blur-md z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 pt-4 sm:pt-6 overflow-y-auto safe-area-bottom safe-area-left safe-area-right"
+        onClick={onClose}
+      >
       {/* Modal */}
       <div
         ref={modalRef}
@@ -329,32 +331,36 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-1.5 sm:gap-2 lg:gap-3">
                   <a
                     href={`mailto:${contact.email}?subject=Contact from Portfolio&body=Hi Vishal,`}
-                    className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}
+                    className="group block"
                   >
-                    <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors flex-shrink-0">
-                      <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Email</div>
-                      <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.email}</div>
-                    </div>
+                    <TiltCard className={`flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}>
+                      <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors flex-shrink-0">
+                        <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Email</div>
+                        <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.email}</div>
+                      </div>
+                    </TiltCard>
                   </a>
 
                   <a
                     href={`tel:${contact.phone}`}
-                    className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}
+                    className="group block"
                   >
-                    <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-medium-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-medium-gray)]/30 transition-colors flex-shrink-0">
-                      <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Phone</div>
-                      <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.phone}</div>
-                    </div>
+                    <TiltCard className={`flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}>
+                      <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-medium-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-medium-gray)]/30 transition-colors flex-shrink-0">
+                        <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Phone</div>
+                        <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.phone}</div>
+                      </div>
+                    </TiltCard>
                   </a>
 
                   <div className="group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm border border-[var(--color-medium-gray)]/75">
@@ -374,9 +380,10 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                     href={`https://www.linkedin.com/in/${contact.linkedin}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}
+                    className="group block"
                   >
-                    <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors flex-shrink-0">
+                    <TiltCard className={`flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}>
+                      <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors flex-shrink-0">
                       <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                       </svg>
@@ -385,21 +392,24 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                       <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">LinkedIn</div>
                       <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">/{contact.linkedin}</div>
                     </div>
+                    </TiltCard>
                   </a>
 
                   <a
                     href={`https://codeforces.com/profile/${contact.codeforces}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`group flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}
+                    className="group block"
                   >
-                    <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors overflow-hidden flex-shrink-0">
+                    <TiltCard className={`flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}>
+                      <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-light-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-light-gray)]/30 transition-colors overflow-hidden flex-shrink-0">
                       <img src="/cf-image.png" alt="Codeforces" width="20" height="20" className="w-4 h-4 sm:w-5 lg:w-6 sm:h-5 lg:h-6" loading="lazy" decoding="async" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Codeforces</div>
                       <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.codeforces}</div>
                     </div>
+                    </TiltCard>
                   </a>
                 </div>
                 <div className="mt-3 sm:mt-4 lg:mt-6 p-2 sm:p-3 lg:p-4 bg-gradient-to-r from-[var(--color-medium-gray)]/16 to-[var(--color-light-gray)]/8 border border-[var(--color-accent-gray)]/25 rounded-lg col-span-2 lg:col-span-1">
