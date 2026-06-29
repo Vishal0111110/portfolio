@@ -79,6 +79,35 @@ export const projects: ProjectEntry[] = [
     }
   },
   {
+    name: "ApplyAsap",
+    slug: "applyasap",
+    role: "Full-stack · Flutter",
+    outcome:
+      "Multilingual career platform with Gemini content, Chrome extension, and measurable application-time cuts.",
+    tech: "Flutter, Node.js, Express.js, Firebase, Machine Learning",
+    date: "Aug 2025",
+    description: [
+      "Fabricated an AI-powered software platform for smart learning and career guidance, with support for 16+ Indian languages.",
+      "Integrated Gemini-based AI content generation, user surveys, and personalized job dashboards.",
+      "Implemented a Chrome Extension for auto job applications and AI mock interviews, cutting application time by 50% and increasing user interview readiness.",
+      "Personalized communities, alumni connect, reward coin system and real-time social feed, fostering 40% higher career networking interactions."
+    ],
+    link: "https://github.com/Vishal0111110/ApplyAsap",
+    caseStudy: {
+      headline: "An AI-enabled career platform optimized for speed to application",
+      problem:
+        "Students lose momentum between discovering roles, preparing, and actually applying—especially across language and guidance gaps.",
+      constraints:
+        "Multi-language support, personalized workflows, and low-friction automation while keeping the product useful for first-time job seekers.",
+      approach:
+        "Combined Gemini-based content generation, survey-driven personalization, job dashboards, and a Chrome extension to automate repetitive application steps.",
+      outcome:
+        "Reduced application time significantly, improved mock-interview readiness, and increased engagement through community and alumni-powered feedback loops.",
+      redo:
+        "Ship deeper analytics around funnel drop-off and role-fit quality sooner to prioritize the highest-leverage guidance features."
+    }
+  },
+  {
     name: "HSBC Banking Chatbot System",
     slug: "hsbc-banking-chatbot-system",
     role: "Full-stack · AI",
@@ -105,35 +134,6 @@ export const projects: ProjectEntry[] = [
         "Shipped a hackathon-ready assistant handling account queries, card blocking, and loan-style flows with robust session continuity and accessible web UI support.",
       redo:
         "Introduce stricter guardrail evaluation suites and conversation replay tooling earlier to harden failure handling before demo traffic spikes."
-    }
-  },
-  {
-    name: "ApplyAsap",
-    slug: "applyasap",
-    role: "Full-stack · Flutter",
-    outcome:
-      "Multilingual career platform with Gemini content, Chrome extension, and measurable application-time cuts.",
-    tech: "Flutter, Node.js, Express.js, Firebase, Machine Learning",
-    date: "Apr 2025",
-    description: [
-      "Fabricated an AI-powered software platform for smart learning and career guidance, with support for 16+ Indian languages.",
-      "Integrated Gemini-based AI content generation, user surveys, and personalized job dashboards.",
-      "Implemented a Chrome Extension for auto job applications and AI mock interviews, cutting application time by 50% and increasing user interview readiness.",
-      "Personalized communities, alumni connect, reward coin system and real-time social feed, fostering 40% higher career networking interactions."
-    ],
-    link: "https://github.com/Vishal0111110/ApplyAsap",
-    caseStudy: {
-      headline: "An AI-enabled career platform optimized for speed to application",
-      problem:
-        "Students lose momentum between discovering roles, preparing, and actually applying—especially across language and guidance gaps.",
-      constraints:
-        "Multi-language support, personalized workflows, and low-friction automation while keeping the product useful for first-time job seekers.",
-      approach:
-        "Combined Gemini-based content generation, survey-driven personalization, job dashboards, and a Chrome extension to automate repetitive application steps.",
-      outcome:
-        "Reduced application time significantly, improved mock-interview readiness, and increased engagement through community and alumni-powered feedback loops.",
-      redo:
-        "Ship deeper analytics around funnel drop-off and role-fit quality sooner to prioritize the highest-leverage guidance features."
     }
   },
   {

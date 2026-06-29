@@ -31,6 +31,10 @@ import TiltCard from '@/components/TiltCard'
 
 import { CARD_HOVER } from '@/lib/cardHover'
 
+import { useParallax } from '@/hooks/useScrollAnimation'
+
+import { useBackgroundMotionAllowed } from '@/hooks/useBackgroundMotionAllowed'
+
 
 
 // Dynamic imports for heavy components - Step 5.1 & 5.2
@@ -77,6 +81,16 @@ export default function Home() {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
 
   const [isTerminalOpen, setIsTerminalOpen] = useState(false)
+
+  const [showAllAchievements, setShowAllAchievements] = useState(false)
+
+  const [showAllProjects, setShowAllProjects] = useState(false)
+
+  const motionAllowed = useBackgroundMotionAllowed()
+
+  const geometricParallax = useParallax(motionAllowed ? 0.08 : 0)
+  const dotMatrixParallax = useParallax(motionAllowed ? 0.04 : 0)
+  const heroCircleParallax = useParallax(motionAllowed ? 0.12 : 0)
 
 
 
@@ -158,9 +172,25 @@ export default function Home() {
 
       {/* Nothing OS Background Layers */}
 
-      <div className="fixed inset-0 nothing-geometric opacity-20" style={{ zIndex: -3 }} />
+      <div 
+        ref={geometricParallax.ref}
+        className="fixed inset-0 nothing-geometric opacity-20"
+        style={{ 
+          zIndex: -3,
+          transform: motionAllowed ? `translateY(${geometricParallax.offset * -1}px)` : 'none',
+          willChange: motionAllowed ? 'transform' : 'auto'
+        }} 
+      />
 
-      <div className="fixed inset-0 dot-matrix opacity-25" style={{ zIndex: -2 }} />
+      <div 
+        ref={dotMatrixParallax.ref}
+        className="fixed inset-0 dot-matrix opacity-25"
+        style={{ 
+          zIndex: -2,
+          transform: motionAllowed ? `translateY(${dotMatrixParallax.offset * -1}px)` : 'none',
+          willChange: motionAllowed ? 'transform' : 'auto'
+        }} 
+      />
 
       
 
@@ -207,7 +237,15 @@ export default function Home() {
 
           {/* Single subtle floating element */}
 
-          <div className="absolute left-1/3 top-1/3 w-24 h-24 border border-[var(--color-medium-gray)]/10 rounded-full" style={{ animation: 'float 8s ease-in-out infinite' }}></div>
+          <div 
+            ref={heroCircleParallax.ref}
+            className="absolute left-1/3 top-1/3 w-24 h-24 border border-[var(--color-medium-gray)]/10 rounded-full"
+            style={{ 
+              animation: 'float 8s ease-in-out infinite',
+              transform: motionAllowed ? `translateY(${heroCircleParallax.offset * -1}px)` : 'none',
+              willChange: motionAllowed ? 'transform' : 'auto'
+            }}
+          ></div>
 
         </div>
 
@@ -410,7 +448,7 @@ export default function Home() {
 
       <MethodSection method={resumeData.method} />
 
-      <ProjectSection projects={resumeData.projects} />
+      <ProjectSection projects={resumeData.projects} showAll={showAllProjects} onToggle={() => setShowAllProjects(!showAllProjects)} />
 
 
 
@@ -439,7 +477,7 @@ export default function Home() {
 
                 return (
 
-                  <TiltCard key={key} className={`${UNIFIED_CARD_CLASS} sm:p-6`}>
+                  <TiltCard key={key} className={`${UNIFIED_CARD_CLASS} sm:p-6 animate-slide-up stagger-${Math.min(tierIndex + 1, 6)} is-visible`}>
 
                     <h3 className={`${CARD_TITLE_CLASS} mb-1 flex items-center gap-2`}>
 
@@ -524,7 +562,7 @@ export default function Home() {
               {/* Platform Rankings */}
               <div className="space-y-3 mb-4">
                 {resumeData.cpStats?.bestRankings?.map((profile, index) => (
-                  <TiltCard key={index} className={`${UNIFIED_CARD_INTERACTIVE_CLASS} p-3 sm:p-4`}>
+                  <TiltCard key={index} className={`${UNIFIED_CARD_INTERACTIVE_CLASS} p-3 sm:p-4 animate-slide-up stagger-${Math.min(index + 1, 6)} is-visible`}>
                     <a
                       href={profile.url}
                       target="_blank"
@@ -564,145 +602,148 @@ export default function Home() {
 
 
 
-      {/* Achievements & Certifications */}
+      {/* Achievements */}
 
-      <section id="achievements" aria-labelledby="achievements-heading" className="relative z-10 px-4 py-14 sm:py-16 max-w-4xl mx-auto pb-24 sm:pb-32">
+      <section id="achievements" aria-labelledby="achievements-heading" className="relative z-10 px-4 py-14 sm:py-16 max-w-4xl mx-auto">
 
-        <div className="space-y-12 sm:space-y-16">
+        <h2 id="achievements-heading" className="font-display text-2xl sm:text-3xl font-normal tracking-tight text-white mb-6 sm:mb-8 text-center">Achievements</h2>
 
-          <div>
+        <div className="relative space-y-6 sm:space-y-8">
 
-            <h2 id="achievements-heading" className="font-display text-2xl sm:text-3xl font-normal tracking-tight text-white mb-6 sm:mb-8 text-center">Achievements</h2>
+          {resumeData.achievements.slice(0, showAllAchievements ? undefined : 4).map((achievement, index) => (
 
-            <div className="relative space-y-6 sm:space-y-8">
+            <div key={index} className="relative flex items-start">
 
-              {resumeData.achievements.map((achievement, index) => (
+              <div className="flex flex-col items-center">
 
-                <div key={index} className="relative flex items-start">
+                <span className="w-8 h-8 bg-[var(--color-dark-gray)] border border-[var(--color-medium-gray)] rounded-full flex items-center justify-center text-[var(--color-off-white)] text-xs font-medium z-10">{index + 1}</span>
 
-                  <div className="flex flex-col items-center">
+                {index < (showAllAchievements ? resumeData.achievements.length - 1 : Math.min(3, resumeData.achievements.length - 1)) && (
 
-                    <span className="w-8 h-8 bg-[var(--color-dark-gray)] border border-[var(--color-medium-gray)] rounded-full flex items-center justify-center text-[var(--color-off-white)] text-xs font-medium z-10">{index + 1}</span>
+                  <div className="w-0.5 bg-[var(--color-medium-gray)]/80 h-full mt-4"></div>
 
-                    {index < resumeData.achievements.length - 1 && (
+                )}
 
-                      <div className="w-0.5 bg-[var(--color-medium-gray)]/80 h-full mt-4"></div>
+              </div>
 
-                    )}
+                {achievement.url ? (
 
-                  </div>
+                <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6 animate-slide-up stagger-${Math.min(index + 1, 6)} is-visible`}>
 
-                    {achievement.url ? (
+                  <a href={achievement.url} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
 
-                    <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6`}>
+                    <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
 
-                      <a href={achievement.url} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+                    {achievement.date ? (
 
-                        <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
+                      <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>{achievement.date}</p>
 
-                        {achievement.date ? (
+                    ) : null}
 
-                          <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>{achievement.date}</p>
+                  </a>
 
-                        ) : null}
+                </TiltCard>
 
-                      </a>
+              ) : (
 
-                    </TiltCard>
+                <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6 animate-slide-up stagger-${Math.min(index + 1, 6)} is-visible`}>
 
-                  ) : (
+                  <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
 
-                    <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6`}>
+                  {achievement.date ? (
 
-                      <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{achievement.text}</span>
+                    <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>{achievement.date}</p>
 
-                      {achievement.date ? (
+                  ) : null}
 
-                        <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>{achievement.date}</p>
+                </TiltCard>
 
-                      ) : null}
-
-                    </TiltCard>
-
-                  )}
-
-                </div>
-
-              ))}
+              )}
 
             </div>
 
-          </div>
+          ))}
+
+        </div>
+
+        {resumeData.achievements.length > 4 && (
+          <button
+            onClick={() => setShowAllAchievements(!showAllAchievements)}
+            className="w-full py-3 mt-6 text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-colors border border-[var(--color-medium-gray)]/50 rounded-lg hover:border-[var(--color-nothing-red)]/50"
+          >
+            {showAllAchievements ? 'Show Less' : `View All ${resumeData.achievements.length} Achievements`}
+          </button>
+        )}
+
+      </section>
 
 
 
-          <div>
+      {/* Certifications */}
 
-            <h2 id="certifications-heading" className="font-display text-2xl sm:text-3xl font-normal tracking-tight text-white mb-6 sm:mb-8 text-center">Certifications</h2>
+      <section id="certifications" aria-labelledby="certifications-heading" className="relative z-10 px-4 py-14 sm:py-16 max-w-4xl mx-auto pb-24 sm:pb-32">
 
-            <div className="relative space-y-6 sm:space-y-8">
+        <h2 id="certifications-heading" className="font-display text-2xl sm:text-3xl font-normal tracking-tight text-white mb-6 sm:mb-8 text-center">Certifications</h2>
 
-              {resumeData.certifications.map((cert, index) => (
+        <div className="relative space-y-6 sm:space-y-8">
 
-                <div key={index} className="relative flex items-start">
+          {resumeData.certifications.map((cert, index) => (
 
-                  <div className="flex flex-col items-center">
+            <div key={index} className="relative flex items-start">
 
-                    <span className="w-8 h-8 bg-[var(--color-dark-gray)] border border-[var(--color-medium-gray)] rounded-full flex items-center justify-center text-[var(--color-off-white)] text-xs font-medium z-10">{index + 1}</span>
+              <div className="flex flex-col items-center">
 
-                    {index < resumeData.certifications.length - 1 && (
+                <span className="w-8 h-8 bg-[var(--color-dark-gray)] border border-[var(--color-medium-gray)] rounded-full flex items-center justify-center text-[var(--color-off-white)] text-xs font-medium z-10">{index + 1}</span>
 
-                      <div className="w-0.5 bg-[var(--color-medium-gray)]/80 h-full mt-4"></div>
+                {index < resumeData.certifications.length - 1 && (
 
-                    )}
+                  <div className="w-0.5 bg-[var(--color-medium-gray)]/80 h-full mt-4"></div>
 
-                  </div>
+                )}
 
-                  {cert.url ? (
+              </div>
 
-                    <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6`}>
+              {cert.url ? (
 
-                      <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+                <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_INTERACTIVE_CLASS} block sm:p-6 animate-slide-up stagger-${Math.min(index + 1, 6)} is-visible`}>
 
-                        <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
+                  <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
 
-                        <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>
+                    <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
 
-                          {cert.issuer}
+                    <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>
 
-                          {cert.date ? ` · ${cert.date}` : ''}
+                      {cert.issuer}
 
-                        </p>
+                      {cert.date ? ` · ${cert.date}` : ''}
 
-                      </a>
+                    </p>
 
-                    </TiltCard>
+                  </a>
 
-                  ) : (
+                </TiltCard>
 
-                    <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6`}>
+              ) : (
 
-                      <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
+                <TiltCard className={`ml-2.5 sm:ml-4 flex-1 ${UNIFIED_CARD_CLASS} sm:p-6 animate-slide-up stagger-${Math.min(index + 1, 6)} is-visible`}>
 
-                      <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>
+                  <span className="text-sm sm:text-base text-[var(--color-off-white)] leading-[1.6] tracking-[0.005em] sm:tracking-[0.01em]">{cert.text}</span>
 
-                        {cert.issuer}
+                  <p className={`mt-3 ${CARD_SUBTEXT_CLASS}`}>
 
-                        {cert.date ? ` · ${cert.date}` : ''}
+                    {cert.issuer}
 
-                      </p>
+                    {cert.date ? ` · ${cert.date}` : ''}
 
-                    </TiltCard>
+                  </p>
 
-                  )}
+                </TiltCard>
 
-                </div>
-
-              ))}
+              )}
 
             </div>
 
-          </div>
+          ))}
 
         </div>
 

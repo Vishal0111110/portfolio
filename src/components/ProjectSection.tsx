@@ -4,7 +4,7 @@ import { CARD_HOVER } from '@/lib/cardHover'
 import TiltCard from '@/components/TiltCard'
 import type { ProjectEntry } from '@/data/projects'
 
-export default function ProjectSection({ projects }: { projects: ProjectEntry[] }) {
+export default function ProjectSection({ projects, showAll = false, onToggle }: { projects: ProjectEntry[]; showAll?: boolean; onToggle?: () => void }) {
   return (
     <ChapterSection
       sectionId="projects"
@@ -14,13 +14,13 @@ export default function ProjectSection({ projects }: { projects: ProjectEntry[] 
       blurb="Built with real constraints, refined with real feedback. Start with the outcome, then open the repo for details."
     >
       <div className="relative space-y-4 sm:space-y-6">
-        {projects.map((project, index) => {
+        {projects.slice(0, showAll ? undefined : 3).map((project, index) => {
           const metaParts = [project.role, project.tech, project.date].filter(Boolean)
           const meta = metaParts.join(' · ')
           return (
             <TiltCard
               key={`${project.name}-${index}`}
-              className={`glass-mono p-4 sm:p-5 rounded-xl ${CARD_HOVER} touch-manipulation mobile-card relative overflow-hidden`}
+              className={`glass-mono p-4 sm:p-5 rounded-xl ${CARD_HOVER} touch-manipulation mobile-card relative overflow-hidden animate-slide-up stagger-${Math.min(index + 1, 6)} is-visible`}
             >
               <article className="block w-full h-full">
               <span className="absolute top-4 right-4 text-[10px] tracking-[0.08em] text-[var(--color-accent-gray)] tabular-nums opacity-70">
@@ -75,6 +75,15 @@ export default function ProjectSection({ projects }: { projects: ProjectEntry[] 
           )
         })}
       </div>
+
+      {projects.length > 3 && onToggle && (
+        <button
+          onClick={onToggle}
+          className="w-full py-3 text-xs uppercase tracking-[0.12em] text-[var(--color-accent-gray)] hover:text-[var(--color-nothing-red)] transition-colors border border-[var(--color-medium-gray)]/50 rounded-lg hover:border-[var(--color-nothing-red)]/50"
+        >
+          {showAll ? 'Show Less' : `View All ${projects.length} Projects`}
+        </button>
+      )}
     </ChapterSection>
   )
 }

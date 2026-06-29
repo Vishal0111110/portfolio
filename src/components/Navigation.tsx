@@ -1,21 +1,13 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import ThemeToggle from './ThemeToggle'
+import { sections } from '@/data/navigation'
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState('home')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-
-  const sections = useMemo(() => [
-    { id: 'home', label: 'Home' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'method', label: 'Method' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'achievements', label: 'Achievements' }
-  ], [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +32,7 @@ export default function Navigation() {
     window.addEventListener('scroll', handleScroll)
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [sections])
+  }, [])
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })

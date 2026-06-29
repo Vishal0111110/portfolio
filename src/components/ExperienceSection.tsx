@@ -16,7 +16,7 @@ export default function ExperienceSection({ experience }: { experience: Experien
         {experience.map((exp, index) => (
           <TiltCard
             key={`${exp.company}-${index}`}
-            className={`group block glass-mono p-4 sm:p-5 rounded-xl ${CARD_HOVER} touch-manipulation mobile-card relative overflow-hidden`}
+            className={`group block glass-mono p-4 sm:p-5 rounded-xl ${CARD_HOVER} touch-manipulation mobile-card relative overflow-hidden animate-slide-up stagger-${Math.min(index + 1, 6)} is-visible`}
           >
             <a
               href={exp.link || '#'}

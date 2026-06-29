@@ -13,7 +13,7 @@ export const personalInfo = {
   /** Locked spine for copy + layout decisions (“broadcast / signal”) */
   metaphorCue: {
     label: "Broadcast · signal",
-    line: "Optimize for SNR under constraint—fewer moving parts, tighter feedback loops."
+    line: "Optimize for SNR under constraint — fewer moving parts, tighter feedback loops."
   },
   /** Chapter: how you work (Experience → Method → Projects on the page) */
   method: {
