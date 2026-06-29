@@ -20,8 +20,6 @@ const FIELD_WIDTH = 200
 const FIELD_HEIGHT = 120
 const IDLE_DRIFT = 0.3
 const MAX_WARP_SPEED = 15
-const RADIAL_STREAK = 0
-const WARP_CHATTER = 0.002
 
 const MONOCHROME_COLORS = {
   mediumGray: '#2a2a2a',
@@ -164,7 +162,7 @@ function StarfieldTunnel({
     const { warpSpeed } = scrollVelocity.current
     // Warp drive: stars always flow toward viewer, scroll speed controls intensity
     const travelSpeed = IDLE_DRIFT + warpSpeed * MAX_WARP_SPEED
-    const streak = warpSpeed * RADIAL_STREAK * dt
+    const radialDrift = warpSpeed * 0.02
 
     const positions = positionsRef.current
     const sizes = sizesRef.current
@@ -179,8 +177,15 @@ function StarfieldTunnel({
 
       z += travelSpeed * dt
 
-      // No radial streak - keep stars as visible dots at all speeds
-      // This prevents stars from appearing as thin lines when moving fast
+      // Mild radial drift keeps the field feeling like a hyperspace tunnel at speed.
+      if (radialDrift > 0) {
+        const distance = Math.sqrt(x * x + y * y)
+        const driftFactor = Math.min(distance / 90, 1)
+        const driftX = (x / (Math.abs(x) + 1e-4)) * radialDrift * driftFactor
+        const driftY = (y / (Math.abs(y) + 1e-4)) * radialDrift * driftFactor
+        x += driftX * dt * 8
+        y += driftY * dt * 8
+      }
 
       // Warp drive: stars always respawn at far end to maintain forward flow
       if (z > FIELD_Z_NEAR) {

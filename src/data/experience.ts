@@ -12,7 +12,7 @@ export const experience = [
   },
   {
     company: "Providence India",
-    position: "SDE Intern — Enterprise Business Applications Team",
+    position: "Software Engineering Intern",
     location: "Hyderabad, Telangana",
     period: "Jun 2025 – Aug 2025",
     description: [
