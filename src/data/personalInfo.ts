@@ -2,7 +2,6 @@ export const personalInfo = {
   name: "Buyyarapu Vishal",
   location: "Hyderabad, India",
   contact: {
-    phone: "+91-7793905879",
     email: "buyyarapuvishalgaurav616@gmail.com",
     linkedin: "buyyarapuvishal",
     codeforces: "ArminArlert69"
