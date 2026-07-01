@@ -8,7 +8,6 @@ interface ContactProps {
   email: string
   linkedin: string
   codeforces: string
-  phone: string
   location: string
 }
 
@@ -342,23 +341,6 @@ export default function ContactPopup({ isOpen, onClose, contact }: ContactPopupP
                       <div className="flex-1 min-w-0">
                         <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Email</div>
                         <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.email}</div>
-                      </div>
-                    </TiltCard>
-                  </a>
-
-                  <a
-                    href={`tel:${contact.phone}`}
-                    className="group block"
-                  >
-                    <TiltCard className={`flex items-center gap-1.5 sm:gap-2 lg:gap-3 p-1.5 sm:p-2 lg:p-3 glass-mono rounded-lg text-xs sm:text-sm ${CARD_HOVER}`}>
-                      <div className="w-6 h-6 sm:w-8 lg:w-10 sm:h-8 lg:h-10 bg-[var(--color-medium-gray)]/20 rounded-full flex items-center justify-center group-hover:bg-[var(--color-medium-gray)]/30 transition-colors flex-shrink-0">
-                        <svg className="w-3 h-3 sm:w-4 lg:w-5 sm:h-4 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-[var(--color-off-white)] font-medium group-hover:text-[var(--color-white)] transition-colors text-[11px] sm:text-xs lg:text-sm">Phone</div>
-                        <div className="text-[var(--color-accent-gray)] truncate text-[10px] hidden lg:block">{contact.phone}</div>
                       </div>
                     </TiltCard>
                   </a>
