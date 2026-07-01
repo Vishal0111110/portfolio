@@ -48,7 +48,6 @@ export const terminalCommands: Command[] = [
       '',
       'Contact:',
       `  Email: ${personalInfo.contact.email}`,
-      `  Phone: ${personalInfo.contact.phone}`,
       `  LinkedIn: ${personalInfo.contact.linkedin}`,
       `  Codeforces: ${personalInfo.contact.codeforces}`
     ]
@@ -203,7 +202,6 @@ export const terminalCommands: Command[] = [
       '',
       `Name: ${personalInfo.name}`,
       `Email: ${personalInfo.contact.email}`,
-      `Phone: ${personalInfo.contact.phone}`,
       `LinkedIn: linkedin.com/in/${personalInfo.contact.linkedin}`,
       `Codeforces: ${personalInfo.contact.codeforces}`,
       '',
@@ -286,7 +284,6 @@ export const terminalCommands: Command[] = [
       '  • LeetCode: leetcode.com/u/VishalBuyyarapu/',
       '',
       'Contact:',
-      `  • Phone: ${personalInfo.contact.phone}`,
       `  • Location: ${personalInfo.location}`
     ]
   },

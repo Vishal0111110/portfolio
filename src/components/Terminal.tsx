@@ -560,7 +560,6 @@ Competitive Programming:
   • LeetCode: leetcode.com/u/VishalBuyyarapu/
 
 Contact:
-  • Phone: ${resumeData.contact.phone}
   • Location: ${resumeData.location}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -618,7 +617,6 @@ ${index + 1}. ${project.name}
 └─────────────────────────────────────────────────────────────────┘
 
 Email: ${resumeData.contact.email}
-Phone: ${resumeData.contact.phone}
 Location: ${resumeData.location}
 
 Professional Profiles:
