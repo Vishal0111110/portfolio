@@ -105,7 +105,7 @@ async function sendVisitorEmail(visitorData: VisitorData) {
     console.log('Attempting to send email to:', YOUR_EMAIL);
 
     const result = await resend.emails.send({
-      from: 'Portfolio Visitor <noreply@yourdomain.com>',
+      from: 'Portfolio Visitor <onboarding@resend.dev>',
       to: YOUR_EMAIL,
       subject: `🌐 New Visitor to Your Portfolio - ${visitorData.timestamp.toLocaleString()}`,
       html: `
