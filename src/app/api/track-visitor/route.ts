@@ -203,9 +203,19 @@ export async function POST(request: NextRequest) {
         console.log('Visitor data stored in Firebase Firestore');
       } catch (dbError) {
         console.error('Error storing visitor data in Firebase:', dbError);
+        console.error('Firebase config check:', {
+          hasProjectId: !!FIREBASE_PROJECT_ID,
+          hasClientEmail: !!FIREBASE_CLIENT_EMAIL,
+          hasPrivateKey: !!FIREBASE_PRIVATE_KEY,
+        });
       }
     } else {
       console.log('Firebase not configured, skipping database storage');
+      console.error('Firebase config check:', {
+        hasProjectId: !!FIREBASE_PROJECT_ID,
+        hasClientEmail: !!FIREBASE_CLIENT_EMAIL,
+        hasPrivateKey: !!FIREBASE_PRIVATE_KEY,
+      });
     }
 
     // Send email notification
