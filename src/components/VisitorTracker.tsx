@@ -41,8 +41,6 @@ export default function VisitorTracker({ enabled = true }: VisitorTrackerProps) 
           console.error('API request failed:', response.status, errorText);
           throw new Error(`API returned ${response.status}: ${errorText}`);
         }
-
-        console.log('Visitor tracked successfully');
       } catch (error) {
         console.error('Error tracking visitor:', error);
       }

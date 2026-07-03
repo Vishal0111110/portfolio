@@ -61,20 +61,20 @@ function getFirebaseDB() {
 // Fetch IP geolocation data
 async function getIPGeolocation(ip: string): Promise<IPGeolocationData> {
   try {
-    const response = await fetch(`https://ipapi.co/${ip}/json/`);
+    const response = await fetch(`http://ip-api.com/json/${ip}`);
     if (!response.ok) {
       throw new Error('Failed to fetch geolocation data');
     }
     const data = await response.json();
     return {
-      ip: data.ip || ip,
+      ip: data.query || ip,
       city: data.city || null,
-      region: data.region || null,
-      country: data.country_name || null,
-      country_code: data.country_code || null,
-      continent: data.continent_code || null,
-      latitude: data.latitude || null,
-      longitude: data.longitude || null,
+      region: data.regionName || null,
+      country: data.country || null,
+      country_code: data.countryCode || null,
+      continent: null,
+      latitude: data.lat || null,
+      longitude: data.lon || null,
       timezone: data.timezone || null,
     };
   } catch (error) {
