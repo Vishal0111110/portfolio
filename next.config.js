@@ -6,7 +6,8 @@ const isDev = (phase) => phase === PHASE_DEVELOPMENT_SERVER;
 const nextConfig = (phase) => ({
   // Step 5.6: Bundle size optimization
   // Removed output: 'export' to enable API routes
-  distDir: isDev(phase) ? '.next' : 'dist',
+  // Use .next for both dev and production for Vercel compatibility
+  distDir: '.next',
   
   // Image optimization for static export
   images: {
