@@ -5,7 +5,7 @@ const isDev = (phase) => phase === PHASE_DEVELOPMENT_SERVER;
 
 const nextConfig = (phase) => ({
   // Step 5.6: Bundle size optimization
-  ...(isDev(phase) ? {} : { output: 'export' }),
+  // Removed output: 'export' to enable API routes
   distDir: isDev(phase) ? '.next' : 'dist',
   
   // Image optimization for static export
