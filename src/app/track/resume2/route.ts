@@ -144,7 +144,7 @@ export async function GET(request: NextRequest) {
     const firebaseDB = getFirebaseDB();
     if (firebaseDB) {
       try {
-        await firebaseDB.collection('link_accesses').add(linkData);
+        await firebaseDB.collection('resume2_accesses').add(linkData);
         console.log('Resume 2 access stored in Firebase Firestore');
       } catch (dbError) {
         console.error('Error storing link access in Firebase:', dbError);
