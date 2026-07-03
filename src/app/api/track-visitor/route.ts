@@ -6,14 +6,14 @@ import { Resend } from 'resend';
 // Types
 interface VisitorData {
   ip: string;
-  city?: string;
-  region?: string;
-  country?: string;
-  country_code?: string;
-  continent?: string;
-  latitude?: number;
-  longitude?: number;
-  timezone?: string;
+  city: string | null;
+  region: string | null;
+  country: string | null;
+  country_code: string | null;
+  continent: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string | null;
   user_agent: string;
   referrer?: string;
   timestamp: Date;
@@ -22,14 +22,14 @@ interface VisitorData {
 
 interface IPGeolocationData {
   ip: string;
-  city?: string;
-  region?: string;
-  country?: string;
-  country_code?: string;
-  continent?: string;
-  latitude?: number;
-  longitude?: number;
-  timezone?: string;
+  city: string | null;
+  region: string | null;
+  country: string | null;
+  country_code: string | null;
+  continent: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string | null;
 }
 
 // Environment variables
@@ -68,18 +68,18 @@ async function getIPGeolocation(ip: string): Promise<IPGeolocationData> {
     const data = await response.json();
     return {
       ip: data.ip || ip,
-      city: data.city,
-      region: data.region,
-      country: data.country_name,
-      country_code: data.country_code,
-      continent: data.continent_code,
-      latitude: data.latitude,
-      longitude: data.longitude,
-      timezone: data.timezone,
+      city: data.city || null,
+      region: data.region || null,
+      country: data.country_name || null,
+      country_code: data.country_code || null,
+      continent: data.continent_code || null,
+      latitude: data.latitude || null,
+      longitude: data.longitude || null,
+      timezone: data.timezone || null,
     };
   } catch (error) {
     console.error('Error fetching IP geolocation:', error);
-    return { ip };
+    return { ip, city: null, region: null, country: null, country_code: null, continent: null, latitude: null, longitude: null, timezone: null };
   }
 }
 
