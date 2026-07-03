@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import VisitorTracker from "@/components/VisitorTracker";
 import "./globals.css";
 
 const inter = Inter({
@@ -64,6 +65,7 @@ export default function RootLayout({
         className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <VisitorTracker />
         {children}
         <Analytics />
         <SpeedInsights />
