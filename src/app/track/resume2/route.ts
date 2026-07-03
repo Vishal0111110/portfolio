@@ -148,7 +148,19 @@ export async function GET(request: NextRequest) {
         console.log('Resume 2 access stored in Firebase Firestore');
       } catch (dbError) {
         console.error('Error storing link access in Firebase:', dbError);
+        console.error('Firebase config check:', {
+          hasProjectId: !!FIREBASE_PROJECT_ID,
+          hasClientEmail: !!FIREBASE_CLIENT_EMAIL,
+          hasPrivateKey: !!FIREBASE_PRIVATE_KEY,
+        });
       }
+    } else {
+      console.log('Firebase not configured for Resume 2 tracking, skipping database storage');
+      console.error('Firebase config check:', {
+        hasProjectId: !!FIREBASE_PROJECT_ID,
+        hasClientEmail: !!FIREBASE_CLIENT_EMAIL,
+        hasPrivateKey: !!FIREBASE_PRIVATE_KEY,
+      });
     }
 
     // Send email notification
