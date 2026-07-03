@@ -87,17 +87,24 @@ async function getIPGeolocation(ip: string): Promise<IPGeolocationData> {
 async function sendVisitorEmail(visitorData: VisitorData) {
   if (!RESEND_API_KEY || !YOUR_EMAIL) {
     console.log('Email notification skipped: Missing API credentials');
+    console.error('Email config check:', {
+      hasApiKey: !!RESEND_API_KEY,
+      hasEmail: !!YOUR_EMAIL,
+      email: YOUR_EMAIL,
+    });
     return;
   }
 
   try {
     const resend = new Resend(RESEND_API_KEY);
     
-    const location = visitorData.city 
+    const location = visitorData.city
       ? `${visitorData.city}, ${visitorData.region || ''}, ${visitorData.country || ''}`.replace(/,\s*,/g, ',').trim()
       : 'Unknown location';
 
-    await resend.emails.send({
+    console.log('Attempting to send email to:', YOUR_EMAIL);
+
+    const result = await resend.emails.send({
       from: 'Portfolio Visitor <noreply@yourdomain.com>',
       to: YOUR_EMAIL,
       subject: `🌐 New Visitor to Your Portfolio - ${visitorData.timestamp.toLocaleString()}`,
@@ -157,9 +164,10 @@ async function sendVisitorEmail(visitorData: VisitorData) {
       `,
     });
     
-    console.log('Visitor email sent successfully');
+    console.log('Visitor email sent successfully:', result);
   } catch (error) {
     console.error('Error sending visitor email:', error);
+    console.error('Email error details:', JSON.stringify(error, null, 2));
   }
 }
 
