@@ -71,11 +71,11 @@ async function sendLinkAccessEmail(linkData: any) {
     await resend.emails.send({
       from: 'Portfolio Tracker <onboarding@resend.dev>',
       to: YOUR_EMAIL,
-      subject: `📁 Drive Accessed - ${linkData.timestamp.toLocaleString()}`,
+      subject: `📄 Resume 2 Accessed - ${linkData.timestamp.toLocaleString()}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #333; border-bottom: 2px solid #4285f4; padding-bottom: 10px;">
-            Drive Link Accessed
+          <h2 style="color: #333; border-bottom: 2px solid #dc2626; padding-bottom: 10px;">
+            Resume 2 Accessed
           </h2>
 
           <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 20px 0;">
@@ -103,7 +103,7 @@ async function sendLinkAccessEmail(linkData: any) {
       `,
     });
 
-    console.log('Drive access email sent successfully');
+    console.log('Resume 2 access email sent successfully');
   } catch (error) {
     console.error('Error sending email:', error);
   }
@@ -137,7 +137,7 @@ export async function GET(request: NextRequest) {
       user_agent: userAgent,
       referrer,
       timestamp: new Date(),
-      link_type: 'drive',
+      link_type: 'resume2',
     };
 
     // Store in Firebase Firestore
@@ -145,7 +145,7 @@ export async function GET(request: NextRequest) {
     if (firebaseDB) {
       try {
         await firebaseDB.collection('link_accesses').add(linkData);
-        console.log('Drive access stored in Firebase Firestore');
+        console.log('Resume 2 access stored in Firebase Firestore');
       } catch (dbError) {
         console.error('Error storing link access in Firebase:', dbError);
       }
@@ -154,14 +154,14 @@ export async function GET(request: NextRequest) {
     // Send email notification
     await sendLinkAccessEmail(linkData);
 
-    // Redirect to drive
-    const driveUrl = 'https://drive.google.com/file/d/1WnHMCJzPO9LQo-F8aV386etvfln6RZ1V/view';
-    return NextResponse.redirect(driveUrl);
+    // Redirect to resume 2
+    const resumeUrl = 'https://drive.google.com/file/d/1WnHMCJzPO9LQo-F8aV386etvfln6RZ1V/view';
+    return NextResponse.redirect(resumeUrl);
 
   } catch (error) {
-    console.error('Error tracking drive access:', error);
+    console.error('Error tracking resume 2 access:', error);
     // Still redirect even if tracking fails
-    const driveUrl = 'https://drive.google.com/file/d/1WnHMCJzPO9LQo-F8aV386etvfln6RZ1V/view';
-    return NextResponse.redirect(driveUrl);
+    const resumeUrl = 'https://drive.google.com/file/d/1WnHMCJzPO9LQo-F8aV386etvfln6RZ1V/view';
+    return NextResponse.redirect(resumeUrl);
   }
 }

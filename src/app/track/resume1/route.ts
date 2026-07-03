@@ -71,11 +71,11 @@ async function sendLinkAccessEmail(linkData: any) {
     await resend.emails.send({
       from: 'Portfolio Tracker <onboarding@resend.dev>',
       to: YOUR_EMAIL,
-      subject: `📄 Resume Accessed - ${linkData.timestamp.toLocaleString()}`,
+      subject: `📄 Resume 1 Accessed - ${linkData.timestamp.toLocaleString()}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h2 style="color: #333; border-bottom: 2px solid #dc2626; padding-bottom: 10px;">
-            Resume Accessed
+            Resume 1 Accessed
           </h2>
 
           <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 20px 0;">
@@ -103,7 +103,7 @@ async function sendLinkAccessEmail(linkData: any) {
       `,
     });
 
-    console.log('Resume access email sent successfully');
+    console.log('Resume 1 access email sent successfully');
   } catch (error) {
     console.error('Error sending email:', error);
   }
@@ -137,7 +137,7 @@ export async function GET(request: NextRequest) {
       user_agent: userAgent,
       referrer,
       timestamp: new Date(),
-      link_type: 'resume',
+      link_type: 'resume1',
     };
 
     // Store in Firebase Firestore
@@ -145,7 +145,7 @@ export async function GET(request: NextRequest) {
     if (firebaseDB) {
       try {
         await firebaseDB.collection('link_accesses').add(linkData);
-        console.log('Resume access stored in Firebase Firestore');
+        console.log('Resume 1 access stored in Firebase Firestore');
       } catch (dbError) {
         console.error('Error storing link access in Firebase:', dbError);
       }
@@ -159,7 +159,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(resumeUrl);
 
   } catch (error) {
-    console.error('Error tracking resume access:', error);
+    console.error('Error tracking resume 1 access:', error);
     // Still redirect even if tracking fails
     const resumeUrl = 'https://drive.google.com/file/d/1ZiK0D0uLYT3gWX7uJs23-PLXt8FWjhTa/view';
     return NextResponse.redirect(resumeUrl);
