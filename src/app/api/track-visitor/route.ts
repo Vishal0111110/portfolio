@@ -37,7 +37,7 @@ const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID;
 const FIREBASE_CLIENT_EMAIL = process.env.FIREBASE_CLIENT_EMAIL;
 const FIREBASE_PRIVATE_KEY = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const YOUR_EMAIL = process.env.YOUR_EMAIL || 'vishal000011110@gmail.com';
+const YOUR_EMAIL = process.env.YOUR_EMAIL || 'buyyarapuvishalgaurav616@gmail.com';
 
 // Firebase Admin initialization
 let db: any = null;
