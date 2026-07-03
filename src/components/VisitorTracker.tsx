@@ -23,7 +23,7 @@ export default function VisitorTracker({ enabled = true }: VisitorTrackerProps) 
         const path = window.location.pathname;
 
         // Send visitor data to our API
-        await fetch('/api/track-visitor', {
+        const response = await fetch('/api/track-visitor', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -35,6 +35,12 @@ export default function VisitorTracker({ enabled = true }: VisitorTrackerProps) 
             path,
           }),
         });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('API request failed:', response.status, errorText);
+          throw new Error(`API returned ${response.status}: ${errorText}`);
+        }
 
         console.log('Visitor tracked successfully');
       } catch (error) {
