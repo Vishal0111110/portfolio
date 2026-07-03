@@ -15,9 +15,9 @@ interface VisitorData {
   longitude: number | null;
   timezone: string | null;
   user_agent: string;
-  referrer?: string;
+  referrer: string | null;
   timestamp: Date;
-  path?: string;
+  path: string | null;
 }
 
 interface IPGeolocationData {
@@ -190,9 +190,9 @@ export async function POST(request: NextRequest) {
       longitude: geoData.longitude,
       timezone: geoData.timezone,
       user_agent,
-      referrer,
+      referrer: referrer || null,
       timestamp: new Date(),
-      path,
+      path: path || null,
     };
 
     // Store in Firebase Firestore if configured
