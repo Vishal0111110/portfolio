@@ -8,7 +8,7 @@ export const experience = [
       "Worked on a microservice for load balancing and scheduling in Apache NiFi, enabling efficient resource distribution, fault handling, and faster execution under high-load conditions.",
       "Created monitoring, logging, and telemetry components to track service health, debug failures, and improve system observability and performance monitoring."
     ],
-    link: "https://drive.google.com/file/d/1rvTiP91PxLtXjqKWmKitXANC1civMixb/view?usp=sharing"
+    link: "https://drive.google.com/file/d/1chSGKbdZxqqLMgeoifeu4V7LvvRiqDU2/view?usp=sharing"
   },
   {
     company: "Providence India",
