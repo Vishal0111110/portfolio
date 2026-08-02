@@ -9,6 +9,7 @@ interface GroupedExperience {
   roles: Array<{
     position: string
     period: string
+    type: string
     description: string[]
     link: string
   }>
@@ -16,20 +17,22 @@ interface GroupedExperience {
 
 // Calculate total duration for a company
 function calculateTotalDuration(roles: GroupedExperience['roles']): string {
-  // Simple calculation - in a real app you'd parse dates properly
-  const roleCount = roles.length
-  if (roleCount === 1) return roles[0].period
-  return `${roleCount} roles`
+  if (roles.length === 1) return roles[0].period
+  // For multiple roles, show the earliest start to latest end
+  const earliestStart = roles[roles.length - 1].period.split(' – ')[0]
+  const latestEnd = roles[0].period.split(' – ')[1]
+  return `${earliestStart} – ${latestEnd}`
 }
 
 export default function ExperienceSection({ experience }: { experience: Experience }) {
-  // Group experiences by company
+  // Group experiences by company and reverse roles to show most recent first
   const groupedExperience = experience.reduce((acc: GroupedExperience[], exp) => {
     const existingGroup = acc.find(group => group.company === exp.company)
     if (existingGroup) {
-      existingGroup.roles.push({
+      existingGroup.roles.unshift({
         position: exp.position,
         period: exp.period,
+        type: exp.type,
         description: exp.description,
         link: exp.link
       })
@@ -40,6 +43,7 @@ export default function ExperienceSection({ experience }: { experience: Experien
         roles: [{
           position: exp.position,
           period: exp.period,
+          type: exp.type,
           description: exp.description,
           link: exp.link
         }]
@@ -64,25 +68,20 @@ export default function ExperienceSection({ experience }: { experience: Experien
           >
             {/* Company Header */}
             <div className="mb-4">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-lg font-semibold text-white">{group.company}</h3>
-                <span className="text-xs text-gray-400">· {calculateTotalDuration(group.roles)}</span>
-              </div>
+              <h3 className="text-lg font-semibold text-white">{group.company}</h3>
               <p className="text-sm text-gray-400 mt-0.5">{group.location}</p>
             </div>
 
             {/* Roles with Timeline */}
-            <div className="relative pl-4 sm:pl-6 ml-6 sm:ml-8">
+            <div className="relative">
               {/* Vertical Line */}
-              <div className="absolute left-[7px] sm:left-[11px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-gray-500 via-gray-600 to-gray-700" />
+              <div className="absolute left-3 top-2 bottom-0 w-0.5 bg-gradient-to-b from-gray-600 via-gray-500 to-gray-600" />
               
               {group.roles.map((role, roleIndex) => (
-                <div key={role.position} className="relative pb-5 last:pb-0">
-                  {/* Timeline Dot */}
-                  <div className={`absolute left-[-15px] sm:left-[-19px] top-2 w-2.5 h-2.5 rounded-full border-2 ${
-                    roleIndex === 0 
-                      ? 'bg-white border-gray-400 shadow-md' 
-                      : 'bg-gray-800 border-gray-500'
+                <div key={role.position} className="relative pl-8 pb-5 last:pb-0">
+                  {/* Circular Dot Centered on Line */}
+                  <div className={`absolute left-[5.65px] top-4 w-3.5 h-3.5 rounded-full border-2 ${
+                    roleIndex === 0 ? 'border-gray-500 bg-white' : 'border-gray-600 bg-gray-800'
                   }`} />
                   
                   {/* Role Card */}
@@ -100,11 +99,9 @@ export default function ExperienceSection({ experience }: { experience: Experien
                           <h4 className="text-base sm:text-lg font-semibold tracking-tight leading-tight text-white mb-1.5">
                             {role.position}
                           </h4>
-                          <div className="flex items-center gap-2">
-                            <span className="inline-block px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] bg-gray-800/50 text-gray-300 rounded border border-gray-700">
-                              {roleIndex === 0 ? 'Full-time' : 'Internship'}
-                            </span>
-                          </div>
+                          <span className="inline-block px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] bg-gray-800/50 text-gray-300 rounded border border-gray-700">
+                            {role.type}
+                          </span>
                         </div>
                         <span className="text-gray-400 mt-2 sm:mt-0 text-xs sm:text-sm tracking-[0.02em] whitespace-nowrap">
                           {role.period}

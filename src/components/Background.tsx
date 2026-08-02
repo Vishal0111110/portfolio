@@ -18,8 +18,8 @@ const FIELD_Z_FAR = -60
 const FIELD_Z_NEAR = 20
 const FIELD_WIDTH = 200
 const FIELD_HEIGHT = 120
-const IDLE_DRIFT = 0.3
-const MAX_WARP_SPEED = 15
+const IDLE_DRIFT = 0.8
+const MAX_WARP_SPEED = 20
 
 const MONOCHROME_COLORS = {
   mediumGray: '#2a2a2a',
@@ -107,6 +107,7 @@ function WarpCamera({
 }) {
   const fovRef = useRef(BASE_FOV)
   const shakeSeed = useRef(Math.random() * 100)
+  const lightIntensityRef = useRef(0.35)
 
   useFrame(({ camera }, delta) => {
     camera.position.set(0, 0, CAMERA_Z)
@@ -123,6 +124,10 @@ function WarpCamera({
       camera.updateProjectionMatrix()
     }
 
+    // Enhanced light intensity during warp for wormhole effect
+    const targetLightIntensity = 0.35 + warpSpeed * 0.8
+    lightIntensityRef.current += (targetLightIntensity - lightIntensityRef.current) * 0.08
+
     // Subtle camera chatter at high warp speeds for hyperspace feel
     if (warpSpeed > 0.4) {
       const chatterIntensity = (warpSpeed - 0.4) * 0.015
@@ -134,7 +139,35 @@ function WarpCamera({
     }
   })
 
-  return null
+  return <WarpLight scrollVelocity={scrollVelocity} lightIntensityRef={lightIntensityRef} />
+}
+
+function WarpLight({
+  scrollVelocity,
+  lightIntensityRef,
+}: {
+  scrollVelocity: MutableRefObject<ScrollVelocityState>
+  lightIntensityRef: MutableRefObject<number>
+}) {
+  const lightRef = useRef<THREE.PointLight>(null)
+  const ambientRef = useRef<THREE.AmbientLight>(null)
+
+  useFrame(() => {
+    if (lightRef.current) {
+      lightRef.current.intensity = lightIntensityRef.current
+    }
+    if (ambientRef.current) {
+      const { warpSpeed } = scrollVelocity.current
+      ambientRef.current.intensity = 0.25 + warpSpeed * 0.3
+    }
+  })
+
+  return (
+    <>
+      <ambientLight ref={ambientRef} intensity={0.25} />
+      <pointLight ref={lightRef} position={[0, 0, 8]} intensity={0.35} />
+    </>
+  )
 }
 
 function StarfieldTunnel({
@@ -151,6 +184,8 @@ function StarfieldTunnel({
   const positionsRef = useRef(starfield.positions)
   const sizesRef = useRef(starfield.sizes)
   const colorsRef = useRef(starfield.colors)
+  const baseColorsRef = useRef(starfield.colors.slice())
+  const rotationRef = useRef(0)
 
   useFrame((_, delta) => {
     if (!isVisible || !motionAllowed) return
@@ -159,14 +194,19 @@ function StarfieldTunnel({
     if (!points?.geometry) return
 
     const dt = Math.min(delta, 0.04)
-    const { warpSpeed } = scrollVelocity.current
-    // Warp drive: stars always flow toward viewer, scroll speed controls intensity
-    const travelSpeed = IDLE_DRIFT + warpSpeed * MAX_WARP_SPEED
-    const radialDrift = warpSpeed * 0.02
+    const { warpSpeed, direction } = scrollVelocity.current
+    // Warp drive: stars flow based on scroll direction - toward viewer when scrolling down, away when scrolling up
+    const travelSpeed = (IDLE_DRIFT + warpSpeed * MAX_WARP_SPEED) * direction
+    const radialDrift = warpSpeed * 0.03
+    const rotationSpeed = 0.1 + warpSpeed * 0.8
+
+    // Add wormhole rotation effect
+    rotationRef.current += rotationSpeed * dt * direction
 
     const positions = positionsRef.current
     const sizes = sizesRef.current
     const colors = colorsRef.current
+    const baseColors = baseColorsRef.current
     const { baseSizes } = starfield
 
     for (let i = 0; i < NUM_STARS; i++) {
@@ -175,21 +215,34 @@ function StarfieldTunnel({
       let y = positions[i3 + 1]
       let z = positions[i3 + 2]
 
+      // Apply rotation around Z-axis for wormhole spiral effect
+      const cosRot = Math.cos(rotationSpeed * dt * 0.5)
+      const sinRot = Math.sin(rotationSpeed * dt * 0.5)
+      const rotX = x * cosRot - y * sinRot
+      const rotY = x * sinRot + y * cosRot
+      x = rotX
+      y = rotY
+
       z += travelSpeed * dt
 
-      // Mild radial drift keeps the field feeling like a hyperspace tunnel at speed.
+      // Enhanced radial drift for wormhole tunnel effect
       if (radialDrift > 0) {
         const distance = Math.sqrt(x * x + y * y)
         const driftFactor = Math.min(distance / 90, 1)
         const driftX = (x / (Math.abs(x) + 1e-4)) * radialDrift * driftFactor
         const driftY = (y / (Math.abs(y) + 1e-4)) * radialDrift * driftFactor
-        x += driftX * dt * 8
-        y += driftY * dt * 8
+        x += driftX * dt * 10
+        y += driftY * dt * 10
       }
 
-      // Warp drive: stars always respawn at far end to maintain forward flow
-      if (z > FIELD_Z_NEAR) {
+      // Warp drive: respawn based on direction - far end when moving toward viewer, near end when moving away
+      if (direction > 0 && z > FIELD_Z_NEAR) {
         respawnStar(positions, i, true)
+        x = positions[i3]
+        y = positions[i3 + 1]
+        z = positions[i3 + 2]
+      } else if (direction < 0 && z < FIELD_Z_FAR) {
+        respawnStar(positions, i, false)
         x = positions[i3]
         y = positions[i3 + 1]
         z = positions[i3 + 2]
@@ -202,14 +255,26 @@ function StarfieldTunnel({
       // Depth-based sizing - particles grow larger as they approach viewer
       const depthFactor = (z - FIELD_Z_FAR) / (FIELD_Z_NEAR - FIELD_Z_FAR)
       const depthStretch = 0.3 + depthFactor * 2.5
-      const warpStretch = 1 + warpSpeed * 3.0
+      const warpStretch = 1 + warpSpeed * 4.0
       sizes[i] = baseSizes[i] * depthStretch * warpStretch
       
-      // Depth-based intensity - particles get brighter as they approach viewer
-      const intensityBoost = 1 + depthFactor * 0.8
-      colors[i3] = Math.min(colors[i3] * intensityBoost, 1)
-      colors[i3 + 1] = Math.min(colors[i3 + 1] * intensityBoost, 1)
-      colors[i3 + 2] = Math.min(colors[i3 + 2] * intensityBoost, 1)
+      // Wormhole color shift during high warp - add blue/purple tints
+      const baseR = baseColors[i3]
+      const baseG = baseColors[i3 + 1]
+      const baseB = baseColors[i3 + 2]
+      
+      if (warpSpeed > 0.3) {
+        const colorShift = (warpSpeed - 0.3) * 0.5
+        colors[i3] = Math.min(baseR + colorShift * 0.2, 1)
+        colors[i3 + 1] = Math.min(baseG + colorShift * 0.1, 1)
+        colors[i3 + 2] = Math.min(baseB + colorShift * 0.4, 1)
+      } else {
+        // Depth-based intensity - particles get brighter as they approach viewer
+        const intensityBoost = 1 + depthFactor * 0.8
+        colors[i3] = Math.min(baseR * intensityBoost, 1)
+        colors[i3 + 1] = Math.min(baseG * intensityBoost, 1)
+        colors[i3 + 2] = Math.min(baseB * intensityBoost, 1)
+      }
     }
 
     const posAttr = points.geometry.attributes.position
@@ -297,9 +362,6 @@ export default function Background() {
         frameloop={frameLoop}
       >
         <fog attach="fog" args={[FOG_COLOR, 18, 68]} />
-
-        <ambientLight intensity={0.25} />
-        <pointLight position={[0, 0, 8]} intensity={0.35} />
 
         {isVisible && !motionAllowed ? <InvalidateOnceStatic /> : null}
         <WarpCamera motionAllowed={motionAllowed} scrollVelocity={scrollVelocity} />
