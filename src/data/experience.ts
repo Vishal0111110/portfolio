@@ -18,7 +18,8 @@ export const experience = [
     period: "Jul 2026 – Present",
     type: "Full-time",
     description: [
-      "Transitioned into a Trainee Software Engineer role after successfully completing my software engineering internship at HSBC."
+      "Migrated Data Clinic from JDK 8 to JDK 21 and added features like control view, entitlement observability, and configuration baseline. Owned 4 releases and successfully deployed changes to production."
+      "Built connectors for Juniper V3, HSBC’s next-gen ETL platform, with data controls, CRC32 hashing and row controls for MongoDB write connector, now building a delimited-file read connector from scratch in Java and optimizing Spark driver parallel processing in scala."
     ],
     link: "https://drive.google.com/file/d/1bZxGD0N1rcg401EIsZEfSN-EfixDrp0_/view?usp=drive_link"
   },
